@@ -23,18 +23,15 @@ public class QuestionService {
         return properties;
     }
 
-    public List<Question> loadQuestion() throws FileNotFoundException {
-        Properties properties = getProperties();
-        System.out.println(properties.getProperty("question.file"));
+    public List<Question> loadQuestion() throws IOException {
         List<Question> questions = null;
         try {
-            questions = Utils.readCSVInQuestions("questions.csv");
+            questions = Utils.readCSVInQuestions(getProperties().getProperty("question.file"));
             for (Question question : questions) {
                 System.out.println(question);
             }
         } catch (IOException e) {
-            e.printStackTrace();
-            return new ArrayList<>();
+            throw e;
         }
         return questions;
     }

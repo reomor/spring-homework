@@ -1,59 +1,45 @@
 package task01.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Question {
-    String question;
-    List<String> answerVariants;
-    List<Integer> answers;
-    Integer rightAnswer;
+    private String questionString;
+    private List<String> answerVariants;
+    private Integer answer;
+    private Integer rightAnswer;
 
-    public Question(String question, List<String> answerVariants, Integer rightAnswer) {
-        this.question = question;
+    public Question(String questionString, List<String> answerVariants, Integer rightAnswer) {
+        this.questionString = questionString;
         this.answerVariants = answerVariants;
         this.rightAnswer = rightAnswer;
-        this.answers = new ArrayList<>();
     }
 
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
+    public String getQuestionString() {
+        return questionString;
     }
 
     public List<String> getAnswerVariants() {
         return answerVariants;
     }
 
-    public void setAnswerVariants(List<String> answerVariants) {
-        this.answerVariants = answerVariants;
-    }
-
-    public List<Integer> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(List<Integer> answers) {
-        this.answers = answers;
-    }
-
     public Integer getRightAnswer() {
         return rightAnswer;
     }
 
-    public void setRightAnswer(Integer rightAnswer) {
-        this.rightAnswer = rightAnswer;
+    public void setAnswer(Integer answer) {
+        this.answer = answer;
+    }
+
+    public Integer getAnswer() {
+        return answer;
     }
 
     @Override
     public String toString() {
         return "Question{" +
-                "question='" + question + '\'' +
+                "questionString='" + questionString + '\'' +
                 ", answerVariants=" + answerVariants +
-                ", answers=" + answers +
+                ", answer=" + answer +
                 ", rightAnswer=" + rightAnswer +
                 '}';
     }
