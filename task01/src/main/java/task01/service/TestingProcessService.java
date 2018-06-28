@@ -36,8 +36,8 @@ public class TestingProcessService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        test.setTestResult(testingResultCheckService.checkAnswers(test.getQuestions()));
-        test.getTestResult().printReport();
+        TestResult testResult = testingResultCheckService.checkAnswers(test);
+        testResult.printReport();
     }
 
     private Test prepareTest() {
