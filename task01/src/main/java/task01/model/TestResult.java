@@ -4,12 +4,51 @@ import java.util.Map;
 
 public class TestResult {
     private int questionAmount;
-    private int goodAnsweres;
-    private Map<String, String> resultPerQuestion;
+    private int goodAnswersAmount;
+    private Map<String, AnswerStatus> reportPerQuestion;
 
-    public TestResult(int questionAmount, int goodAnsweres, Map<String, String> resultPerQuestion) {
+    public TestResult() {}
+
+    public TestResult(int questionAmount, int goodAnswersAmount, Map<String, AnswerStatus> reportPerQuestion) {
         this.questionAmount = questionAmount;
-        this.goodAnsweres = goodAnsweres;
-        this.resultPerQuestion = resultPerQuestion;
+        this.goodAnswersAmount = goodAnswersAmount;
+        this.reportPerQuestion = reportPerQuestion;
+    }
+
+    public int getQuestionAmount() {
+        return questionAmount;
+    }
+
+    public void setQuestionAmount(int questionAmount) {
+        this.questionAmount = questionAmount;
+    }
+
+    public int getGoodAnswersAmount() {
+        return goodAnswersAmount;
+    }
+
+    public int getBadAnswersAmount() {
+        return questionAmount - goodAnswersAmount;
+    }
+
+    public void setGoodAnswersAmount(int goodAnswersAmount) {
+        this.goodAnswersAmount = goodAnswersAmount;
+    }
+
+    public Map<String, AnswerStatus> getReportPerQuestion() {
+        return reportPerQuestion;
+    }
+
+    public void setReportPerQuestion(Map<String, AnswerStatus> reportPerQuestion) {
+        this.reportPerQuestion = reportPerQuestion;
+    }
+
+    public void printReport() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Количество правильных ответов: ").append(goodAnswersAmount).append(" из ").append(questionAmount).append("\n");
+        for (Map.Entry<String, AnswerStatus> entry : reportPerQuestion.entrySet()) {
+            stringBuilder.append(entry.getValue().toString()).append("\t\t").append(entry.getKey()).append("\n");
+        }
+        System.out.println(stringBuilder.toString());
     }
 }

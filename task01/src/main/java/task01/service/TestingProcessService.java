@@ -23,6 +23,7 @@ public class TestingProcessService {
             List<Question> questions = questionService.loadQuestion();
             askQuestions(questions);
             TestResult testResult = testingResultCheckService.checkAnswers(questions);
+            testResult.printReport();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -33,6 +34,9 @@ public class TestingProcessService {
             try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
                 for (Question question : questions) {
                     System.out.println(question.getQuestionString());
+                    for (String variant : question.getAnswerVariants()) {
+                        System.out.println(variant);
+                    }
                     getAnswer(reader, question);
                 }
             }
