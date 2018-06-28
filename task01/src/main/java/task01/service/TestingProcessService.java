@@ -22,6 +22,7 @@ public class TestingProcessService {
         try {
             List<Question> questions = questionService.loadQuestion();
             askQuestions(questions);
+            TestResult testResult = testingResultCheckService.checkAnswers(questions);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -38,7 +39,6 @@ public class TestingProcessService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        TestResult testResult = testingResultCheckService.checkAnswers(questions);
     }
 
     private void getAnswer(BufferedReader reader, Question question) {
@@ -60,6 +60,6 @@ public class TestingProcessService {
     }
 
     private boolean isValidAnswer(Question question, int answer) {
-        return answer < 0 || answer >= question.getAnswerVariants().size();
+        return answer >= 0 && answer < question.getAnswerVariants().size();
     }
 }

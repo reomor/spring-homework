@@ -4,4 +4,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="questionService" class="task01.service.QuestionService"/>
+
+    <bean id="testingResultCheckService" class="task01.service.TestingResultCheckService"/>
+
+    <bean id="testingProcessService" class="task01.service.TestingProcessService">
+        <constructor-arg ref="questionService"/>
+        <constructor-arg ref="testingResultCheckService"/>
+    </bean>
 </beans>
