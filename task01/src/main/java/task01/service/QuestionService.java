@@ -32,9 +32,10 @@ public class QuestionService {
             for (Question question : questions) {
                 System.out.println(question);
             }
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
+            return new ArrayList<>();
         }
-        return new ArrayList<>();
+        return questions;
     }
 }
