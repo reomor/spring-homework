@@ -47,8 +47,8 @@ public class TestResult {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Количество правильных ответов: ").append(goodAnswersAmount).append(" из ").append(questionAmount).append("\n");
         for (Map.Entry<String, AnswerStatus> entry : reportPerQuestion.entrySet()) {
-            stringBuilder.append(entry.getValue().toString()).append("\t\t").append(entry.getKey()).append("\n");
+            stringBuilder.append(entry.getValue().toString()).append(" ").append(entry.getKey()).append("\n");
         }
-        System.out.println(stringBuilder.toString());
+        System.out.print(stringBuilder.toString());
     }
 }
