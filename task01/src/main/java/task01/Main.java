@@ -1,10 +1,12 @@
 package task01;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+//import org.springframework.context.support.ClassPathXmlApplicationContext;
+import task01.model.Question;
 import task01.service.QuestionService;
 import task01.utils.Utils;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 
 
 public class Main {
@@ -18,7 +20,16 @@ public class Main {
             e.printStackTrace();
         }
 
-        Utils.readCSVInQuestions();
+        List<Question> questions = null;
+        try {
+            questions = Utils.readCSVInQuestions("questions.csv");
+            for (Question question : questions) {
+                System.out.println(question);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
         //PersonService service = context.getBean(PersonService.class);
         //Person ivan = service.getByName("Ivan");
         //System.out.println("name: " + ivan.getName() + " age: " + ivan.getAge());
