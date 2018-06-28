@@ -8,6 +8,7 @@ public class Question {
     private List<String> answerVariants;
     private Integer answer;
     private Integer rightAnswer;
+    private User user;
 
     public Question(String questionString, List<String> answerVariants, Integer rightAnswer) {
         this.questionString = questionString;
@@ -37,6 +38,14 @@ public class Question {
 
     public boolean isRight() {
         return this.rightAnswer.equals(this.answer);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
