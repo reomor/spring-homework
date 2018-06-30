@@ -19,6 +19,7 @@ public class TestingProcessService {
 
     private MessageSource messageSource;
     private QuestionService questionService;
+    private ConsoleInteractionService consoleInteractionService;
     private TestingResultCheckService testingResultCheckService;
 
     private Locale locale = Locale.ENGLISH;
@@ -26,10 +27,12 @@ public class TestingProcessService {
     @Autowired
     public TestingProcessService(
             QuestionService questionService,
+            ConsoleInteractionService consoleInteractionService,
             TestingResultCheckService testingResultCheckService,
             MessageSource messageSource
     ) {
         this.questionService = questionService;
+        this.consoleInteractionService = consoleInteractionService;
         this.testingResultCheckService = testingResultCheckService;
         this.messageSource = messageSource;
     }
