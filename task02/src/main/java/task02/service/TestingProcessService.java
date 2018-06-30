@@ -21,7 +21,7 @@ public class TestingProcessService {
     private QuestionService questionService;
     private TestingResultCheckService testingResultCheckService;
 
-    private Locale locale = new Locale("ru", "RU");
+    private Locale locale = Locale.ENGLISH;
 
     @Autowired
     public TestingProcessService(
@@ -41,6 +41,7 @@ public class TestingProcessService {
             return;
         }
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            this.locale = askLocale(reader);
             final User user = askUserInformation(reader, test);
             if (user == null) {
                 System.out.println(messageSource.getMessage("error.enter",null, this.locale));
@@ -69,9 +70,31 @@ public class TestingProcessService {
         return test;
     }
 
+    private Locale askLocale(BufferedReader reader) {
+        boolean valid = false;
+        Integer answer = null;
+        System.out.println("Change locale to RU?, 0 - no, 1 - yes");
+        while(!valid) {
+            try {
+                answer = Integer.parseInt(reader.readLine());
+                if (answer != 0 && answer != 1) {
+                    System.out.println(messageSource.getMessage(
+                            "error.answer.range",
+                            new String[] {"0", "1"},
+                            this.locale));
+                } else {
+                    valid = true;
+                }
+            } catch (IOException e) {
+                System.out.println(messageSource.getMessage("error.answer.correctness",null, this.locale));
+            }
+        }
+        return answer == 1 ? new Locale("ru", "RU") : Locale.ENGLISH;
+    }
+
     private User askUserInformation(BufferedReader reader, Test test) throws IOException {
         User user = null;
-        System.out.println(messageSource.getMessage("error.user.enter",null, this.locale));
+        System.out.println(messageSource.getMessage("enter.user",null, this.locale));
         String[] userData = reader.readLine().split(" ");
         if (userData.length != 2) {
             return null;
@@ -91,7 +114,7 @@ public class TestingProcessService {
         }
     }
 
-    private void getAnswer(BufferedReader reader, Question question) {
+    private Integer getAnswer(BufferedReader reader, Question question) {
         boolean valid = false;
         Integer answer = null;
         while(!valid) {
@@ -110,6 +133,7 @@ public class TestingProcessService {
             }
         }
         question.setAnswer(answer);
+        return answer;
     }
 
     private boolean isValidAnswer(Question question, int answer) {
