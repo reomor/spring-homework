@@ -1,4 +1,4 @@
-package task01.model;
+package task02.model;
 
 import java.util.Map;
 

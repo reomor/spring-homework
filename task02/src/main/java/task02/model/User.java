@@ -1,4 +1,4 @@
-package task01.model;
+package task02.model;
 
 public class User {
     private final String sername;

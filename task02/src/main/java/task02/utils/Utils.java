@@ -1,7 +1,7 @@
-package task01.utils;
+package task02.utils;
 
-import task01.model.Question;
-import task01.service.QuestionService;
+import task02.model.Question;
+import task02.service.QuestionService;
 
 import java.io.*;
 import java.net.URL;
@@ -12,7 +12,7 @@ import java.util.Properties;
 
 public class Utils {
 
-    private static final String PROPERTIES = "test.properties";
+    private static final String PROPERTIES = "config.properties";
 
     private Utils() {}
 

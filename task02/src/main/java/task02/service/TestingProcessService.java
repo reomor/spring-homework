@@ -1,9 +1,9 @@
-package task01.service;
+package task02.service;
 
-import task01.model.Question;
-import task01.model.Test;
-import task01.model.TestResult;
-import task01.model.User;
+import task02.model.Question;
+import task02.model.Test;
+import task02.model.TestResult;
+import task02.model.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;

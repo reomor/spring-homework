@@ -1,9 +1,9 @@
-package task01.service;
+package task02.service;
 
-import task01.model.Question;
-import task01.model.AnswerStatus;
-import task01.model.Test;
-import task01.model.TestResult;
+import task02.model.Question;
+import task02.model.AnswerStatus;
+import task02.model.Test;
+import task02.model.TestResult;
 
 import java.util.HashMap;
 import java.util.Map;
