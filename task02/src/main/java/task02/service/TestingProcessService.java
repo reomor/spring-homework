@@ -1,6 +1,7 @@
 package task02.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import task02.model.Question;
 import task02.model.Test;
@@ -11,29 +12,38 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class TestingProcessService {
 
+    private MessageSource messageSource;
     private QuestionService questionService;
     private TestingResultCheckService testingResultCheckService;
 
+    private Locale locale = new Locale("ru", "RU");
+
     @Autowired
-    public TestingProcessService(QuestionService questionService, TestingResultCheckService testingResultCheckService) {
+    public TestingProcessService(
+            QuestionService questionService,
+            TestingResultCheckService testingResultCheckService,
+            MessageSource messageSource
+    ) {
         this.questionService = questionService;
         this.testingResultCheckService = testingResultCheckService;
+        this.messageSource = messageSource;
     }
 
     public void processTest() {
         Test test = prepareTest();
         if (test == null) {
-            System.out.println("Ошибка при составлении теста.");
+            System.out.println(messageSource.getMessage("error.test.prepare", null, this.locale));
             return;
         }
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             final User user = askUserInformation(reader, test);
             if (user == null) {
-                System.out.println("Ошибка в процессе ввода имени и фамилии.");
+                System.out.println(messageSource.getMessage("error.enter",null, this.locale));
                 return;
             }
             askQuestions(reader, test.getQuestions());
@@ -49,7 +59,7 @@ public class TestingProcessService {
         try {
             List<Question> questions = questionService.loadQuestion();
             if (questions.size() == 0) {
-                System.out.println("Список вопросов пуст.");
+                System.out.println(messageSource.getMessage("error.list.empty",null, this.locale));
                 return null;
             }
             test.setQuestions(questions);
@@ -61,7 +71,7 @@ public class TestingProcessService {
 
     private User askUserInformation(BufferedReader reader, Test test) throws IOException {
         User user = null;
-        System.out.println("Введите имя и фамилию");
+        System.out.println(messageSource.getMessage("error.user.enter",null, this.locale));
         String[] userData = reader.readLine().split(" ");
         if (userData.length != 2) {
             return null;
@@ -90,10 +100,13 @@ public class TestingProcessService {
                 if (isValidAnswer(question, answer)) {
                     valid = true;
                 } else {
-                    System.out.println(String.format("Number must be between %d and %d", 0, question.getAnswerVariants().size() - 1));
+                    System.out.println(messageSource.getMessage(
+                            "error.answer.range",
+                            new String[] {"0", Integer.toString(question.getAnswerVariants().size() - 1)},
+                            this.locale));
                 }
             } catch (IOException e) {
-                System.out.println("Enter correct number.");
+                System.out.println(messageSource.getMessage("error.answer.correctness",null, this.locale));
             }
         }
         question.setAnswer(answer);

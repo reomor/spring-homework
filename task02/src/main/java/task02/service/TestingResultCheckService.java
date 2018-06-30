@@ -11,8 +11,8 @@ import java.util.Map;
 
 @Service
 public class TestingResultCheckService {
-    public TestResult checkAnswers(Test test) {
 
+    public TestResult checkAnswers(Test test) {
         TestResult testResult = new TestResult();
         Map<String, AnswerStatus> report = new HashMap<>();
         testResult.setQuestionAmount(test.getQuestions().size());
@@ -20,7 +20,7 @@ public class TestingResultCheckService {
 
         for (Question question : test.getQuestions()) {
             if (question.isRight()) {
-                rightAnswers += 1;
+                rightAnswers++;
                 report.put(question.getQuestionString(), AnswerStatus.Good);
             } else {
                 report.put(question.getQuestionString(), AnswerStatus.Bad);
