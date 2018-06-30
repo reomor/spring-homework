@@ -1,5 +1,6 @@
 package task02.service;
 
+import org.springframework.stereotype.Service;
 import task02.model.Question;
 import task02.model.AnswerStatus;
 import task02.model.Test;
@@ -8,6 +9,7 @@ import task02.model.TestResult;
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class TestingResultCheckService {
     public TestResult checkAnswers(Test test) {
 

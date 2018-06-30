@@ -1,18 +1,22 @@
 package task02;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import task02.service.QuestionService;
 import task02.service.TestingProcessService;
 
 @Configuration
 @ComponentScan
 @PropertySource("classpath:config.properties")
 public class Main {
+
+    @Bean
+    public QuestionService questionService(@Value("${question.file}") String questionFileName) {
+        return new QuestionService(questionFileName);
+    }
 
     @Bean
     public MessageSource messageSource() {
@@ -23,7 +27,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
         TestingProcessService testingProcessService = context.getBean(TestingProcessService.class);
         testingProcessService.processTest();
     }

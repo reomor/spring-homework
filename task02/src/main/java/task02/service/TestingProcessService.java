@@ -1,5 +1,7 @@
 package task02.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import task02.model.Question;
 import task02.model.Test;
 import task02.model.TestResult;
@@ -10,11 +12,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+@Service
 public class TestingProcessService {
 
     private QuestionService questionService;
     private TestingResultCheckService testingResultCheckService;
 
+    @Autowired
     public TestingProcessService(QuestionService questionService, TestingResultCheckService testingResultCheckService) {
         this.questionService = questionService;
         this.testingResultCheckService = testingResultCheckService;

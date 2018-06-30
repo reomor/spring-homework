@@ -12,24 +12,7 @@ import java.util.Properties;
 
 public class Utils {
 
-    private static final String PROPERTIES = "config.properties";
-
     private Utils() {}
-
-    public static Properties getProperties() throws FileNotFoundException {
-        Properties properties = new Properties();
-        URL url = QuestionService.class.getResource("/" + PROPERTIES);
-        if (url == null) {
-            System.out.println("Properties file " + PROPERTIES + " doesn't exist");
-            return new Properties();
-        }
-        try {
-            properties.load(Utils.class.getClassLoader().getResourceAsStream(PROPERTIES));
-        } catch (IOException e) {
-            throw new FileNotFoundException("Properties file is not found in classpath.");
-        }
-        return properties;
-    }
 
     public static List<Question> readCSVInQuestions(String fileName) throws IOException {
         List<Question> questions = new ArrayList<>();
