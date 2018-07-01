@@ -38,6 +38,7 @@ public class TestingProcessService {
     }
 
     public void processTest() {
+        this.locale = consoleInteractionService.askLocale();
         Test test = prepareTest();
         if (test == null) {
             System.out.println(messageSource.getMessage("error.test.prepare", null, this.locale));
@@ -51,7 +52,7 @@ public class TestingProcessService {
     private Test prepareTest() {
         Test test = new Test();
         try {
-            List<Question> questions = questionService.loadQuestion();
+            List<Question> questions = questionService.loadQuestion(this.locale);
             if (questions.size() == 0) {
                 System.out.println(messageSource.getMessage("error.list.empty",null, this.locale));
                 return null;

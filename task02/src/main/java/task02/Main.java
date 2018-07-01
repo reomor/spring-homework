@@ -14,16 +14,16 @@ import task02.service.TestingProcessService;
 public class Main {
 
     @Bean
-    public QuestionService questionService(@Value("${question.file}") String questionFileName) {
-        return new QuestionService(questionFileName);
-    }
-
-    @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
         ms.setBasename("/i18n/bundle");
         ms.setDefaultEncoding("UTF-8");
         return ms;
+    }
+
+    @Bean
+    public QuestionService questionService(@Value("${file.questions}") String questionFileName, MessageSource messageSource) {
+        return new QuestionService(questionFileName, messageSource);
     }
 
     public static void main(String[] args) {

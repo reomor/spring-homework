@@ -1,5 +1,6 @@
 package task02.service;
 
+import org.springframework.context.MessageSource;
 import task02.model.Question;
 
 import java.io.BufferedReader;
@@ -8,25 +9,28 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class QuestionService {
 
     private final String questionFileName;
+    private MessageSource messageSource;
 
-    public QuestionService(String questionFileName) {
+    public QuestionService(String questionFileName, MessageSource messageSource) {
         this.questionFileName = questionFileName;
+        this.messageSource = messageSource;
     }
 
-    public List<Question> loadQuestion() throws IOException {
-        return readCSVInQuestions(questionFileName);
+    public List<Question> loadQuestion(Locale locale) throws IOException {
+        return readCSVInQuestions(questionFileName, locale);
     }
 
-    private List<Question> readCSVInQuestions(String fileName) throws IOException {
+    private List<Question> readCSVInQuestions(String fileName, Locale locale) throws IOException {
         List<Question> questions = new ArrayList<>();
         try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(fileName)))) {
             String line = null;
             while ((line = getNextString(bufferedReader)) != null) {
-                String[] questionString = line.split(",");
+                String[] questionString = messageSource.getMessage(line, null, locale).split(",");
                 Integer rightAnswer = Integer.parseInt(getNextString(bufferedReader));
                 Question question = new Question(
                         questionString[0],

@@ -18,6 +18,7 @@ public class ConsoleInteractionService {
 
     private MessageSource messageSource;
 
+    private BufferedReader reader;
     private Locale locale = Locale.ENGLISH;
 
     @Autowired
@@ -26,20 +27,39 @@ public class ConsoleInteractionService {
     }
 
     public void performAskStages(Test test) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            this.locale = askLocale(reader);
-            final User user = askUserInformation(reader, test);
+        BufferedReader reader = getBufferedReader();
+        final User user;
+        try {
+            user = askUserInformation(reader, test);
             if (user == null) {
-                System.out.println(messageSource.getMessage("error.enter",null, this.locale));
+                System.out.println(messageSource.getMessage("error.enter", null, this.locale));
                 return;
             }
             askQuestions(reader, test.getQuestions());
         } catch (IOException e) {
             e.printStackTrace();
         }
+        closeResources();
     }
 
-    private Locale askLocale(BufferedReader reader) {
+    public BufferedReader getBufferedReader() {
+        if (reader == null) {
+            return new BufferedReader(new InputStreamReader(System.in));
+        }
+        return reader;
+    }
+
+    public void closeResources() {
+        try {
+            if (reader != null) {
+                reader.close();
+            }
+        } catch (IOException ignore) {
+        }
+    }
+
+    public Locale askLocale() {
+        BufferedReader reader = getBufferedReader();
         boolean valid = false;
         Integer answer = null;
         System.out.println("Change locale to RU?, 0 - no, 1 - yes");
@@ -58,7 +78,8 @@ public class ConsoleInteractionService {
                 System.out.println(messageSource.getMessage("error.answer.correctness",null, this.locale));
             }
         }
-        return answer == 1 ? new Locale("ru", "RU") : Locale.ENGLISH;
+        this.locale = answer == 1 ? new Locale("ru", "RU") : Locale.ENGLISH;
+        return this.locale;
     }
 
     private User askUserInformation(BufferedReader reader, Test test) throws IOException {
