@@ -8,9 +8,7 @@ import task02.model.Test;
 import task02.model.TestResult;
 import task02.model.User;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Locale;
 
@@ -44,23 +42,28 @@ public class TestingProcessService {
             System.out.println(messageSource.getMessage("error.test.prepare", null, this.locale));
             return;
         }
-        consoleInteractionService.performAskStages(test);
-        TestResult testResult = testingResultCheckService.checkAnswers(test);
-        testResult.printReport();
+        System.out.println(test.getTestResult());
     }
 
     private Test prepareTest() {
-        Test test = new Test();
+        final List<Question> questions;
+        final User user;
         try {
-            List<Question> questions = questionService.loadQuestion(this.locale);
+            questions = questionService.loadQuestion(this.locale);
             if (questions.size() == 0) {
                 System.out.println(messageSource.getMessage("error.list.empty",null, this.locale));
                 return null;
             }
-            test.setQuestions(questions);
+            user = consoleInteractionService.askUserInformation();
+            if (user == null) {
+                System.out.println(messageSource.getMessage("error.enter.user", null, this.locale));
+                return null;
+            }
         } catch (IOException e) {
             return null;
         }
-        return test;
+        consoleInteractionService.askQuestions(questions);
+        TestResult testResult = testingResultCheckService.checkAnswers(questions);
+        return new Test(user, questions, testResult);
     }
 }

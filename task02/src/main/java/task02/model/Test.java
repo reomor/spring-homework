@@ -7,30 +7,21 @@ public class Test {
     private List<Question> questions;
     private TestResult testResult;
 
-    public Test() {
+    public Test(User user, List<Question> questions, TestResult testResult) {
+        this.user = user;
+        this.questions = questions;
+        this.testResult = testResult;
     }
 
     public User getUser() {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public List<Question> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
-    }
-
     public TestResult getTestResult() {
         return testResult;
-    }
-
-    public void setTestResult(TestResult testResult) {
-        this.testResult = testResult;
     }
 }

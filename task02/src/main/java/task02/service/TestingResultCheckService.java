@@ -7,28 +7,26 @@ import task02.model.Test;
 import task02.model.TestResult;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
 public class TestingResultCheckService {
 
-    public TestResult checkAnswers(Test test) {
-        TestResult testResult = new TestResult();
-        Map<String, AnswerStatus> report = new HashMap<>();
-        testResult.setQuestionAmount(test.getQuestions().size());
+    public TestResult checkAnswers(List<Question> questions) {
+
+        Map<String, AnswerStatus> reportPerQuestion = new HashMap<>();
         int rightAnswers = 0;
 
-        for (Question question : test.getQuestions()) {
+        for (Question question : questions) {
             if (question.isRight()) {
                 rightAnswers++;
-                report.put(question.getQuestionString(), AnswerStatus.Good);
+                reportPerQuestion.put(question.getQuestionString(), AnswerStatus.GOOD);
             } else {
-                report.put(question.getQuestionString(), AnswerStatus.Bad);
+                reportPerQuestion.put(question.getQuestionString(), AnswerStatus.BAD);
             }
         }
-        testResult.setGoodAnswersAmount(rightAnswers);
-        testResult.setReportPerQuestion(report);
-        test.setTestResult(testResult);
-        return testResult;
+
+        return new TestResult(questions.size(), rightAnswers, reportPerQuestion);
     }
 }
