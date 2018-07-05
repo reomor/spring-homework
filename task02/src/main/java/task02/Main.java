@@ -8,6 +8,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import task02.service.QuestionService;
 import task02.service.TestingProcessService;
 
+@EnableAspectJAutoProxy
 @Configuration
 @ComponentScan
 @PropertySource("classpath:config.properties")

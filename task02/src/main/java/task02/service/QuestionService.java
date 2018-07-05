@@ -44,7 +44,7 @@ public class QuestionService {
         return questions;
     }
 
-    private static String getNextString(BufferedReader bufferedReader) throws IOException {
+    private String getNextString(BufferedReader bufferedReader) throws IOException {
         String inputString = bufferedReader.readLine();
         if (inputString == null) {
             return null;

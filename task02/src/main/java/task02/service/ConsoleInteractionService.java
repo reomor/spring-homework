@@ -3,8 +3,8 @@ package task02.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+import task02.annotation.LogFunctionParameters;
 import task02.model.Question;
-import task02.model.Test;
 import task02.model.User;
 
 import java.io.BufferedReader;
@@ -22,15 +22,6 @@ public class ConsoleInteractionService {
     @Autowired
     public ConsoleInteractionService(MessageSource messageSource) {
         this.messageSource = messageSource;
-    }
-
-    public void closeResources(BufferedReader reader) {
-        try {
-            if (reader != null) {
-                reader.close();
-            }
-        } catch (IOException ignore) {
-        }
     }
 
     public Locale askLocale() {
@@ -84,10 +75,7 @@ public class ConsoleInteractionService {
 
     public void askQuestions(List<Question> questions) {
         try {
-            try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)) {
-                @Override
-                public void close() throws IOException {/*NOP*/}
-            }) {
+            try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
                 for (Question question : questions) {
                     System.out.println(question.getQuestionString());
                     for (String variant : question.getAnswerVariants()) {
@@ -99,6 +87,7 @@ public class ConsoleInteractionService {
         } catch (IOException e) {/*NOP*/}
     }
 
+    @LogFunctionParameters
     private Integer getAnswer(BufferedReader reader, Question question) {
         boolean valid = false;
         Integer answer = null;
