@@ -24,6 +24,7 @@ public class ConsoleInteractionService {
         this.messageSource = messageSource;
     }
 
+    @LogFunctionParameters
     public Locale askLocale() {
         boolean valid = false;
         Integer answer = null;
@@ -87,7 +88,6 @@ public class ConsoleInteractionService {
         } catch (IOException e) {/*NOP*/}
     }
 
-    @LogFunctionParameters
     private Integer getAnswer(BufferedReader reader, Question question) {
         boolean valid = false;
         Integer answer = null;
