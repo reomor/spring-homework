@@ -5,6 +5,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import task04.model.Question;
 import task04.model.User;
+import task04.setting.ApplicationSettings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,11 +17,12 @@ import java.util.Locale;
 public class ConsoleInteractionService {
 
     private MessageSource messageSource;
-    private Locale locale = Locale.ENGLISH;
+    private ApplicationSettings applicationSettings;
 
     @Autowired
-    public ConsoleInteractionService(MessageSource messageSource) {
+    public ConsoleInteractionService(MessageSource messageSource, ApplicationSettings applicationSettings) {
         this.messageSource = messageSource;
+        this.applicationSettings = applicationSettings;
     }
 
     public Locale askLocale() {
@@ -39,25 +41,26 @@ public class ConsoleInteractionService {
                             System.out.println(messageSource.getMessage(
                                     "error.answer.range",
                                     new String[] {"0", "1"},
-                                    this.locale));
+                                    applicationSettings.getLocale()));
                         } else {
                             valid = true;
                         }
                     } catch (IOException e) {
-                        System.out.println(messageSource.getMessage("error.answer.correctness",null, this.locale));
+                        System.out.println(messageSource.getMessage("error.answer.correctness",null, applicationSettings.getLocale()));
                     }
                 }
             }
         } catch (IOException e) {
-            return this.locale;
+            return applicationSettings.getLocale();
         }
-        this.locale = answer == 1 ? new Locale("ru", "RU") : Locale.ENGLISH;
-        return this.locale;
+        Locale locale = answer == 1 ? new Locale("ru", "RU") : applicationSettings.getLocale();
+        applicationSettings.setLocale(locale);
+        return locale;
     }
 
     public User askUserInformation() throws IOException {
         User user = null;
-        System.out.println(messageSource.getMessage("enter.user",null, this.locale));
+        System.out.println(messageSource.getMessage("enter.user",null, applicationSettings.getLocale()));
         // because try-with-resources closes chain of resources recursively
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)) {
             @Override
@@ -98,10 +101,10 @@ public class ConsoleInteractionService {
                     System.out.println(messageSource.getMessage(
                             "error.answer.range",
                             new String[] {"0", Integer.toString(question.getAnswerVariants().size() - 1)},
-                            this.locale));
+                            applicationSettings.getLocale()));
                 }
             } catch (IOException e) {
-                System.out.println(messageSource.getMessage("error.answer.correctness",null, this.locale));
+                System.out.println(messageSource.getMessage("error.answer.correctness",null, applicationSettings.getLocale()));
             }
         }
         question.setAnswer(answer);

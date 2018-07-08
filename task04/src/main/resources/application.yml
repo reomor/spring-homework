@@ -1,2 +1,3 @@
 application:
+  locale: Locale.ENGLISH
   file-question: questions.csv
