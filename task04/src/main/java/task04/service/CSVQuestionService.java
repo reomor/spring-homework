@@ -1,7 +1,6 @@
 package task04.service;
 
 import org.springframework.context.MessageSource;
-import org.springframework.stereotype.Service;
 import task04.model.Question;
 import task04.setting.ApplicationSettings;
 
@@ -13,7 +12,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-@Service(value = "csvQS")
 public class CSVQuestionService implements QuestionService {
 
     private final ApplicationSettings applicationSettings;
