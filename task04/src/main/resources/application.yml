@@ -2,3 +2,14 @@ application:
   locale: en
   load-type: csv
   file-question: questions.csv
+  questions:
+    - question-string: question.1
+      right-answer: 1
+    - question-string: question.2
+      right-answer: 2
+    - question-string: question.3
+      right-answer: 1
+    - question-string: question.4
+      right-answer: 2
+    - question-string: question.5
+      right-answer: 1
