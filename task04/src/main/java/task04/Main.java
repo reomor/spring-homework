@@ -23,5 +23,6 @@ public class Main {
         ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
         TestingProcessService testingProcessService = context.getBean(TestingProcessService.class);
         testingProcessService.processTest();
+        context.close();
     }
 }

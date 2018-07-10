@@ -11,6 +11,7 @@ public class ApplicationSettings {
 
     private String fileQuestion;
     private Locale locale;
+    private String loadType;
 
     public String getFileQuestion() {
         return fileQuestion;
@@ -26,5 +27,13 @@ public class ApplicationSettings {
 
     public void setLocale(Locale locale) {
         this.locale = locale;
+    }
+
+    public String getLoadType() {
+        return loadType;
+    }
+
+    public void setLoadType(String loadType) {
+        this.loadType = loadType;
     }
 }

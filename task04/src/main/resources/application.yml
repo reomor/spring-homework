@@ -1,3 +1,4 @@
 application:
-  locale: Locale.ENGLISH
+  locale: en
+  load-type: csv
   file-question: questions.csv
