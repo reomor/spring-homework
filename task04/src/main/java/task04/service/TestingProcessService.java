@@ -35,14 +35,15 @@ public class TestingProcessService {
         this.messageSource = messageSource;
     }
 
-    public void processTest() {
+    public Test processTest() {
         this.locale = consoleInteractionService.askLocale();
         Test test = prepareTest();
         if (test == null) {
             System.out.println(messageSource.getMessage("error.test.prepare", null, this.locale));
-            return;
+            return null;
         }
         System.out.println(test.getTestResult());
+        return test;
     }
 
     private Test prepareTest() {

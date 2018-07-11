@@ -30,10 +30,10 @@ public class ConsoleInteractionService {
         Integer answer = null;
         System.out.println("Change locale to RU?, 0 - no, 1 - yes");
         try {
-            try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)) {
+            try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in) {
                 @Override
-                public void close() throws IOException {/*NOP*/}
-            }) {
+                public void close() throws IOException {}
+            })) {
                 while(!valid) {
                     try {
                         answer = Integer.parseInt(reader.readLine());
@@ -62,11 +62,12 @@ public class ConsoleInteractionService {
         User user = null;
         System.out.println(messageSource.getMessage("enter.user",null, applicationSettings.getLocale()));
         // because try-with-resources closes chain of resources recursively
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)) {
+        try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in) {
             @Override
-            public void close() throws IOException {/*NOP*/}
-        }) {
-            String[] userData = reader.readLine().split(" ");
+            public void close() throws IOException {}
+        })) {
+            String line = reader.readLine();
+            String[] userData = line.split(" ");
             if (userData.length != 2) {
                 return null;
             }
@@ -75,7 +76,7 @@ public class ConsoleInteractionService {
         return user;
     }
 
-    public void askQuestions(List<Question> questions) {
+    public Integer askQuestions(List<Question> questions) {
         try {
             try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
                 for (Question question : questions) {
@@ -86,7 +87,10 @@ public class ConsoleInteractionService {
                     getAnswer(reader, question);
                 }
             }
-        } catch (IOException e) {/*NOP*/}
+        } catch (IOException e) {
+            return 0;
+        }
+        return questions.size();
     }
 
     private Integer getAnswer(BufferedReader reader, Question question) {

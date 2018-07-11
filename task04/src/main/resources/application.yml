@@ -1,6 +1,6 @@
 application:
   locale: en
-  load-type: csv
+  load-type: yml
   file-question: questions.csv
   questions:
     - question-string: question.1
