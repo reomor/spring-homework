@@ -1,78 +1,88 @@
 package task05.service;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.shell.jline.InteractiveShellApplicationRunner;
+import org.springframework.shell.jline.ScriptShellApplicationRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import task05.model.Question;
 import task05.model.User;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Locale;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(properties = {
+        ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false",
+        InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false"
+})
 public class ConsoleInteractionServiceTest {
 
     @Autowired
     private ConsoleInteractionService consoleInteractionService;
 
-    private InputStream systemIn = System.in;
-
-    @After
-    public void setUp() {
-        System.setIn(systemIn);
-    }
-
     @Test
     public void askLocale_shouldNotChange_fromEn() throws IOException {
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream("0".getBytes());
-        System.setIn(byteArrayInputStream);
+        BufferedReader bufferedReader = org.mockito.Mockito.mock(BufferedReader.class);
+        when(bufferedReader.readLine()).thenReturn("0");
+        setFieldViaReflection(consoleInteractionService, "reader", bufferedReader);
+
         Locale locale = consoleInteractionService.askLocale();
         assertEquals(Locale.ENGLISH, locale);
-        byteArrayInputStream.close();
     }
 
     @Test
     public void askLocale_shouldChange_toRu() throws IOException {
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream("1".getBytes());
-        System.setIn(byteArrayInputStream);
+        BufferedReader bufferedReader = org.mockito.Mockito.mock(BufferedReader.class);
+        when(bufferedReader.readLine()).thenReturn("1");
+        setFieldViaReflection(consoleInteractionService, "reader", bufferedReader);
+
         Locale expected = new Locale("ru", "RU");
         Locale actual = consoleInteractionService.askLocale();
         assertEquals(expected, actual);
-        byteArrayInputStream.close();
     }
 
     @Test
     public void askUserInformation_shouldBeEqual() throws IOException {
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream("Ivan Ivanov".getBytes());
-        System.setIn(byteArrayInputStream);
+        BufferedReader bufferedReader = org.mockito.Mockito.mock(BufferedReader.class);
+        when(bufferedReader.readLine()).thenReturn("Ivan Ivanov");
+        setFieldViaReflection(consoleInteractionService, "reader", bufferedReader);
+
         User expected = new User("Ivan", "Ivanov");
         User actual = consoleInteractionService.askUserInformation();
         assertEquals(expected, actual);
-        byteArrayInputStream.close();
     }
 
     @Test
     public void askUserInformation_shouldBeNull() throws IOException {
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream("Ivan".getBytes());
-        System.setIn(byteArrayInputStream);
+        BufferedReader bufferedReader = org.mockito.Mockito.mock(BufferedReader.class);
+        when(bufferedReader.readLine()).thenReturn("Ivan Ivanov excess");
+        setFieldViaReflection(consoleInteractionService, "reader", bufferedReader);
+
         User actual = consoleInteractionService.askUserInformation();
         assertEquals(null, actual);
-        byteArrayInputStream.close();
     }
 
     @Test
     public void askQuestions() throws IOException {
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream("0\n1\n".getBytes());
-        System.setIn(byteArrayInputStream);
+        BufferedReader bufferedReader = org.mockito.Mockito.mock(BufferedReader.class);
+        when(bufferedReader.readLine())
+                .thenReturn("1")
+                .thenReturn("1");
+        setFieldViaReflection(consoleInteractionService, "reader", bufferedReader);
+
         Integer questionAmount = consoleInteractionService.askQuestions(
                 Arrays.asList(
                         new Question("Perque?", Arrays.asList("0 - Uno", "1 - Duo"), 0),
@@ -80,6 +90,17 @@ public class ConsoleInteractionServiceTest {
                 )
         );
         assertEquals(2L, questionAmount.longValue());
-        byteArrayInputStream.close();
+    }
+
+    private void setFieldViaReflection(Object object, String valueFieldName, Object value) {
+        try {
+            Field field = object.getClass().getDeclaredField(valueFieldName);
+            boolean isAcceseble = field.isAccessible();
+            field.setAccessible(true);
+            field.set(object, value);
+            field.setAccessible(isAcceseble);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 }

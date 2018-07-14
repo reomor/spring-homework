@@ -19,8 +19,10 @@ public class TestingResultCheckServiceTest {
 
     @Test
     public void checkAnswers() {
+        Question question = new Question("Perque?", Arrays.asList("0 - one", "1 - two", "2 - three"), 2);
+        question.setAnswer(1);
         TestResult testResult = testingResultCheckService.checkAnswers(Collections.singletonList(
-                new Question("Perque?", Arrays.asList("0 - one", "1 - two", "2 - three"), 2)
+                question
         ));
         assertEquals(1, testResult.getBadAnswersAmount());
     }
