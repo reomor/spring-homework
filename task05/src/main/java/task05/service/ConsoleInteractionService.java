@@ -112,12 +112,4 @@ public class ConsoleInteractionService {
         }
         return reader;
     }
-
-    public void closeReader() {
-        if (reader != null) {
-            try {
-                reader.close();
-            } catch (IOException nope) { }
-        }
-    }
 }

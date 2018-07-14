@@ -43,7 +43,6 @@ public class TestingProcessService {
             return null;
         }
         System.out.println(test.getTestResult());
-        consoleInteractionService.closeReader();
         return test;
     }
 

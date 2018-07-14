@@ -14,15 +14,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ApplicationSettingsTest {
-/*
-    @Configuration
-    static class ApplicationSettingsContextConfiguration {
-        @Bean
-        public ApplicationSettings applicationSettings() {
-            return new ApplicationSettings();
-        }
-    }
-//*/
+
     @Autowired
     private ApplicationSettings applicationSettings;
 
