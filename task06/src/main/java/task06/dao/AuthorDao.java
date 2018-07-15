@@ -5,6 +5,7 @@ import task06.domain.Author;
 import java.util.List;
 
 public interface AuthorDao {
+
     Author add(Author author);
 
     Author update(Author author);

@@ -51,7 +51,6 @@ public class AuthorDaoJdbc implements AuthorDao {
     }
 
     private static class AuthorMapper implements RowMapper<Author> {
-
         @Override
         public Author mapRow(ResultSet rs, int rowNum) throws SQLException {
             int id = rs.getInt("id");

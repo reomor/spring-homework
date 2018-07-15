@@ -1,21 +1,29 @@
 package task06.domain;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Author {
     private final Integer id;
     private final String name;
-    private String sername;
-    private LocalDate dateOfBirth;
-    private String biography;
+    private final String sername;
+    private final LocalDate dateOfBirth;
+    private final String biography;
+    private List<Book> authorBooks;
 
     public Author(Integer id, String name, String sername, LocalDate dateOfBirth, String biography) {
+        this(id, name, sername, dateOfBirth, biography, new ArrayList<>());
+    }
+
+    public Author(Integer id, String name, String sername, LocalDate dateOfBirth, String biography, List<Book> authorBooks) {
         this.id = id;
         this.name = name;
         this.sername = sername;
         this.dateOfBirth = dateOfBirth;
         this.biography = biography;
+        this.authorBooks = authorBooks;
     }
 
     public Integer getId() {
@@ -36,6 +44,14 @@ public class Author {
 
     public String getBiography() {
         return biography;
+    }
+
+    public List<Book> getAuthorBooks() {
+        return authorBooks;
+    }
+
+    public void setAuthorBooks(List<Book> authorBooks) {
+        this.authorBooks = authorBooks;
     }
 
     @Override

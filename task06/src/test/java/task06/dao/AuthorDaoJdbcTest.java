@@ -27,12 +27,11 @@ public class AuthorDaoJdbcTest extends AbstractDaoTest {
     }
 
     @Test
-    public void check_tableShouldExist(){
-        try(Connection conn = dataSource.getConnection()){
+    public void testCheck_tableShouldExist(){
+        try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
             statement.executeQuery("SELECT * FROM AUTHORS");
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             throw new IllegalStateException(ex);
         }
     }
