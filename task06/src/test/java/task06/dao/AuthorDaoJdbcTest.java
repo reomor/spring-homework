@@ -1,11 +1,17 @@
 package task06.dao;
 
+import com.opentable.db.postgres.embedded.EmbeddedPostgres;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 import task06.domain.Author;
 
 import javax.sql.DataSource;
@@ -16,7 +22,10 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class AuthorDaoJdbcTest extends AbstractDaoTest {
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@TestPropertySource("classpath:application-test.properties")
+public class AuthorDaoJdbcTest {
 
     @Autowired
     private DataSource dataSource;
@@ -24,8 +33,8 @@ public class AuthorDaoJdbcTest extends AbstractDaoTest {
     @Autowired
     private AuthorDaoJdbc authorDaoJdbc;
 
-    private EmbeddedDatabase database;
     /*
+    // https://www.mkyong.com/spring/spring-embedded-database-examples/
     // https://www.javatips.net/api/postgresql-embedded-master/src/test/java/ru/yandex/qatools/embed/postgresql/EmbeddedPostgresTest.java
     private EmbeddedPostgres postgres;
 
@@ -39,6 +48,18 @@ public class AuthorDaoJdbcTest extends AbstractDaoTest {
         postgres.getProcess().ifPresent(PostgresProcess::stop);
     }
     //*/
+    private EmbeddedPostgres postgres;
+
+    @Before
+    public  void setUp() throws Exception {
+        postgres = EmbeddedPostgres.builder().setPort(5433).start();
+    }
+
+    @After
+    public  void tearDown() throws Exception {
+        postgres.close();
+    }
+    /*
     @Before
     public void setup() {
         database = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
@@ -46,7 +67,7 @@ public class AuthorDaoJdbcTest extends AbstractDaoTest {
                 .addScript("data.sql")
                 .build();
     }
-
+//*/
     @Test
     public void getAll() {
         List<Author> all = authorDaoJdbc.getAll();

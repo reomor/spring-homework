@@ -14,9 +14,9 @@ import java.sql.Statement;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringRunner.class)
+/*@RunWith(SpringRunner.class)
 @SpringBootTest
-@TestPropertySource("classpath:application-test.properties")
+@TestPropertySource("classpath:application-test.properties")*/
 public class AbstractDaoTest {
 
     private static EmbeddedPostgres embeddedPostgres;
@@ -25,13 +25,12 @@ public class AbstractDaoTest {
     @BeforeClass
     public static void init() throws Exception {
         if (embeddedPostgres == null) {
-            embeddedPostgres = EmbeddedPostgres.builder().setPort(5433).start();
+            embeddedPostgres = EmbeddedPostgres.builder().setPort(9999).start();
 
             try (Connection conn = embeddedPostgres.getPostgresDatabase().getConnection()) {
                 Statement statement = conn.createStatement();
                 statement.execute("CREATE DATABASE TASK06");
             }
-            embeddedPostgres.close();
         }
     }
 }
