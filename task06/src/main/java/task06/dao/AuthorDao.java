@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface AuthorDao {
 
-    Author add(Author author);
+    int create(Author author);
 
-    Author update(Author author);
+    int update(Author author);
 
     boolean delete(int id);
 

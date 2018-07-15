@@ -14,7 +14,7 @@ import java.io.IOException;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @TestPropertySource("classpath:application-test.properties")
-public class AbstractDaoTest {
+public abstract class AbstractDaoTest {
 
     private static EmbeddedPostgres embeddedPostgres;
 

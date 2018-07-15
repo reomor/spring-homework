@@ -19,10 +19,11 @@ public class GenreDaoJdbcTest extends AbstractDaoTest{
 
     @Test
     public void create() {
-        Genre expected = new Genre(5, "new", "empty");
+        final int idToInsert = 6;
+        Genre expected = new Genre(idToInsert, "new", "empty");
         int row = genreDao.create(expected);
         assertEquals(1, row);
-        Genre actual = genreDao.getById(5);
+        Genre actual = genreDao.getById(idToInsert);
         assertEquals(expected, actual);
     }
 
@@ -37,23 +38,24 @@ public class GenreDaoJdbcTest extends AbstractDaoTest{
 
     @Test
     public void delete() {
-        List<Genre> all = genreDao.getAll();
-        assertEquals(4, all.size());
-        boolean deleted = genreDao.delete(3);
+        int idToDelete = 5;
+        int size = genreDao.getAll().size();
+        boolean deleted = genreDao.delete(idToDelete);
         assertTrue(deleted);
-        all = genreDao.getAll();
-        assertEquals(3, all.size());
+        List<Genre> all = genreDao.getAll();
+        assertEquals(size - 1, all.size());
     }
 
     @Test
     public void getById() {
-        Genre genre = genreDao.getById(2);
-        assertEquals(new Genre(2, "romance", "romance descr"), genre);
+        Genre expected = new Genre(2, "romance", "romance descr");
+        Genre actual = genreDao.getById(2);
+        assertEquals(expected, actual);
     }
 
     @Test
     public void getAll() {
         List<Genre> all = genreDao.getAll();
-        assertEquals(4, all.size());
+        assertEquals(5, all.size());
     }
 }
