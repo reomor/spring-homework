@@ -9,7 +9,10 @@ import task06.domain.Genre;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class GenreDaoJdbc implements GenreDao {
@@ -24,23 +27,33 @@ public class GenreDaoJdbc implements GenreDao {
     }
 
     @Override
-    public Genre create(Genre genre) {
-        return null;
+    public int create(Genre genre) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("id", genre.getId());
+        params.put("name", genre.getName());
+        params.put("description", genre.getDescription());
+        return namedJdbc.update("INSERT INTO GENRES(ID, NAME, DESCRIPTION) VALUES (:id, :name, :description)", params);
     }
 
     @Override
-    public Genre update(Genre genre) {
-        return null;
+    public int update(Genre genre) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("id", genre.getId());
+        params.put("name", genre.getName());
+        params.put("description", genre.getDescription());
+        return namedJdbc.update("UPDATE GENRES SET NAME = :name, DESCRIPTION = :description WHERE id=:id", params);
     }
 
     @Override
     public boolean delete(int id) {
-        return false;
+        final Map<String, Object> params = Collections.singletonMap("id", id);
+        return namedJdbc.update("DELETE FROM GENRES WHERE id=:id", params) != 0;
     }
 
     @Override
     public Genre getById(int id) {
-        return null;
+        final Map<String, Object> params = Collections.singletonMap("id", id);
+        return namedJdbc.queryForObject("select * from GENRES WHERE id=:id", params, new GenreMapper());
     }
 
     @Override
