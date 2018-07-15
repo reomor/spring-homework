@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
 import task06.domain.Author;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -58,7 +59,7 @@ public class AuthorDaoJdbc implements AuthorDao {
             int id = rs.getInt("id");
             String name = rs.getString("name");
             String sername = rs.getString("sername");
-            LocalDate dateOfBirth = rs.getDate("dateofbirth").toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate dateOfBirth = rs.getDate("dateOfBirth").toLocalDate();
             String biography = rs.getString("biography");
             return new Author(id, name, sername, dateOfBirth, biography);
         }

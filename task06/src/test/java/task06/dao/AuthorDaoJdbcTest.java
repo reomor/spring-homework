@@ -1,8 +1,12 @@
 package task06.dao;
 
 import com.opentable.db.postgres.embedded.EmbeddedPostgres;
+import com.opentable.db.postgres.embedded.FlywayPreparer;
+import com.opentable.db.postgres.junit.EmbeddedPostgresRules;
+import com.opentable.db.postgres.junit.PreparedDbRule;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,32 +26,21 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@TestPropertySource("classpath:application-test.properties")
-public class AuthorDaoJdbcTest {
+public class AuthorDaoJdbcTest extends AbstractDaoTest {
 
     @Autowired
     private DataSource dataSource;
 
     @Autowired
-    private AuthorDaoJdbc authorDaoJdbc;
+    private AuthorDao authorDao;
 
     /*
-    // https://www.mkyong.com/spring/spring-embedded-database-examples/
-    // https://www.javatips.net/api/postgresql-embedded-master/src/test/java/ru/yandex/qatools/embed/postgresql/EmbeddedPostgresTest.java
-    private EmbeddedPostgres postgres;
+    @Rule
+    public PreparedDbRule db =
+            EmbeddedPostgresRules.preparedDatabase(
+                    FlywayPreparer.forClasspathLocation("db/migration"));
 
-    @Before
-    public  void setUp() throws Exception {
-        postgres = new EmbeddedPostgres();
-    }
-
-    @After
-    public  void tearDown() throws Exception {
-        postgres.getProcess().ifPresent(PostgresProcess::stop);
-    }
-    //*/
+    /*
     private EmbeddedPostgres postgres;
 
     @Before
@@ -70,12 +63,12 @@ public class AuthorDaoJdbcTest {
 //*/
     @Test
     public void getAll() {
-        List<Author> all = authorDaoJdbc.getAll();
+        List<Author> all = authorDao.getAll();
         assertEquals(1, all.size());
     }
 
     @Test
-    public void exampleTest(){
+    public void check_tableShouldExist(){
         try(Connection conn = dataSource.getConnection()){
             Statement statement = conn.createStatement();
             statement.executeQuery("SELECT * FROM AUTHORS");
