@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class Author {
-    private final Integer id;
-    private final String name;
-    private final String sername;
-    private final LocalDate dateOfBirth;
-    private final String biography;
+    private Integer id;
+    private String name;
+    private String sername;
+    private LocalDate dateOfBirth;
+    private String biography;
     private List<Book> authorBooks;
 
     public Author(Integer id, String name, String sername, LocalDate dateOfBirth, String biography) {
@@ -30,20 +30,40 @@ public class Author {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSername() {
         return sername;
     }
 
+    public void setSername(String sername) {
+        this.sername = sername;
+    }
+
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
     public String getBiography() {
         return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
     }
 
     public List<Book> getAuthorBooks() {
@@ -68,5 +88,17 @@ public class Author {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, sername, dateOfBirth);
+    }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", sername='" + sername + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", biography='" + biography + '\'' +
+                ", authorBooks=" + authorBooks +
+                '}';
     }
 }

@@ -36,8 +36,8 @@ public class AuthorDaoJdbc implements AuthorDao {
         params.put("sername", author.getSername());
         params.put("dateOfBirth", author.getDateOfBirth());
         params.put("biography", author.getBiography());
-        return namedJdbc.update("INSERT INTO AUTHORS (ID, NAME, SERNAME, DATEOFBIRTH, BIOGRAPHY) VALUES\n" +
-                "  (:id, :name, :sername, :dateOfBirth, :biography)", params);
+        return namedJdbc.update("INSERT INTO AUTHORS (NAME, SERNAME, DATEOFBIRTH, BIOGRAPHY) VALUES " +
+                "(:name, :sername, :dateOfBirth, :biography)", params);
     }
 
     @Override
@@ -48,19 +48,19 @@ public class AuthorDaoJdbc implements AuthorDao {
         params.put("sername", author.getSername());
         params.put("dateOfBirth", author.getDateOfBirth());
         params.put("biography", author.getBiography());
-        return namedJdbc.update("UPDATE AUTHORS SET NAME=:name, SERNAME=:sername, DATEOFBIRTH=:dateOfBirth, BIOGRAPHY=:biography WHERE id=:id", params);
+        return namedJdbc.update("UPDATE AUTHORS SET NAME=:name, SERNAME=:sername, DATEOFBIRTH=:dateOfBirth, BIOGRAPHY=:biography WHERE ID=:id", params);
     }
 
     @Override
     public boolean delete(int id) {
         final Map<String, Object> params = Collections.singletonMap("id", id);
-        return namedJdbc.update("DELETE FROM AUTHORS WHERE id=:id", params) != 0;
+        return namedJdbc.update("DELETE FROM AUTHORS WHERE ID=:id", params) != 0;
     }
 
     @Override
     public Author getById(int id) {
         final Map<String, Object> params = Collections.singletonMap("id", id);
-        return namedJdbc.queryForObject("SELECT * FROM AUTHORS WHERE id=:id", params, new AuthorMapper());
+        return namedJdbc.queryForObject("SELECT * FROM AUTHORS WHERE ID=:id", params, new AuthorMapper());
     }
 
     @Override

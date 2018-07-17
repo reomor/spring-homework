@@ -21,12 +21,13 @@ public class AuthorDaoJdbcTest extends AbstractDaoTest {
     public void testCreate_shouldCreateAuthor() {
         int authorIdToCreate = 5;
         Author expected = new Author(
-                authorIdToCreate, "New", "Author",
+                null, "New", "Author",
                 LocalDate.of(1999, Month.JANUARY, 25), "empty"
         );
         int row = authorDao.create(expected);
         assertEquals(1, row);
         Author actual = authorDao.getById(authorIdToCreate);
+        expected.setId(actual.getId());
         assertEquals(expected, actual);
     }
 
