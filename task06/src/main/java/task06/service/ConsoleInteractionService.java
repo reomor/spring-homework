@@ -21,13 +21,46 @@ public class ConsoleInteractionService {
         this.genreDao = genreDao;
     }
 
-    public void getall(String dao) {
+    public void create(String dao) {
+
+    }
+
+    public void delete(String dao, int id) {
+        if ("book".equals(dao)) {
+            bookDao.delete(id);
+        } else if ("author".equals(dao)) {
+            authorDao.delete(id);
+        } else if ("genre".equals(dao)) {
+            genreDao.delete(id);
+        }
+        getAll(dao);
+    }
+
+    public void getById(String dao, int id) {
+        if ("book".equals(dao)) {
+            System.out.println(bookDao.getById(id));
+        } else if ("author".equals(dao)) {
+            System.out.println(authorDao.getById(id));
+        } else if ("genre".equals(dao)) {
+            System.out.println(genreDao.getById(id));
+        }
+    }
+
+    public void getAll(String dao) {
         if ("book".equals(dao)) {
             printList(bookDao.getAll());
         } else if ("author".equals(dao)) {
             printList(authorDao.getAll());
         } else if ("genre".equals(dao)) {
             printList(genreDao.getAll());
+        }
+    }
+
+    public void getByExternalId(String dao, int externalId) {
+        if ("book".equals(dao)) {
+            printList(bookDao.getByAuthorId(externalId));
+        } else if ("author".equals(dao)) {
+            printList(authorDao.getByBookId(externalId));
         }
     }
 
