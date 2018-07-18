@@ -15,4 +15,6 @@ public interface AuthorDao {
     Author getById(int id);
 
     List<Author> getAll();
+
+    List<Author> getByBookId(int bookId);
 }

@@ -72,10 +72,10 @@ public class BookDaoJdbc implements BookDao {
     }
 
     @Override
-    public List<Book> getByAuthor(int authorId) {
+    public List<Book> getByAuthorId(int authorId) {
         final Map<String, Object> params = Collections.singletonMap("id", authorId);
         return namedJdbc.query("SELECT * FROM BOOKS INNER JOIN AUTHOR_BOOK " +
-                "ON BOOKS.ID = AUTHOR_BOOK.ID_BOOK " +
+                "ON BOOKS.ID=AUTHOR_BOOK.ID_BOOK " +
                 "WHERE AUTHOR_BOOK.ID_AUTHOR=:id", params, bookMapper);
         //return namedJdbc.query("SELECT * FROM AUTHORS INNER JOIN AUTHOR_BOOK ON AUTHORS.ID = AUTHOR_BOOK.ID_AUTHOR WHERE AUTHORS.ID=:id");
     }

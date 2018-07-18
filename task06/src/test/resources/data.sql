@@ -2,7 +2,8 @@ INSERT INTO AUTHORS (NAME, SERNAME, DATEOFBIRTH, BIOGRAPHY) VALUES
   ('Mark', 'Twain', DATE '1830-11-30', 'Tom Sawyers creator.'),
   ('Rudyard', 'Kipling', DATE '1860-12-30', 'Maugly creator.'),
   ('George', 'Lucas', DATE '1970-05-07', 'Creator of a universe.'),
-  ('George', 'Deleted', DATE '1970-05-07', 'Creator of a universe.');
+  ('George', 'сo-author', DATE '1970-05-07', 'Creator of a universe.'),
+  ('George', 'deleted', DATE '1970-05-07', 'Creator of a universe.');
 
 INSERT INTO GENRES (NAME, DESCRIPTION) VALUES
   ('detective', 'detective descr'),
@@ -22,5 +23,6 @@ INSERT INTO BOOKS (TITLE, ID_GENRE, ISBN, DESCRIPTION) VALUES
 INSERT INTO AUTHOR_BOOK (ID_AUTHOR, ID_BOOK) VALUES
   (1, 1),
   (2, 2),
+  (4, 2),
   (3, 3),
   (1, 4);

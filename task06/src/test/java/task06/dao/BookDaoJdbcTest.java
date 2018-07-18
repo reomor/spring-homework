@@ -59,7 +59,7 @@ public class BookDaoJdbcTest extends AbstractDaoTest {
     @Test
     public void testGetByAuthor_ShouldSuccess_ReturnListOfBooks() {
         int authorId = 1;
-        List<Book> booksByAuthor = bookDao.getByAuthor(authorId);
-        assertEquals(2, booksByAuthor.size());
+        List<Book> booksByAuthorId = bookDao.getByAuthorId(authorId);
+        assertEquals(2, booksByAuthorId.size());
     }
 }

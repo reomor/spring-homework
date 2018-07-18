@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import task06.domain.Author;
+import task06.domain.Book;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -19,7 +20,7 @@ public class AuthorDaoJdbcTest extends AbstractDaoTest {
 
     @Test
     public void testCreate_shouldCreateAuthor() {
-        int authorIdToCreate = 5;
+        int authorIdToCreate = 6;
         Author expected = new Author(
                 null, "New", "Author",
                 LocalDate.of(1999, Month.JANUARY, 25), "empty"
@@ -45,8 +46,9 @@ public class AuthorDaoJdbcTest extends AbstractDaoTest {
 
     @Test
     public void testDelete_shouldDeleteAuthorById() {
+        int deleteId = 5;
         int size = authorDao.getAll().size();
-        boolean deleted = authorDao.delete(4);
+        boolean deleted = authorDao.delete(deleteId);
         assertTrue(deleted);
         List<Author> all = authorDao.getAll();
         assertEquals(size - 1, all.size());
@@ -66,6 +68,13 @@ public class AuthorDaoJdbcTest extends AbstractDaoTest {
     @Test
     public void testGetAll_shouldReturnNonEmptyList() {
         List<Author> all = authorDao.getAll();
-        assertEquals(4, all.size());
+        assertEquals(5, all.size());
+    }
+
+    @Test
+    public void testGetByBookId_ShouldSuccess_ReturnBookAuthors() {
+        int bookId = 2;
+        List<Author> authorsByBookId = authorDao.getByBookId(bookId);
+        assertEquals(2, authorsByBookId.size());
     }
 }

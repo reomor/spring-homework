@@ -16,5 +16,5 @@ public interface BookDao {
 
     List<Book> getAll();
 
-    List<Book> getByAuthor(int authorId);
+    List<Book> getByAuthorId(int authorId);
 }

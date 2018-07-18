@@ -31,7 +31,6 @@ public class AuthorDaoJdbc implements AuthorDao {
     @Override
     public int create(Author author) {
         final Map<String, Object> params = new HashMap<>();
-        params.put("id", author.getId());
         params.put("name", author.getName());
         params.put("sername", author.getSername());
         params.put("dateOfBirth", author.getDateOfBirth());
@@ -66,6 +65,13 @@ public class AuthorDaoJdbc implements AuthorDao {
     @Override
     public List<Author> getAll() {
         return namedJdbc.query("SELECT * FROM AUTHORS", new AuthorMapper());
+    }
+
+    @Override
+    public List<Author> getByBookId(int bookId) {
+        final Map<String, Object> params = Collections.singletonMap("id", bookId);
+        return namedJdbc.query("SELECT * FROM AUTHORS INNER JOIN AUTHOR_BOOK" +
+                " ON AUTHORS.ID=AUTHOR_BOOK.ID_AUTHOR WHERE AUTHOR_BOOK.ID_BOOK=:id", params, new AuthorMapper());
     }
 
     private static class AuthorMapper implements RowMapper<Author> {
