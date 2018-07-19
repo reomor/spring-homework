@@ -3,7 +3,11 @@ package task06.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import task06.domain.Book;
 
@@ -31,25 +35,44 @@ public class BookDaoJdbc implements BookDao {
 
     @Override
     public int create(Book book) {
-        final Map<String, Object> params = new HashMap<>();
-        params.put("title", book.getTitle());
-        params.put("id_genre", book.getIdGenre());
-        params.put("isbn", book.getIsbn());
-        params.put("description", book.getDescription());
-        return namedJdbc.update("INSERT INTO BOOKS" +
+        SqlParameterSource namedParameters = new MapSqlParameterSource();
+        ((MapSqlParameterSource) namedParameters).addValue("title", book.getTitle());
+        ((MapSqlParameterSource) namedParameters).addValue("id_genre", book.getIdGenre());
+        ((MapSqlParameterSource) namedParameters).addValue("isbn", book.getIsbn());
+        ((MapSqlParameterSource) namedParameters).addValue("description", book.getDescription());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        namedJdbc.update("INSERT INTO BOOKS" +
                 " (TITLE, ID_GENRE, ISBN, DESCRIPTION)" +
-                " VALUES (:title, :id_genre, :isbn, :description)", params);
+                " VALUES (:title, :id_genre, :isbn, :description)", namedParameters, keyHolder);
+        final int key = (Integer) keyHolder.getKeys().get("id");
+        book.setId(key);
+        createRelation(book);
+        return key;
+    }
+
+    private void createRelation(Book book) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("id_author", book.getAuthor().getId());
+        params.put("id_book", book.getId());
+        namedJdbc.update("INSERT INTO AUTHOR_BOOK" +
+                " (ID_AUTHOR, ID_BOOK)" +
+                " VALUES (:id_author, :id_book)", params);
     }
 
     @Override
-    public int update(Book book) {
+    public int getRelatedId(int bookId) {
+        return jdbc.queryForObject("SELECT ID_AUTHOR FROM AUTHOR_BOOK WHERE ID_BOOK=?", new Object[] {bookId}, Integer.class);
+    }
+
+    @Override
+    public void update(Book book) {
         final Map<String, Object> params = new HashMap<>();
         params.put("id", book.getId());
         params.put("title", book.getTitle());
         params.put("id_genre", book.getIdGenre());
         params.put("isbn", book.getIsbn());
         params.put("description", book.getDescription());
-        return namedJdbc.update("UPDATE BOOKS SET" +
+        namedJdbc.update("UPDATE BOOKS SET" +
                 " TITLE=:title, ID_GENRE=:id_genre, ISBN=:isbn, DESCRIPTION=:description" +
                 " WHERE ID=:id", params);
     }

@@ -8,11 +8,13 @@ public interface BookDao {
 
     int create(Book book);
 
-    int update(Book book);
+    void update(Book book);
 
     boolean delete(int id);
 
     Book getById(int id);
+
+    int getRelatedId(int bookId);
 
     List<Book> getAll();
 

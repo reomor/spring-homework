@@ -1,7 +1,5 @@
 package task06.domain;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Book {
@@ -11,19 +9,19 @@ public class Book {
     private Integer idGenre;
     private String isbn;
     private String description;
-    private List<String> authors;
+    private Author author;
 
     public Book(Integer id, String title, Integer idGenre, String isbn, String description) {
-        this(id, title, idGenre, isbn, description, new ArrayList<>());
+        this(id, title, idGenre, isbn, description, null);
     }
 
-    public Book(Integer id, String title, Integer idGenre, String isbn, String description, List<String> authors) {
+    public Book(Integer id, String title, Integer idGenre, String isbn, String description, Author author) {
         this.id = id;
         this.title = title;
         this.idGenre = idGenre;
         this.isbn = isbn;
         this.description = description;
-        this.authors = authors;
+        this.author = author;
     }
 
     public Integer getId() {
@@ -66,12 +64,12 @@ public class Book {
         this.description = description;
     }
 
-    public List<String> getAuthors() {
-        return authors;
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setAuthors(List<String> authors) {
-        this.authors = authors;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
     @Override
@@ -99,7 +97,7 @@ public class Book {
                 ", idGenre=" + idGenre +
                 ", isbn='" + isbn + '\'' +
                 ", description='" + description + '\'' +
-                ", authors=" + authors +
+                ", author=" + author +
                 '}';
     }
 }

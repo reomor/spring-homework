@@ -3,8 +3,11 @@ package task06.dao;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import task06.domain.Author;
 import task06.domain.Book;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -18,11 +21,15 @@ public class BookDaoJdbcTest extends AbstractDaoTest {
     @Test
     public void testCreate_ShouldSuccess_CreateBook() {
         int bookId = 6;
+        Author author = new Author(1, "Mark", "Twain", LocalDate.of(1830, Month.NOVEMBER, 30), "Tom Sawyers creator.");
         Book expected = new Book(null, "Test", 3, "978-0-34-526079-9", "empty");
-        bookDao.create(expected);
+        expected.setAuthor(author);
+        int createdBookId = bookDao.create(expected);
         Book actual = bookDao.getById(bookId);
         expected.setId(actual.getId());
         assertEquals(expected, actual);
+        int relatedId = bookDao.getRelatedId(createdBookId);
+        assertEquals(author.getId(), new Integer(relatedId));
     }
 
     @Test

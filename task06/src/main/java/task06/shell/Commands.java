@@ -6,6 +6,8 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import task06.service.ConsoleInteractionService;
 
+import java.io.IOException;
+
 @ShellComponent
 public class Commands {
 
@@ -14,6 +16,20 @@ public class Commands {
     @Autowired
     public Commands(ConsoleInteractionService consoleInteractionService) {
         this.consoleInteractionService = consoleInteractionService;
+    }
+
+    @ShellMethod("Create")
+    public void create (
+            @ShellOption("-d") String obejctName
+    ) throws IOException {
+        consoleInteractionService.create(obejctName);
+    }
+
+    @ShellMethod("Update")
+    public void update (
+            @ShellOption("-d") String obejctName
+    ) throws IOException {
+        //consoleInteractionService.create(obejctName);
     }
 
     @ShellMethod("Get by id")
