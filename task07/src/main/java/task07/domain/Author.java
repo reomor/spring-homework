@@ -1,14 +1,35 @@
 package task07.domain;
 
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+@Entity
 public class Author {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "sername")
     private String sername;
+
+    @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
+
+    @Column(name = "biography")
     private String biography;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "authors")
+    private List<Book> books = new ArrayList<>();
+
+    public Author() {
+    }
 
     public Author(Integer id, String name, String sername, LocalDate dateOfBirth, String biography) {
         this.id = id;

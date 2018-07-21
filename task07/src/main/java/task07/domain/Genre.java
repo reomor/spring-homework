@@ -1,11 +1,28 @@
 package task07.domain;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+@Entity
 public class Genre {
-    private final Integer id;
-    private final String name;
-    private final String description;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "description")
+    private String description;
+
+    @OneToMany(mappedBy = "genre")
+    List<Book> books = new ArrayList<>();
+
+    public Genre() {
+    }
 
     public Genre(Integer id, String name, String description) {
         this.id = id;
@@ -17,12 +34,32 @@ public class Genre {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     @Override

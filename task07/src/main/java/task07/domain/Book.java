@@ -1,27 +1,46 @@
 package task07.domain;
 
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
+@Entity
 public class Book {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String title;
-    private Integer idGenre;
-    private String isbn;
-    private String description;
-    private Author author;
 
-    public Book(Integer id, String title, Integer idGenre, String isbn, String description) {
-        this(id, title, idGenre, isbn, description, null);
+    @Column(name = "title")
+    private String title;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "genre_id")
+    private Genre genre;
+
+    @Column(name = "isbn")
+    private String isbn;
+
+    @Column
+    private String description;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "author_book",
+            joinColumns = {@JoinColumn(name = "book_id")},
+            inverseJoinColumns = {@JoinColumn(name = "author_id")}
+    )
+    private List<Author> authors;
+
+    public Book() {
     }
 
-    public Book(Integer id, String title, Integer idGenre, String isbn, String description, Author author) {
-        this.id = id;
+    public Book(String title, Genre genre, String isbn, String description, List<Author> authors) {
         this.title = title;
-        this.idGenre = idGenre;
+        this.genre = genre;
         this.isbn = isbn;
         this.description = description;
-        this.author = author;
+        this.authors = authors;
     }
 
     public Integer getId() {
@@ -40,12 +59,12 @@ public class Book {
         this.title = title;
     }
 
-    public Integer getIdGenre() {
-        return idGenre;
+    public Genre getGenre() {
+        return genre;
     }
 
-    public void setIdGenre(Integer idGenre) {
-        this.idGenre = idGenre;
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 
     public String getIsbn() {
@@ -64,12 +83,12 @@ public class Book {
         this.description = description;
     }
 
-    public Author getAuthor() {
-        return author;
+    public List<Author> getAuthors() {
+        return authors;
     }
 
-    public void setAuthor(Author author) {
-        this.author = author;
+    public void setAuthors(List<Author> authors) {
+        this.authors = authors;
     }
 
     @Override
@@ -77,16 +96,12 @@ public class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return Objects.equals(id, book.id) &&
-                Objects.equals(title, book.title) &&
-                Objects.equals(idGenre, book.idGenre) &&
-                Objects.equals(isbn, book.isbn) &&
-                Objects.equals(description, book.description);
+        return Objects.equals(id, book.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, idGenre, isbn);
+        return Objects.hash(id, title);
     }
 
     @Override
@@ -94,10 +109,10 @@ public class Book {
         return "Book{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", idGenre=" + idGenre +
+                ", genre=" + genre +
                 ", isbn='" + isbn + '\'' +
                 ", description='" + description + '\'' +
-                ", author=" + author +
+                ", authors=" + authors +
                 '}';
     }
 }
