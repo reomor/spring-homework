@@ -1,41 +1,40 @@
 package task07.dao;
 
-import com.opentable.db.postgres.embedded.EmbeddedPostgres;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import task07.domain.Author;
+import task07.domain.Book;
+import task07.domain.Genre;
 
-import java.io.IOException;
+import java.util.List;
 
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(properties = {
         InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
         ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"
 })
-@TestPropertySource("classpath:application-test.properties")
-public abstract class AbstractDaoTest {
+public class AbstractDaoTest {
+    @Autowired
+    GenreDao genreDao;
+    @Autowired
+    AuthorDao authorDao;
+    @Autowired
+    BookDao bookDao;
 
-    private static EmbeddedPostgres embeddedPostgres;
-
-    // http://blog.rizvn.com/2018/04/testing-database-querries-with-embedded.html
-    @BeforeClass
-    public static void init() throws Exception {
-        if (embeddedPostgres == null) {
-            embeddedPostgres = EmbeddedPostgres.builder().setPort(9999).start();
-        }
-    }
-
-    @AfterClass
-    public static void finish() throws IOException {
-        if (embeddedPostgres != null) {
-            embeddedPostgres.close();
-        }
+    @Test
+    public void test() {
+        List<Genre> genres = genreDao.getAll();
+        assertEquals(5, genres.size());
+        List<Author> authors = authorDao.getAll();
+        assertEquals(5, authors.size());
+        List<Book> books = bookDao.getAll();
+        assertEquals(5, books.size());
     }
 }
