@@ -32,11 +32,18 @@ public class Author {
     }
 
     public Author(Integer id, String name, String sername, LocalDate dateOfBirth, String biography) {
+        this(id, name, sername, dateOfBirth, biography, null);
+    }
+
+    public Author(Integer id, String name, String sername, LocalDate dateOfBirth, String biography, List<Book> books) {
         this.id = id;
         this.name = name;
         this.sername = sername;
         this.dateOfBirth = dateOfBirth;
         this.biography = biography;
+        if (books != null) {
+            this.books.addAll(books);
+        }
     }
 
     public Integer getId() {
@@ -84,11 +91,16 @@ public class Author {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Author author = (Author) o;
-        return Objects.equals(id, author.id);
+        return Objects.equals(id, author.id) &&
+                Objects.equals(name, author.name) &&
+                Objects.equals(sername, author.sername) &&
+                Objects.equals(dateOfBirth, author.dateOfBirth) &&
+                Objects.equals(biography, author.biography);
     }
 
     @Override
     public int hashCode() {
+
         return Objects.hash(id, name, sername, dateOfBirth);
     }
 
@@ -100,7 +112,6 @@ public class Author {
                 ", sername='" + sername + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", biography='" + biography + '\'' +
-                ", books=" + books +
                 '}';
     }
 }

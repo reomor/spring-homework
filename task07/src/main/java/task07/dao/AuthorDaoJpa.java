@@ -1,6 +1,7 @@
 package task07.dao;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import task07.domain.Author;
 
 import javax.persistence.EntityManager;
@@ -9,6 +10,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
+@Transactional
 public class AuthorDaoJpa implements AuthorDao {
 
     @PersistenceContext
@@ -27,9 +29,7 @@ public class AuthorDaoJpa implements AuthorDao {
     @Override
     public void delete(int id) {
         Author author = getById(id);
-        em.getTransaction().begin();
         em.remove(author);
-        em.getTransaction().commit();
     }
 
     @Override
