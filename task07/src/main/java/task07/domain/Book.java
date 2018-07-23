@@ -1,6 +1,7 @@
 package task07.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,7 +25,7 @@ public class Book {
     @Column
     private String description;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "author_book",
             joinColumns = {@JoinColumn(name = "book_id")},
@@ -32,15 +33,23 @@ public class Book {
     )
     private List<Author> authors;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
+    private List<Comment> comments;
+
     public Book() {
     }
 
-    public Book(String title, Genre genre, String isbn, String description, List<Author> authors) {
+    public Book(Integer id, String title, Genre genre, String isbn, String description) {
+        this(id, title, genre, isbn, description, new ArrayList<>(), new ArrayList<>());
+    }
+
+    public Book(Integer id, String title, Genre genre, String isbn, String description, List<Author> authors, List<Comment> comments) {
         this.title = title;
         this.genre = genre;
         this.isbn = isbn;
         this.description = description;
         this.authors = authors;
+        this.comments = comments;
     }
 
     public Integer getId() {
@@ -91,6 +100,14 @@ public class Book {
         this.authors = authors;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -112,7 +129,6 @@ public class Book {
                 ", genre=" + genre +
                 ", isbn='" + isbn + '\'' +
                 ", description='" + description + '\'' +
-                ", authors=" + authors +
                 '}';
     }
 }

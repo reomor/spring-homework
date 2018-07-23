@@ -29,9 +29,7 @@ public class BookDaoJpa implements BookDao {
     @Override
     public void delete(int id) {
         Book book = getById(id);
-        em.getTransaction().begin();
         em.remove(book);
-        em.getTransaction().commit();
     }
 
     @Override
