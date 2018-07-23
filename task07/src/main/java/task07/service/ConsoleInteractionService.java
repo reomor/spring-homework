@@ -8,16 +8,24 @@ import task07.dao.GenreDao;
 import task07.domain.Author;
 import task07.domain.Book;
 import task07.domain.Genre;
+import task07.service.console.AuthorConsoleService;
+import task07.service.console.BookConsoleService;
+import task07.service.console.DaoConsoleService;
+import task07.service.console.GenreConsoleService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ConsoleInteractionService {
+
+    private Map<String, DaoConsoleService> mapping = new HashMap<>();
 
     private final BookDao bookDao;
     private final AuthorDao authorDao;
@@ -25,14 +33,24 @@ public class ConsoleInteractionService {
     private final BufferedReader reader;
 
     @Autowired
-    public ConsoleInteractionService(BookDao bookDao, AuthorDao authorDao, GenreDao genreDao) {
+    public ConsoleInteractionService(BookDao bookDao, AuthorDao authorDao, GenreDao genreDao,
+                                     GenreConsoleService genreConsoleService,
+                                     AuthorConsoleService authorConsoleService,
+                                     BookConsoleService bookConsoleService) {
         this.bookDao = bookDao;
         this.authorDao = authorDao;
         this.genreDao = genreDao;
+        mapping.put("genre", genreConsoleService);
+        mapping.put("author", authorConsoleService);
+        mapping.put("book", bookConsoleService);
         reader = new BufferedReader(new InputStreamReader(System.in));
     }
 
     public void create(String dao) throws IOException {
+        if (mapping.containsKey(dao)) {
+            mapping.get(dao).create();
+        }
+        /*
         if ("book".equals(dao)) {
             Book book = readBook();
             int genreId = choose("genre");
@@ -49,6 +67,7 @@ public class ConsoleInteractionService {
             genreDao.create(genre);
         }
         getAll(dao);
+        //*/
     }
 
     public void delete(String dao, int id) {
@@ -102,6 +121,7 @@ public class ConsoleInteractionService {
     }
 
     private Book readBook() throws IOException {
+        /*
         System.out.println("Reading Book object.\nEnter title:");
         String title = reader.readLine();
         System.out.println("Enter isbn:");
@@ -109,6 +129,8 @@ public class ConsoleInteractionService {
         System.out.println("Enter description:");
         String description = reader.readLine();
         return new Book(null, title, null, isbn, description);
+        //*/
+        return null;
     }
 
     private Author readAuthor() throws IOException {
