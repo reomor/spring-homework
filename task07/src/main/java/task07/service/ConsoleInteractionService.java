@@ -47,8 +47,8 @@ public class ConsoleInteractionService {
     }
 
     public void create(String dao) throws IOException {
-        if (mapping.containsKey(dao)) {
-            mapping.get(dao).create();
+        if (isDao(dao)) {
+            mapping.get(dao).create(reader);
         }
         /*
         if ("book".equals(dao)) {
@@ -109,6 +109,10 @@ public class ConsoleInteractionService {
         }
     }
 
+    private boolean isDao(String dao) {
+        return mapping.containsKey(dao);
+    }
+
     private int choose(String dao) throws IOException {
         if ("author".equals(dao)) {
             printList(authorDao.getAll());
@@ -118,40 +122,6 @@ public class ConsoleInteractionService {
             printList(genreDao.getAll());
         }
         return Integer.parseInt(reader.readLine());
-    }
-
-    private Book readBook() throws IOException {
-        /*
-        System.out.println("Reading Book object.\nEnter title:");
-        String title = reader.readLine();
-        System.out.println("Enter isbn:");
-        String isbn = reader.readLine();
-        System.out.println("Enter description:");
-        String description = reader.readLine();
-        return new Book(null, title, null, isbn, description);
-        //*/
-        return null;
-    }
-
-    private Author readAuthor() throws IOException {
-        System.out.println("Reading Author object.\nEnter name:");
-        String name = reader.readLine();
-        System.out.println("Enter sername:");
-        String sername = reader.readLine();
-        System.out.println("Enter date of birth (yyyy-mm-dd):");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate dateOfBirth = LocalDate.parse(reader.readLine(), formatter);
-        System.out.println("Enter biography:");
-        String biography = reader.readLine();
-        return new Author(null, name, sername, dateOfBirth, biography);
-    }
-
-    private Genre readGenre() throws IOException {
-        System.out.println("Reading Genre object.\nEnter name:");
-        String name = reader.readLine();
-        System.out.println("Enter description:");
-        String description = reader.readLine();
-        return new Genre(null, name, description);
     }
 
     private <T> void printList(List<T> list) {
