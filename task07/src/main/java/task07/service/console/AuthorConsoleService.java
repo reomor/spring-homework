@@ -50,8 +50,8 @@ public class AuthorConsoleService implements DaoConsoleService<Author> {
     }
 
     @Override
-    public List<Author> getAll() {
-        return null;
+    public void getAll() {
+        printList(authorDao.getAll());
     }
 
     private Author readAuthor(BufferedReader reader) throws IOException {

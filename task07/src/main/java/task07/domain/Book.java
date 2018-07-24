@@ -120,7 +120,8 @@ public class Book {
     public int hashCode() {
         return Objects.hash(id, title);
     }
-
+    /*TODO add authors and comments*/
+    // https://hellokoding.com/jpa-one-to-many-relationship-mapping-example-with-spring-boot-maven-and-mysql/
     @Override
     public String toString() {
         return "Book{" +

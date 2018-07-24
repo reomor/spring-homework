@@ -56,6 +56,7 @@ public class Commands {
         consoleInteractionService.getAll(objectName);
     }
 
+    /*
     @ShellMethod("Get by external id")
     public void getbei (
             @ShellOption("-d") String objectName,
@@ -63,4 +64,5 @@ public class Commands {
     ) {
         consoleInteractionService.getByExternalId(objectName, id);
     }
+    //*/
 }

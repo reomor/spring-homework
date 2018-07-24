@@ -5,11 +5,17 @@ import org.springframework.stereotype.Service;
 import task07.dao.AuthorDao;
 import task07.dao.BookDao;
 import task07.dao.GenreDao;
+import task07.domain.Author;
 import task07.domain.Book;
+import task07.domain.Genre;
+import task07.exception.ConsoleReadException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class BookConsoleService implements DaoConsoleService<Book> {
@@ -30,10 +36,13 @@ public class BookConsoleService implements DaoConsoleService<Book> {
         Book book;
         try {
             book = readBook(reader);
-            System.out.println("Choose a genre by id:");
-            printList(genreDao.getAll());
+            Genre genre = readGenre(reader);
+            book.setGenre(genre);
+            List<Author> authors = readAuthors(reader);
+            book.setAuthors(authors);
+            bookDao.create(book);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ConsoleReadException("Error while reading " + Book.class.getName());
         }
     }
 
@@ -53,8 +62,8 @@ public class BookConsoleService implements DaoConsoleService<Book> {
     }
 
     @Override
-    public List<Book> getAll() {
-        return null;
+    public void getAll() {
+        printList(bookDao.getAll());
     }
 
     private Book readBook(BufferedReader reader) throws IOException {
@@ -65,5 +74,30 @@ public class BookConsoleService implements DaoConsoleService<Book> {
         System.out.println("Enter description:");
         String description = reader.readLine();
         return new Book(null, title, null, isbn, description);
+    }
+
+    private Genre readGenre(BufferedReader reader) throws IOException {
+        System.out.println("Choose a genre by id:");
+        printList(genreDao.getAll());
+        final int genreId = Integer.parseInt(reader.readLine());
+        return genreDao.getById(genreId);
+    }
+
+    private List<Author> readAuthors(BufferedReader reader) {
+        Set<Author> authors = new HashSet<>();
+        while (true) {
+            System.out.println("Choose an author by id (-1 - exit without save, 0 - exit):");
+            printList(authorDao.getAll());
+            try {
+                int authorId = Integer.parseInt(reader.readLine());
+                if (authorId == -1) {
+                    return new ArrayList<>();
+                } else if (authorId == 0) {
+                    return new ArrayList<>(authors);
+                }
+                authors.add(authorDao.getById(authorId));
+            } catch (IOException ignored) {
+            }
+        }
     }
 }

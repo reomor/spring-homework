@@ -47,8 +47,8 @@ public class GenreConsoleService implements DaoConsoleService<Genre> {
     }
 
     @Override
-    public List<Genre> getAll() {
-        return genreDao.getAll();
+    public void getAll() {
+        printList(genreDao.getAll());
     }
 
     private Genre readGenre(BufferedReader reader) throws IOException {

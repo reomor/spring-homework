@@ -12,7 +12,7 @@ public interface DaoConsoleService<T> {
 
     T getById(int id);
 
-   List<T> getAll();
+   void getAll();
 
     default <T> void printList(List<T> list) {
         System.out.println("=== list begin ===");
