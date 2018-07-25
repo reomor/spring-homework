@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import task07.dao.AuthorDao;
 import task07.domain.Author;
+import task07.domain.Genre;
 import task07.exception.ConsoleReadException;
 
 import java.io.BufferedReader;
@@ -36,7 +37,25 @@ public class AuthorConsoleService implements DaoConsoleService<Author> {
 
     @Override
     public Author update(BufferedReader reader) {
-        return null;
+        boolean valid = false;
+        Integer updateId = null;
+        Author updatedAuthor;
+        while (!valid) {
+            try {
+                getAll();
+                valid = true;
+                System.out.println("Enter author id to update:");
+                updateId = Integer.parseInt(reader.readLine());
+            } catch (IOException e) {
+                valid = false;
+            }
+        }
+        try {
+            updatedAuthor = updateAuthor(reader, authorDao.getById(updateId));
+        } catch (IOException e) {
+            throw new ConsoleReadException("Error while updating " + Author.class.getName());
+        }
+        return updatedAuthor;
     }
 
     @Override
@@ -65,5 +84,35 @@ public class AuthorConsoleService implements DaoConsoleService<Author> {
         System.out.println("Enter biography:");
         String biography = reader.readLine();
         return new Author(null, name, sername, dateOfBirth, biography);
+    }
+
+    private Author updateAuthor(BufferedReader reader, Author author) throws IOException {
+        if (author == null) {
+            throw new ConsoleReadException(Author.class.getName() + " object is null");
+        }
+
+        System.out.println("Reading Author object.\nEnter name:");
+        String name = reader.readLine();
+        if (!name.isEmpty()) {
+            author.setName(name);
+        }
+        System.out.println("Enter sername:");
+        String sername = reader.readLine();
+        if (!sername.isEmpty()) {
+            author.setSername(sername);
+        }
+        System.out.println("Enter date of birth (yyyy-mm-dd):");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String dateOfBirthString = reader.readLine();
+        if (!dateOfBirthString.isEmpty()) {
+            LocalDate dateOfBirth = LocalDate.parse(dateOfBirthString, formatter);
+            author.setDateOfBirth(dateOfBirth);
+        }
+        System.out.println("Enter biography:");
+        String biography = reader.readLine();
+        if (!biography.isEmpty()) {
+            author.setBiography(biography);
+        }
+        return author;
     }
 }

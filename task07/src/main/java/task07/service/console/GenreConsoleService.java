@@ -83,12 +83,12 @@ public class GenreConsoleService implements DaoConsoleService<Genre> {
         }
         System.out.println("Reading Genre object.\nEnter name:");
         String name = reader.readLine();
-        if ("".equals(name)) {
+        if (!name.isEmpty()) {
             genre.setName(name);
         }
         System.out.println("Enter description:");
         String description = reader.readLine();
-        if ("".equals(description)) {
+        if (!description.isEmpty()) {
             genre.setDescription(description);
         }
         return genre;

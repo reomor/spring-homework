@@ -124,12 +124,19 @@ public class Book {
     // https://hellokoding.com/jpa-one-to-many-relationship-mapping-example-with-spring-boot-maven-and-mysql/
     @Override
     public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", genre=" + genre +
-                ", isbn='" + isbn + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        StringBuilder toString = new StringBuilder();
+        toString.append("Book{id=").append(id)
+                .append(", title=").append(title)
+                .append(", genre=").append(genre)
+                .append(", isbn=").append(isbn)
+                .append(", description=").append(description);
+        if (authors != null && authors.size() > 0) {
+            toString.append("\n");
+            for (Author author : authors) {
+                toString.append(author).append("\n");
+            }
+        }
+        toString.append("}");
+        return toString.toString();
     }
 }
