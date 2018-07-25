@@ -8,7 +8,6 @@ import task07.exception.ConsoleReadException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.List;
 
 @Service
 public class GenreConsoleService implements DaoConsoleService<Genre> {
@@ -48,6 +47,7 @@ public class GenreConsoleService implements DaoConsoleService<Genre> {
         }
         try {
             updatedGenre = updateGenre(reader, genreDao.getById(updateId));
+            genreDao.update(updatedGenre);
         } catch (IOException e) {
             throw new ConsoleReadException("Error while updating " + Genre.class.getName());
         }

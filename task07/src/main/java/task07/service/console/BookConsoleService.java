@@ -48,7 +48,26 @@ public class BookConsoleService implements DaoConsoleService<Book> {
 
     @Override
     public Book update(BufferedReader reader) {
-        return null;
+        boolean valid = false;
+        Integer updateId = null;
+        Book updatedBook;
+        while (!valid) {
+            try {
+                getAll();
+                valid = true;
+                System.out.println("Enter book id to update:");
+                updateId = Integer.parseInt(reader.readLine());
+            } catch (IOException e) {
+                valid = false;
+            }
+        }
+        try {
+            updatedBook = updateBook(reader, bookDao.getById(updateId));
+            bookDao.update(updatedBook);
+        } catch (IOException e) {
+            throw new ConsoleReadException("Error while updating " + Genre.class.getName());
+        }
+        return updatedBook;
     }
 
     @Override
@@ -74,6 +93,19 @@ public class BookConsoleService implements DaoConsoleService<Book> {
         System.out.println("Enter description:");
         String description = reader.readLine();
         return new Book(null, title, null, isbn, description);
+    }
+
+    private Book updateBook(BufferedReader reader, Book book) throws IOException {
+        if (book == null) {
+            throw new ConsoleReadException(Book.class.getName() + " object is null");
+        }
+        System.out.println("Reading Book object.\nEnter title:");
+        String title = reader.readLine();
+        System.out.println("Enter isbn:");
+        String isbn = reader.readLine();
+        System.out.println("Enter description:");
+        String description = reader.readLine();
+        return null;
     }
 
     private Genre readGenre(BufferedReader reader) throws IOException {

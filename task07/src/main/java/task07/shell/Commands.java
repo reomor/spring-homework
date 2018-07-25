@@ -24,27 +24,27 @@ public class Commands {
     @ShellMethod(value = "Create", key = {"create"})
     public void create (
             @ShellOption("-d") String objectName
-    ) throws IOException {
+    ) {
         consoleInteractionService.create(objectName);
     }
 
     @ShellMethod("Update")
     public void update (
             @ShellOption("-d") String objectName
-    ) throws IOException {
-        //consoleInteractionService.create(objectName);
+    ) {
+        consoleInteractionService.update(objectName);
     }
 
     @ShellMethod("Get by id")
-    public void del (
+    public void delete (
             @ShellOption("-d") String objectName,
             @ShellOption("-id") int id
     ) {
-        consoleInteractionService.getById(objectName, id);
+        consoleInteractionService.delete(objectName, id);
     }
 
     @ShellMethod("Get by id")
-    public void getbi (
+    public void byid (
             @ShellOption("-d") String objectName,
             @ShellOption("-id") int id
     ) {
@@ -52,7 +52,7 @@ public class Commands {
     }
 
     @ShellMethod("Get all values")
-    public void getall(String objectName) {
+    public void all(String objectName) {
         consoleInteractionService.getAll(objectName);
     }
 

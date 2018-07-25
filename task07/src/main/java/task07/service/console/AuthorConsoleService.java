@@ -52,6 +52,7 @@ public class AuthorConsoleService implements DaoConsoleService<Author> {
         }
         try {
             updatedAuthor = updateAuthor(reader, authorDao.getById(updateId));
+            authorDao.update(updatedAuthor);
         } catch (IOException e) {
             throw new ConsoleReadException("Error while updating " + Author.class.getName());
         }
