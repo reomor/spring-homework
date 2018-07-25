@@ -33,7 +33,25 @@ public class GenreConsoleService implements DaoConsoleService<Genre> {
 
     @Override
     public Genre update(BufferedReader reader) {
-        return null;
+        boolean valid = false;
+        Integer updateId = null;
+        Genre updatedGenre;
+        while (!valid) {
+            try {
+                getAll();
+                valid = true;
+                System.out.println("Enter genre id to update:");
+                updateId = Integer.parseInt(reader.readLine());
+            } catch (IOException e) {
+                valid = false;
+            }
+        }
+        try {
+            updatedGenre = updateGenre(reader, genreDao.getById(updateId));
+        } catch (IOException e) {
+            throw new ConsoleReadException("Error while updating " + Genre.class.getName());
+        }
+        return updatedGenre;
     }
 
     @Override
@@ -57,5 +75,22 @@ public class GenreConsoleService implements DaoConsoleService<Genre> {
         System.out.println("Enter description:");
         String description = reader.readLine();
         return new Genre(null, name, description);
+    }
+
+    private Genre updateGenre(BufferedReader reader, Genre genre) throws IOException {
+        if (genre == null) {
+            throw new ConsoleReadException(Genre.class.getName() + " object is null");
+        }
+        System.out.println("Reading Genre object.\nEnter name:");
+        String name = reader.readLine();
+        if ("".equals(name)) {
+            genre.setName(name);
+        }
+        System.out.println("Enter description:");
+        String description = reader.readLine();
+        if ("".equals(description)) {
+            genre.setDescription(description);
+        }
+        return genre;
     }
 }

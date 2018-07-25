@@ -40,13 +40,13 @@ public class AuthorConsoleService implements DaoConsoleService<Author> {
     }
 
     @Override
-    public void delete(int objectId) {
-
+    public void delete(int id) {
+        authorDao.delete(id);
     }
 
     @Override
     public Author getById(int id) {
-        return null;
+        return authorDao.getById(id);
     }
 
     @Override

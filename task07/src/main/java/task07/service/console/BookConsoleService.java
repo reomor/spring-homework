@@ -52,13 +52,13 @@ public class BookConsoleService implements DaoConsoleService<Book> {
     }
 
     @Override
-    public void delete(int objectId) {
-
+    public void delete(int id) {
+        bookDao.delete(id);
     }
 
     @Override
     public Book getById(int id) {
-        return null;
+        return bookDao.getById(id);
     }
 
     @Override
