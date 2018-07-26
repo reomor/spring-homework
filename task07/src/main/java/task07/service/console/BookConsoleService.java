@@ -101,11 +101,36 @@ public class BookConsoleService implements DaoConsoleService<Book> {
         }
         System.out.println("Reading Book object.\nEnter title:");
         String title = reader.readLine();
+        if(!title.isEmpty()) {
+            book.setTitle(title);
+        }
         System.out.println("Enter isbn:");
         String isbn = reader.readLine();
+        if (!isbn.isEmpty()) {
+            book.setIsbn(isbn);
+        }
         System.out.println("Enter description:");
         String description = reader.readLine();
-        return null;
+        if (!description.isEmpty()) {
+            book.setDescription(description);
+        }
+        // ask genre
+        System.out.println("Update book genre? (y/n, enter to skip");
+        String updateGenreChoice = reader.readLine();
+        Genre updatedGenre = null;
+        if ("y".equals(updateGenreChoice)) {
+            updatedGenre = readGenre(reader);
+            book.setGenre(updatedGenre);
+        }
+        // ask authors
+        System.out.println("Update book authors? (y/n, enter to skip");
+        String updateAuthorChoice = reader.readLine();
+        List<Author> authors = null;
+        if ("y".equals(updateAuthorChoice)) {
+            authors = readAuthors(reader);
+            book.setAuthors(authors);
+        }
+        return book;
     }
 
     private Genre readGenre(BufferedReader reader) throws IOException {
