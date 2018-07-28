@@ -10,9 +10,15 @@ public interface DaoConsoleService<T> {
 
     void delete(int objectId);
 
-    T getById(int id);
+    void getById(int id);
 
-   void getAll();
+    void getAll();
+
+    default <T> void printObject(T object) {
+        System.out.println("=== list begin ===");
+        System.out.println(object);
+        System.out.println("=== list end ===");
+    }
 
     default <T> void printList(List<T> list) {
         System.out.println("=== list begin ===");

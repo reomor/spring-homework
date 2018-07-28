@@ -11,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Service
 public class AuthorConsoleService implements DaoConsoleService<Author> {
@@ -65,8 +64,8 @@ public class AuthorConsoleService implements DaoConsoleService<Author> {
     }
 
     @Override
-    public Author getById(int id) {
-        return authorDao.getById(id);
+    public void getById(int id) {
+        printObject(authorDao.getById(id));
     }
 
     @Override

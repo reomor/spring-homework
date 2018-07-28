@@ -1,16 +1,9 @@
 package task07.service;
 
 import task07.domain.Comment;
+import task07.service.console.DaoConsoleService;
 
-import java.util.List;
 
-public interface CommentService {
-
-    void create(Comment comment);
-
-    void delete(Comment comment);
-
-    List<Comment> getById(int bookId);
-
-    List<Comment> getAll();
+public interface CommentService extends DaoConsoleService<Comment> {
+    void getByBookId(int bookId);
 }

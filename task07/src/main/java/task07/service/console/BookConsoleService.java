@@ -76,8 +76,8 @@ public class BookConsoleService implements DaoConsoleService<Book> {
     }
 
     @Override
-    public Book getById(int id) {
-        return bookDao.getById(id);
+    public void getById(int id) {
+        printObject(bookDao.getById(id));
     }
 
     @Override

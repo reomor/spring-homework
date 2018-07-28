@@ -60,8 +60,8 @@ public class GenreConsoleService implements DaoConsoleService<Genre> {
     }
 
     @Override
-    public Genre getById(int objectId) {
-        return genreDao.getById(objectId);
+    public void getById(int objectId) {
+        printObject(genreDao.getById(objectId));
     }
 
     @Override
