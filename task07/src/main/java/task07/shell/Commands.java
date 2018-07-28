@@ -56,13 +56,9 @@ public class Commands {
         consoleInteractionService.getAll(objectName);
     }
 
-    /*
-    @ShellMethod("Get by external id")
-    public void getbei (
-            @ShellOption("-d") String objectName,
-            @ShellOption("-id") int id
-    ) {
-        consoleInteractionService.getByExternalId(objectName, id);
+    @ShellMethod("Get all comments by book")
+    public void comments(
+            @ShellOption("-bId") int bookId) {
+        consoleInteractionService.getByBookId(bookId);
     }
-    //*/
 }

@@ -1,6 +1,7 @@
 package task07.dao;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import task07.domain.Comment;
 
 import javax.persistence.EntityManager;
@@ -8,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+@Transactional
 @Repository
 public class CommentDaoJpa implements CommentDao {
 
@@ -32,7 +34,7 @@ public class CommentDaoJpa implements CommentDao {
 
     @Override
     public List<Comment> getByBookId(int bookId) {
-        TypedQuery<Comment> query = em.createQuery("SELECT c FROM Comment c WHERE c.book_id=:id", Comment.class);
+        TypedQuery<Comment> query = em.createQuery("SELECT c FROM Comment c WHERE c.book.id=:id", Comment.class);
         return query.setParameter("id", bookId).getResultList();
     }
 

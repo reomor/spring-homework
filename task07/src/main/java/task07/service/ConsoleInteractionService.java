@@ -32,10 +32,12 @@ public class ConsoleInteractionService {
     @Autowired
     public ConsoleInteractionService(GenreConsoleService genreConsoleService,
                                      AuthorConsoleService authorConsoleService,
-                                     BookConsoleService bookConsoleService) {
+                                     BookConsoleService bookConsoleService,
+                                     CommentService commentService) {
         mapping.put("genre", genreConsoleService);
         mapping.put("author", authorConsoleService);
         mapping.put("book", bookConsoleService);
+        mapping.put("comment", commentService);
         reader = new BufferedReader(new InputStreamReader(System.in));
     }
 
@@ -68,6 +70,10 @@ public class ConsoleInteractionService {
         if (isDao(dao)) {
             mapping.get(dao).getAll();
         }
+    }
+
+    public void getByBookId(int bookId) {
+        ((CommentService)mapping.get("comment")).getByBookId(bookId);
     }
 
     private boolean isDao(String dao) {
