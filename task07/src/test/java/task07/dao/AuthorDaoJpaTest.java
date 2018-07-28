@@ -26,7 +26,7 @@ import static org.junit.Assert.*;
 public class AuthorDaoJpaTest {
 
     @Autowired
-    AuthorDao authorDao;
+    private AuthorDao authorDao;
 
     @Test
     public void createAuthor_ShouldSuccess_CreateNewAuthorWithoutBooks() {

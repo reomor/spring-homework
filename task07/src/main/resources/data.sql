@@ -29,4 +29,5 @@ INSERT INTO AUTHOR_BOOK (BOOK_ID, AUTHOR_ID) VALUES
 INSERT INTO COMMENT (BODY, DATE, BOOK_ID) VALUES
   ('Comment 1', '2018-07-22 15:00:00', 1),
   ('Comment 2', '2018-07-22 17:00:00', 1),
-  ('Comment 3', '2018-07-22 19:00:00', 1);
+  ('Comment 3', '2018-07-22 19:00:00', 1),
+  ('Comment 4', '2018-07-22 19:00:00', 2);
