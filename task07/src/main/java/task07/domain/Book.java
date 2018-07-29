@@ -22,7 +22,7 @@ public class Book {
     @Column(name = "isbn")
     private String isbn;
 
-    @Column
+    @Column(name = "description")
     private String description;
 
     @ManyToMany(fetch = FetchType.EAGER)
