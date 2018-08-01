@@ -1,12 +1,7 @@
 package task07.dao;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.shell.jline.InteractiveShellApplicationRunner;
-import org.springframework.shell.jline.ScriptShellApplicationRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import task07.domain.Author;
 import task07.domain.Book;
@@ -23,17 +18,13 @@ import java.util.List;
 import static org.junit.Assert.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(properties = {
-        InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
-        ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"
-})
-public class BookDaoJpaTest {
+public class BookDaoJpaTest extends AbstractTest {
 
     @Autowired
     BookDao bookDao;
 
     @Test
+    @Transactional
     public void createBook_ShouldSuccess_CreateNewBook() {
         Book expected = new Book(
                 null,
