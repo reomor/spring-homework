@@ -30,18 +30,15 @@ public class CommentServiceImpl implements CommentService {
         boolean valid = false;
         Integer bookId = null;
         Book book;
-        while (!valid) {
+        do {
+            printList(bookDao.getAll());
+            System.out.println("Enter book id to add comment:");
             try {
-                printList(bookDao.getAll());
-                valid = true;
-                System.out.println("Enter book id to add comment:");
                 bookId = Integer.parseInt(reader.readLine());
-            } catch (IOException e) {
-                valid = false;
-            }
-        }
+                valid = true;
+            } catch (IOException ignored) { }
+        } while (!valid);
         try {
-
             comment = readComment(reader);
             comment.setBook(bookDao.getById(bookId));
             commentDao.create(comment);

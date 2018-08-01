@@ -42,9 +42,4 @@ public class BookDaoJpa implements BookDao {
         TypedQuery<Book> query = em.createQuery("SELECT b FROM Book b", Book.class);
         return query.getResultList();
     }
-
-    @Override
-    public List<Book> getByAuthorId(int authorId) {
-        return null;
-    }
 }

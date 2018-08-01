@@ -8,14 +8,12 @@ import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import task07.domain.Author;
-import task07.domain.Book;
-import task07.domain.Genre;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -65,7 +63,9 @@ public class AuthorDaoJpaTest {
 
     @Test
     public void getAllAuthors_ShouldSuccess_ReturnListOfAuthors() {
+        Author expected = new Author(null, "Test", "Sername", LocalDate.of(1990, Month.MARCH, 24), "biography");
+        authorDao.create(expected);
         List<Author> all = authorDao.getAll();
-        assertEquals(5, all.size());
+        assertThat(all).isNotEmpty().contains(expected);
     }
 }
