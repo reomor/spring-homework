@@ -42,9 +42,4 @@ public class AuthorDaoJpa implements AuthorDao {
         TypedQuery<Author> query = em.createQuery("SELECT a FROM Author a", Author.class);
         return query.getResultList();
     }
-
-    @Override
-    public List<Author> getByBookId(int bookId) {
-        return null;
-    }
 }

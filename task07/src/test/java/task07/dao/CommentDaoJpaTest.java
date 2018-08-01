@@ -10,11 +10,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import task07.domain.Book;
 import task07.domain.Comment;
-import task07.domain.Genre;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
 @Transactional
@@ -74,7 +74,7 @@ public class CommentDaoJpaTest {
     @Test
     public void getAllCommentsByBookId_ShouldSuccess_ReturnListOfBookComments() {
         List<Comment> all = commentDao.getByBookId(1);
-        assertEquals(3, all.size());
+        assertThat(all).isNotEmpty();
     }
 
 }

@@ -118,7 +118,8 @@ public class BookConsoleService implements DaoConsoleService<Book> {
         System.out.println("Update book genre? (y/n, enter to skip");
         String updateGenreChoice = reader.readLine();
         Genre updatedGenre = null;
-        if ("y".equals(updateGenreChoice)) {
+        final String YES_LETTER = "y";
+        if (YES_LETTER.equals(updateGenreChoice)) {
             updatedGenre = readGenre(reader);
             book.setGenre(updatedGenre);
         }
@@ -126,7 +127,7 @@ public class BookConsoleService implements DaoConsoleService<Book> {
         System.out.println("Update book authors? (y/n, enter to skip");
         String updateAuthorChoice = reader.readLine();
         List<Author> authors = null;
-        if ("y".equals(updateAuthorChoice)) {
+        if (YES_LETTER.equals(updateAuthorChoice)) {
             authors = readAuthors(reader);
             book.setAuthors(authors);
         }
