@@ -1,12 +1,7 @@
 package task08.repository;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import task08.domain.Genre;
 
 import java.util.List;
@@ -15,16 +10,13 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
-@DataJpaTest
-@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-public class GenreRepositoryTest {
+public class GenreRepositoryTest extends AbstractRepositoryTest {
 
     @Autowired
     private GenreRepository genreRepository;
 
     @Test
-    public void createGenre_ShouldSuccess_CreateGenre() {
+    public void saveGenre_ShouldSuccess_SaveNewGenre() {
         Genre genre = new Genre(null, "new", "description");
         genreRepository.save(genre);
         assertThat(genre.getId()).isNotNull();
