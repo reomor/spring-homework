@@ -2,10 +2,7 @@ package task08.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import task08.service.console.AuthorConsoleService;
-import task08.service.console.BookConsoleService;
-import task08.service.console.DaoConsoleService;
-import task08.service.console.GenreConsoleService;
+import task08.service.console.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -23,11 +20,11 @@ public class ConsoleInteractionService {
     public ConsoleInteractionService(GenreConsoleService genreConsoleService,
                                      AuthorConsoleService authorConsoleService,
                                      BookConsoleService bookConsoleService,
-                                     CommentService commentService) {
+                                     CommentConsoleService commentConsoleService) {
         mapping.put("genre", genreConsoleService);
         mapping.put("author", authorConsoleService);
         mapping.put("book", bookConsoleService);
-        mapping.put("comment", commentService);
+        mapping.put("comment", commentConsoleService);
         reader = new BufferedReader(new InputStreamReader(System.in));
     }
 
@@ -63,7 +60,7 @@ public class ConsoleInteractionService {
     }
 
     public void getByBookId(int bookId) {
-        ((CommentService)mapping.get("comment")).getByBookId(bookId);
+        ((CommentConsoleService)mapping.get("comment")).getByBookId(bookId);
     }
 
     private boolean isDao(String dao) {

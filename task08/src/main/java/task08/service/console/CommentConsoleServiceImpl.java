@@ -1,4 +1,4 @@
-package task08.service;
+package task08.service.console;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,13 +13,13 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 @Service
-public class CommentServiceImpl implements CommentService {
+public class CommentConsoleServiceImpl implements CommentConsoleService {
 
     private final CommentDao commentDao;
     private final BookDao bookDao;
 
     @Autowired
-    public CommentServiceImpl(CommentDao commentDao, BookDao bookDao) {
+    public CommentConsoleServiceImpl(CommentDao commentDao, BookDao bookDao) {
         this.commentDao = commentDao;
         this.bookDao = bookDao;
     }

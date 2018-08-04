@@ -15,9 +15,9 @@ public interface DaoConsoleService<T> {
     void getAll();
 
     default <T> void printObject(T object) {
-        System.out.println("=== list begin ===");
+        System.out.println("=== object begin ===");
         System.out.println(object);
-        System.out.println("=== list end ===");
+        System.out.println("=== object end ===");
     }
 
     default <T> void printList(List<T> list) {
