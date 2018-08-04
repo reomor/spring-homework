@@ -24,13 +24,13 @@ public class GenreRepositoryTest extends AbstractRepositoryTest {
 
     @Test
     public void updateGenre_ShouldSuccess_UpdateGenre() {
-        final String updateString = "Updated";
+        final String updateName = "Updated";
         Genre expected = new Genre(null, "new", "description");
         genreRepository.save(expected);
-        expected.setName(updateString);
+        expected.setName(updateName);
         Optional<Genre> genreOptional = genreRepository.findById(expected.getId());
         assertTrue(genreOptional.isPresent());
-        assertEquals(updateString, genreOptional.get().getName());
+        assertEquals(updateName, genreOptional.get().getName());
     }
 
     @Test

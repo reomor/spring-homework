@@ -3,11 +3,12 @@ package task08.repository;
 import org.springframework.data.repository.CrudRepository;
 import task08.domain.Author;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface AuthorRepository extends CrudRepository<Author, Integer> {
     @Override
-    <S extends Author> S save(S s);
+    Author save(Author author);
 
     @Override
     void deleteById(Integer integer);
@@ -16,5 +17,5 @@ public interface AuthorRepository extends CrudRepository<Author, Integer> {
     Optional<Author> findById(Integer integer);
 
     @Override
-    Iterable<Author> findAll();
+    List<Author> findAll();
 }
