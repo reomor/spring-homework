@@ -23,32 +23,58 @@ public class CommentRepositoryTest extends AbstractRepositoryTest {
 
     @Test
     public void saveComment_ShouldSuccess_SaveNewComment() {
-        Optional<Book> bookOptional = bookRepository.findById(2);
-        assertTrue(bookOptional.isPresent());
-        Book book = bookOptional.get();
+        Book book = bookRepository.findById(2).orElseThrow(() -> new RuntimeException("No book in repo"));
         Comment comment = new Comment(null, "New comment", LocalDateTime.of(2000, Month.MAY, 25, 10, 0), book);
         commentRepository.save(comment);
-        assertThat(comment).isNotNull();
+        assertThat(comment.getId()).isNotNull();
     }
 
     @Test
-    public void deleteById() {
+    public void updateComment_ShouldSuccess_UpdateComment() {
+        final String body = "Updated body";
+        Book book = bookRepository.findById(2).orElseThrow(() -> new RuntimeException("No book in repo"));
+        Comment comment = new Comment(null, "New comment", LocalDateTime.of(2000, Month.MAY, 25, 10, 0), book);
+        commentRepository.save(comment);
+        comment.setBody(body);
+        Optional<Comment> commentOptional = commentRepository.findById(comment.getId());
+        assertTrue(commentOptional.isPresent());
+        assertNotNull(commentOptional.get());
     }
 
     @Test
-    public void findById() {
+    public void deleteComment_ShouldSuccess_DeleteCommentById() {
+        Book book = bookRepository.findById(2).orElseThrow(() -> new RuntimeException("No book in repo"));
+        Comment comment = new Comment(null, "New comment", LocalDateTime.of(2000, Month.MAY, 25, 10, 0), book);
+        commentRepository.save(comment);
+        commentRepository.deleteById(comment.getId());
+        Optional<Comment> commentOptional = commentRepository.findById(comment.getId());
+        assertFalse(commentOptional.isPresent());
     }
 
     @Test
-    public void findAll() {
+    public void getComment_ShouldSuccess_GetCommentById() {
+        Book book = bookRepository.findById(2).orElseThrow(() -> new RuntimeException("No book in repo"));
+        Comment comment = new Comment(null, "New comment", LocalDateTime.of(2000, Month.MAY, 25, 10, 0), book);
+        commentRepository.save(comment);
+        Optional<Comment> commentOptional = commentRepository.findById(comment.getId());
+        assertTrue(commentOptional.isPresent());
+        assertNotNull(commentOptional.get());
     }
 
     @Test
-    public void findCommentsByBookId() {
+    public void getComments_ShouldSuccess_GetAllComments() {
         final int bookId = 1;
-        Optional<Book> bookOptional = bookRepository.findById(bookId);
-        assertTrue(bookOptional.isPresent());
-        Book book = bookOptional.get();
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("No book in repo"));
+        Comment comment = new Comment(null, "New comment", LocalDateTime.of(2000, Month.MAY, 25, 10, 0), book);
+        commentRepository.save(comment);
+        List<Comment> all = commentRepository.findAll();
+        assertThat(all).isNotEmpty().contains(comment);
+    }
+
+    @Test
+    public void getComments_ShouldSuccess_GetCommentsByBookId() {
+        final int bookId = 1;
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("No book in repo"));
         Comment comment = new Comment(null, "New comment", LocalDateTime.of(2000, Month.MAY, 25, 10, 0), book);
         commentRepository.save(comment);
         List<Comment> commentsByBookId = commentRepository.findCommentsByBookId(bookId);

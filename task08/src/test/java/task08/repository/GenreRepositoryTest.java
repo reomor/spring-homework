@@ -34,7 +34,7 @@ public class GenreRepositoryTest extends AbstractRepositoryTest {
     }
 
     @Test
-    public void deleteGenre_ShouldSuccess_DeleteGenre() {
+    public void deleteGenre_ShouldSuccess_DeleteGenreById() {
         Genre genre = new Genre(null, "new", "description");
         genreRepository.save(genre);
         genreRepository.deleteById(genre.getId());
@@ -43,16 +43,16 @@ public class GenreRepositoryTest extends AbstractRepositoryTest {
     }
 
     @Test
-    public void getGenreById_ShouldSuccess_GetGenreById() {
-        Genre expected = new Genre(null, "new", "description");
-        genreRepository.save(expected);
-        Optional<Genre> genreOptional = genreRepository.findById(expected.getId());
+    public void getGenre_ShouldSuccess_GetGenreById() {
+        Genre genre = new Genre(null, "new", "description");
+        genreRepository.save(genre);
+        Optional<Genre> genreOptional = genreRepository.findById(genre.getId());
         assertTrue(genreOptional.isPresent());
         assertNotNull(genreOptional.get());
     }
 
     @Test
-    public void getAllGenres_ShouldSuccess_GetAllGenres() {
+    public void getGenres_ShouldSuccess_GetAllGenres() {
         Genre expected = new Genre(null, "new", "description");
         genreRepository.save(expected);
         List<Genre> all = genreRepository.findAll();
