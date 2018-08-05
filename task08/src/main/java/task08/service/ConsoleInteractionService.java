@@ -12,19 +12,19 @@ import java.util.Map;
 @Service
 public class ConsoleInteractionService {
 
-    private Map<String, DaoConsoleService> mapping = new HashMap<>();
+    private Map<String, RepositoryConsoleService> mapping = new HashMap<>();
 
     private final BufferedReader reader;
 
     @Autowired
-    public ConsoleInteractionService(GenreConsoleService genreConsoleService,
-                                     AuthorConsoleService authorConsoleService,
-                                     BookConsoleService bookConsoleService,
-                                     CommentConsoleService commentConsoleService) {
-        mapping.put("genre", genreConsoleService);
-        mapping.put("author", authorConsoleService);
-        mapping.put("book", bookConsoleService);
-        mapping.put("comment", commentConsoleService);
+    public ConsoleInteractionService(GenreRepositoryConsoleService genreRepositoryConsoleService,
+                                     AuthorRepositoryConsoleService authorRepositoryConsoleService,
+                                     BookRepositoryConsoleService bookRepositoryConsoleService,
+                                     CommentRepositoryConsoleService commentRepositoryConsoleService) {
+        mapping.put("genre", genreRepositoryConsoleService);
+        mapping.put("author", authorRepositoryConsoleService);
+        mapping.put("book", bookRepositoryConsoleService);
+        mapping.put("comment", commentRepositoryConsoleService);
         reader = new BufferedReader(new InputStreamReader(System.in));
     }
 
@@ -60,7 +60,7 @@ public class ConsoleInteractionService {
     }
 
     public void getByBookId(int bookId) {
-        ((CommentConsoleService)mapping.get("comment")).getByBookId(bookId);
+        ((CommentRepositoryConsoleService) mapping.get("comment")).getByBookId(bookId);
     }
 
     private boolean isDao(String dao) {
