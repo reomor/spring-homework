@@ -8,12 +8,7 @@ import org.springframework.context.ApplicationContext;
 import java.sql.SQLException;
 /*
     Домашнее задание
-    Переписать приложение для хранения книг на ORM
-    Использовать JPA, Hibernate только в качестве JPA-провайдера.
-
-    Добавить комментарии к книгам, и высокоуровневые сервисы, оставляющие комментарии к книгам.
-
-    Покрыть DAO тестами используя H2 базу данных и соответствующий H2 Hibernate-диалект
+    Реализовать весь функционал работы с БД в приложении книг с использованием spring-data-jpa репозиториев.
  */
 @SpringBootApplication
 public class Main {

@@ -2,13 +2,13 @@ package task08.service.console;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import task08.dao.AuthorDao;
-import task08.dao.BookDao;
-import task08.dao.GenreDao;
 import task08.domain.Author;
 import task08.domain.Book;
 import task08.domain.Genre;
 import task08.exception.ConsoleReadException;
+import task08.repository.AuthorRepository;
+import task08.repository.BookRepository;
+import task08.repository.GenreRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,13 +20,13 @@ import java.util.Set;
 @Service
 public class BookRepositoryConsoleService implements RepositoryConsoleService<Book> {
 
-    private final BookDao bookRepository;
-    private final AuthorDao authorRepository;
-    private final GenreDao genreRepository;
+    private final BookRepository repository;
+    private final AuthorRepository authorRepository;
+    private final GenreRepository genreRepository;
 
     @Autowired
-    public BookRepositoryConsoleService(BookDao bookRepository, AuthorDao authorRepository, GenreDao genreRepository) {
-        this.bookRepository = bookRepository;
+    public BookRepositoryConsoleService(BookRepository repository, AuthorRepository authorRepository, GenreRepository genreRepository) {
+        this.repository = repository;
         this.authorRepository = authorRepository;
         this.genreRepository = genreRepository;
     }
@@ -40,7 +40,7 @@ public class BookRepositoryConsoleService implements RepositoryConsoleService<Bo
             book.setGenre(genre);
             List<Author> authors = readAuthors(reader);
             book.setAuthors(authors);
-            bookRepository.create(book);
+            repository.save(book);
         } catch (IOException e) {
             throw new ConsoleReadException("Error while reading " + Book.class.getName());
         }
@@ -62,8 +62,8 @@ public class BookRepositoryConsoleService implements RepositoryConsoleService<Bo
             }
         }
         try {
-            updatedBook = updateBook(reader, bookRepository.getById(updateId));
-            bookRepository.update(updatedBook);
+            updatedBook = updateBook(reader, repository.findById(updateId).orElseThrow(() -> new RuntimeException("No book in repo")));
+            repository.save(updatedBook);
         } catch (IOException e) {
             throw new ConsoleReadException("Error while updating " + Genre.class.getName());
         }
@@ -72,17 +72,17 @@ public class BookRepositoryConsoleService implements RepositoryConsoleService<Bo
 
     @Override
     public void delete(int id) {
-        bookRepository.delete(id);
+        repository.deleteById(id);
     }
 
     @Override
     public void getById(int id) {
-        printObject(bookRepository.getById(id));
+        printObject(repository.findById(id));
     }
 
     @Override
     public void getAll() {
-        printList(bookRepository.getAll());
+        printList(repository.findAll());
     }
 
     private Book readBook(BufferedReader reader) throws IOException {
@@ -136,16 +136,16 @@ public class BookRepositoryConsoleService implements RepositoryConsoleService<Bo
 
     private Genre readGenre(BufferedReader reader) throws IOException {
         System.out.println("Choose a genre by id:");
-        printList(genreRepository.getAll());
+        printList(genreRepository.findAll());
         final int genreId = Integer.parseInt(reader.readLine());
-        return genreRepository.getById(genreId);
+        return genreRepository.findById(genreId).orElseThrow(() -> new RuntimeException("No genre in repo"));
     }
 
     private List<Author> readAuthors(BufferedReader reader) {
         Set<Author> authors = new HashSet<>();
         while (true) {
             System.out.println("Choose an author by id (-1 - exit without save, 0 - exit):");
-            printList(authorRepository.getAll());
+            printList(authorRepository.findAll());
             try {
                 int authorId = Integer.parseInt(reader.readLine());
                 if (authorId == -1) {
@@ -153,7 +153,7 @@ public class BookRepositoryConsoleService implements RepositoryConsoleService<Bo
                 } else if (authorId == 0) {
                     return new ArrayList<>(authors);
                 }
-                authors.add(authorRepository.getById(authorId));
+                authors.add(authorRepository.findById(authorId).orElseThrow(() -> new RuntimeException("No author in repo")));
             } catch (IOException ignored) {
             }
         }
