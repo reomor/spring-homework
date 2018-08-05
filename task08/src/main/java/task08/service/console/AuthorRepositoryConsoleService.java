@@ -2,9 +2,9 @@ package task08.service.console;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import task08.dao.AuthorDao;
 import task08.domain.Author;
 import task08.exception.ConsoleReadException;
+import task08.repository.AuthorRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,22 +12,21 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Service
-public class AuthorConsoleService implements DaoConsoleService<Author> {
+public class AuthorRepositoryConsoleService implements RepositoryConsoleService<Author> {
 
-    private final AuthorDao authorDao;
+    private final AuthorRepository repository;
 
     @Autowired
-    public AuthorConsoleService(AuthorDao authorDao) {
-        this.authorDao = authorDao;
+    public AuthorRepositoryConsoleService(AuthorRepository repository) {
+        this.repository = repository;
     }
-
 
     @Override
     public void create(BufferedReader reader) {
         Author author = null;
         try {
             author = readAuthor(reader);
-            authorDao.create(author);
+            repository.save(author);
         } catch (IOException e) {
             throw new ConsoleReadException("Error while reading " + Author.class.getName());
         }
@@ -49,8 +48,8 @@ public class AuthorConsoleService implements DaoConsoleService<Author> {
             }
         }
         try {
-            updatedAuthor = updateAuthor(reader, authorDao.getById(updateId));
-            authorDao.update(updatedAuthor);
+            updatedAuthor = updateAuthor(reader, repository.findById(updateId).orElseThrow(() -> new RuntimeException("No author in repo")));
+            repository.save(updatedAuthor);
         } catch (IOException e) {
             throw new ConsoleReadException("Error while updating " + Author.class.getName());
         }
@@ -59,17 +58,17 @@ public class AuthorConsoleService implements DaoConsoleService<Author> {
 
     @Override
     public void delete(int id) {
-        authorDao.delete(id);
+        repository.deleteById(id);
     }
 
     @Override
     public void getById(int id) {
-        printObject(authorDao.getById(id));
+        printObject(repository.findById(id));
     }
 
     @Override
     public void getAll() {
-        printList(authorDao.getAll());
+        printList(repository.findAll());
     }
 
     private Author readAuthor(BufferedReader reader) throws IOException {

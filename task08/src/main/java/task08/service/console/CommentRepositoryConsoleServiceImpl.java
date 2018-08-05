@@ -2,26 +2,26 @@ package task08.service.console;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import task08.dao.BookDao;
-import task08.dao.CommentDao;
 import task08.domain.Book;
 import task08.domain.Comment;
 import task08.exception.ConsoleReadException;
+import task08.repository.BookRepository;
+import task08.repository.CommentRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
 @Service
-public class CommentConsoleServiceImpl implements CommentConsoleService {
+public class CommentRepositoryConsoleServiceImpl implements CommentRepositoryConsoleService {
 
-    private final CommentDao commentDao;
-    private final BookDao bookDao;
+    private final CommentRepository repository;
+    private final BookRepository bookRepository;
 
     @Autowired
-    public CommentConsoleServiceImpl(CommentDao commentDao, BookDao bookDao) {
-        this.commentDao = commentDao;
-        this.bookDao = bookDao;
+    public CommentRepositoryConsoleServiceImpl(CommentRepository repository, BookRepository bookRepository) {
+        this.repository = repository;
+        this.bookRepository = bookRepository;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class CommentConsoleServiceImpl implements CommentConsoleService {
         Integer bookId = null;
         Book book;
         do {
-            printList(bookDao.getAll());
+            printList(bookRepository.findAll());
             System.out.println("Enter book id to add comment:");
             try {
                 bookId = Integer.parseInt(reader.readLine());
@@ -40,8 +40,8 @@ public class CommentConsoleServiceImpl implements CommentConsoleService {
         } while (!valid);
         try {
             comment = readComment(reader);
-            comment.setBook(bookDao.getById(bookId));
-            commentDao.create(comment);
+            comment.setBook(bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("No book in repo")));
+            repository.save(comment);
         } catch (IOException e) {
             throw new ConsoleReadException("Error while reading " + Comment.class.getName());
         }
@@ -63,7 +63,7 @@ public class CommentConsoleServiceImpl implements CommentConsoleService {
             }
         }
         try {
-            updatedComment = updateComment(reader, commentDao.getById(updateId));
+            updatedComment = updateComment(reader, repository.findById(updateId).orElseThrow(() -> new RuntimeException("No comment in repo")));
         } catch (IOException e) {
             throw new ConsoleReadException("Error while updating " + Comment.class.getName());
         }
@@ -72,22 +72,22 @@ public class CommentConsoleServiceImpl implements CommentConsoleService {
 
     @Override
     public void delete(int id) {
-        commentDao.delete(id);
+        repository.deleteById(id);
     }
 
     @Override
     public void getById(int id) {
-        printObject(commentDao.getById(id));
+        printObject(repository.findById(id));
     }
 
     @Override
     public void getAll() {
-        printList(commentDao.getAll());
+        printList(repository.findAll());
     }
 
     @Override
     public void getByBookId(int bookId) {
-        printList(commentDao.getByBookId(bookId));
+        printList(repository.findCommentsByBookId(bookId));
     }
 
     private Comment readComment(BufferedReader reader) throws IOException {

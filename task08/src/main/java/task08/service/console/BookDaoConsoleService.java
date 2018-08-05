@@ -18,14 +18,14 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class BookConsoleService implements DaoConsoleService<Book> {
+public class BookDaoConsoleService implements DaoConsoleService<Book> {
 
     private final BookDao bookDao;
     private final AuthorDao authorDao;
     private final GenreDao genreDao;
 
     @Autowired
-    public BookConsoleService(BookDao bookDao, AuthorDao authorDao, GenreDao genreDao) {
+    public BookDaoConsoleService(BookDao bookDao, AuthorDao authorDao, GenreDao genreDao) {
         this.bookDao = bookDao;
         this.authorDao = authorDao;
         this.genreDao = genreDao;

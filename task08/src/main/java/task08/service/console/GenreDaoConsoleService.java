@@ -10,12 +10,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 @Service
-public class GenreConsoleService implements DaoConsoleService<Genre> {
+public class GenreDaoConsoleService implements DaoConsoleService<Genre> {
 
     private final GenreDao genreDao;
 
     @Autowired
-    public GenreConsoleService(GenreDao genreDao) {
+    public GenreDaoConsoleService(GenreDao genreDao) {
         this.genreDao = genreDao;
     }
 
