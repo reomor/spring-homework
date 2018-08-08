@@ -1,7 +1,10 @@
 package task09.domain;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 @Document(collection = "books")
 public class BookDocument {
@@ -9,6 +12,9 @@ public class BookDocument {
     private String id;
 
     private String title;
+
+    @DBRef
+    private List<Author> authors;
 
     public BookDocument(String title) {
         this.title = title;

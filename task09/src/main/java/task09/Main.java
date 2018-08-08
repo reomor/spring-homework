@@ -9,7 +9,8 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import java.sql.SQLException;
 /*
     Домашнее задание
-    Реализовать весь функционал работы с БД в приложении книг с использованием spring-data-jpa репозиториев.
+    Использовать MongoDB и spring-data для хранения информации о книгах
+    Тесты можно реализовать с помощью spring-boot-starter-embedded-mongodb
  */
 @SpringBootApplication
 //@EnableMongoRepositories

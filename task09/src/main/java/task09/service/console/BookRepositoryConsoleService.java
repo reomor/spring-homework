@@ -8,7 +8,6 @@ import task09.domain.Genre;
 import task09.exception.ConsoleReadException;
 import task09.repository.AuthorRepository;
 import task09.repository.BookRepository;
-import task09.repository.GenreRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,13 +21,11 @@ public class BookRepositoryConsoleService implements RepositoryConsoleService<Bo
 
     private final BookRepository repository;
     private final AuthorRepository authorRepository;
-    private final GenreRepository genreRepository;
 
     @Autowired
-    public BookRepositoryConsoleService(BookRepository repository, AuthorRepository authorRepository, GenreRepository genreRepository) {
+    public BookRepositoryConsoleService(BookRepository repository, AuthorRepository authorRepository) {
         this.repository = repository;
         this.authorRepository = authorRepository;
-        this.genreRepository = genreRepository;
     }
 
     @Override
@@ -36,8 +33,8 @@ public class BookRepositoryConsoleService implements RepositoryConsoleService<Bo
         Book book;
         try {
             book = readBook(reader);
-            Genre genre = readGenre(reader);
-            book.setGenre(genre);
+            Genre genre;// = readGenre(reader);
+            // book.setGenre(genre);
             List<Author> authors = readAuthors(reader);
             book.setAuthors(authors);
             repository.save(book);
@@ -92,7 +89,7 @@ public class BookRepositoryConsoleService implements RepositoryConsoleService<Bo
         String isbn = reader.readLine();
         System.out.println("Enter description:");
         String description = reader.readLine();
-        return new Book(null, title, null, isbn, description);
+        return new Book(null, title, null, isbn, description, null, null);
     }
 
     private Book updateBook(BufferedReader reader, Book book) throws IOException {
@@ -120,7 +117,7 @@ public class BookRepositoryConsoleService implements RepositoryConsoleService<Bo
         Genre updatedGenre = null;
         final String YES_LETTER = "y";
         if (YES_LETTER.equals(updateGenreChoice)) {
-            updatedGenre = readGenre(reader);
+            // updatedGenre = readGenre(reader);
             book.setGenre(updatedGenre);
         }
         // ask authors
@@ -133,14 +130,14 @@ public class BookRepositoryConsoleService implements RepositoryConsoleService<Bo
         }
         return book;
     }
-
+/*
     private Genre readGenre(BufferedReader reader) throws IOException {
         System.out.println("Choose a genre by id:");
         printList(genreRepository.findAll());
         final int genreId = Integer.parseInt(reader.readLine());
         return genreRepository.findById(genreId).orElseThrow(() -> new RuntimeException("No genre in repo"));
     }
-
+//*/
     private List<Author> readAuthors(BufferedReader reader) {
         Set<Author> authors = new HashSet<>();
         while (true) {
