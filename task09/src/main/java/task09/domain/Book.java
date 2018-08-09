@@ -14,21 +14,14 @@ import java.util.List;
 @AllArgsConstructor
 @Document
 public class Book {
-
     @Id
-    private Integer id;
-
+    private String id;
     private String title;
-
     private Genre genre;
-
     private String isbn;
-
     private String description;
-
     @DBRef
     private List<Author> authors;
-
     private List<Comment> comments;
 
     public Book(String title, Genre genre, String isbn, String description, List<Author> authors, List<Comment> comments) {

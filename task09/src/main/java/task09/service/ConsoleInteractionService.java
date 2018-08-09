@@ -17,14 +17,10 @@ public class ConsoleInteractionService {
     private final BufferedReader reader;
 
     @Autowired
-    public ConsoleInteractionService(GenreRepositoryConsoleService genreRepositoryConsoleService,
-                                     AuthorRepositoryConsoleService authorRepositoryConsoleService,
-                                     BookRepositoryConsoleService bookRepositoryConsoleService,
-                                     CommentRepositoryConsoleService commentRepositoryConsoleService) {
-        mapping.put("genre", genreRepositoryConsoleService);
+    public ConsoleInteractionService(AuthorRepositoryConsoleService authorRepositoryConsoleService,
+                                     BookRepositoryConsoleService bookRepositoryConsoleService) {
         mapping.put("author", authorRepositoryConsoleService);
         mapping.put("book", bookRepositoryConsoleService);
-        mapping.put("comment", commentRepositoryConsoleService);
         reader = new BufferedReader(new InputStreamReader(System.in));
     }
 
@@ -60,7 +56,7 @@ public class ConsoleInteractionService {
     }
 
     public void getByBookId(int bookId) {
-        ((CommentRepositoryConsoleService) mapping.get("comment")).getByBookId(bookId);
+        //((CommentRepositoryConsoleService) mapping.get("comment")).getByBookId(bookId);
     }
 
     private boolean isDao(String dao) {

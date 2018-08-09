@@ -13,16 +13,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Document
 public class Author {
-
     @Id
-    private Integer id;
-
+    private String id;
     private String name;
-
     private String sername;
-
     private LocalDate dateOfBirth;
-
     private String biography;
 
     public Author(String name, String sername, LocalDate dateOfBirth, String biography) {

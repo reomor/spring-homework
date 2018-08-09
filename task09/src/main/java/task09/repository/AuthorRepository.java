@@ -1,21 +1,7 @@
 package task09.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import task09.domain.Author;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface AuthorRepository extends CrudRepository<Author, Integer> {
-    @Override
-    Author save(Author author);
-
-    @Override
-    void deleteById(Integer integer);
-
-    @Override
-    Optional<Author> findById(Integer integer);
-
-    @Override
-    List<Author> findAll();
+public interface AuthorRepository extends MongoRepository<Author, Integer> {
 }

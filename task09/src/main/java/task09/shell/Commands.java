@@ -6,9 +6,9 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import task09.service.ConsoleInteractionService;
 
-@ShellComponent
+//@ShellComponent
 public class Commands {
-
+/*
     private final ConsoleInteractionService consoleInteractionService;
 
     @Autowired
@@ -58,4 +58,5 @@ public class Commands {
             @ShellOption("-bId") int bookId) {
         consoleInteractionService.getByBookId(bookId);
     }
+    //*/
 }
