@@ -150,7 +150,7 @@ public class BookRepositoryConsoleService implements RepositoryConsoleService<Bo
                 } else if (authorId == 0) {
                     return new ArrayList<>(authors);
                 }
-                authors.add(authorRepository.findById(authorId).orElseThrow(() -> new RuntimeException("No author in repo")));
+                //authors.add(authorRepository.findById(authorId).orElseThrow(() -> new RuntimeException("No author in repo")));
             } catch (IOException ignored) {
             }
         }

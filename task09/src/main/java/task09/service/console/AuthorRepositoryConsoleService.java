@@ -34,6 +34,7 @@ public class AuthorRepositoryConsoleService implements RepositoryConsoleService<
 
     @Override
     public Author update(BufferedReader reader) {
+        /*
         boolean valid = false;
         Integer updateId = null;
         Author updatedAuthor;
@@ -48,22 +49,24 @@ public class AuthorRepositoryConsoleService implements RepositoryConsoleService<
             }
         }
         try {
-            updatedAuthor = updateAuthor(reader, repository.findById(updateId).orElseThrow(() -> new RuntimeException("No author in repo")));
-            repository.save(updatedAuthor);
+            //updatedAuthor = updateAuthor(reader, repository.findById(updateId).orElseThrow(() -> new RuntimeException("No author in repo")));
+            //repository.save(updatedAuthor);
         } catch (IOException e) {
             throw new ConsoleReadException("Error while updating " + Author.class.getName());
         }
         return updatedAuthor;
+        //*/
+        return null;
     }
 
     @Override
     public void delete(int id) {
-        repository.deleteById(id);
+        //repository.deleteById(id);
     }
 
     @Override
     public void getById(int id) {
-        printObject(repository.findById(id));
+        //printObject(repository.findById(id));
     }
 
     @Override

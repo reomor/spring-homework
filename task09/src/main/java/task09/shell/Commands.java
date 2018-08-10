@@ -1,9 +1,6 @@
 package task09.shell;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.shell.standard.ShellComponent;
-import org.springframework.shell.standard.ShellMethod;
-import org.springframework.shell.standard.ShellOption;
 import task09.service.ConsoleInteractionService;
 
 //@ShellComponent
