@@ -143,8 +143,8 @@ public class BookConsoleServiceImpl implements BookConsoleService {
         final String SAVE_EXIT = "save";
         Set<Author> authors = new HashSet<>();
         while (true) {
-            System.out.println("Choose an author by id (\"exit\" to exit without save, \"save\" - exit with save):");
             printList(authorRepository.findAll());
+            System.out.println("Choose an author by id (\"exit\" to exit without save, \"save\" - exit with save):");
             try {
                 String authorId = reader.readLine();
                 if (EXIT.equals(authorId)) {
