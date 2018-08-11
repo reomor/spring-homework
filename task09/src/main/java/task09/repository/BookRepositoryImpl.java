@@ -18,11 +18,6 @@ public class BookRepositoryImpl implements ExtendedBookRepository {
     private MongoTemplate mongoTemplate;
 
     @Override
-    public void setGenre(String id, Genre genre) {
-        mongoTemplate.updateFirst(Query.query(Criteria.where("_id").is(id)), new Update().set("genre", genre), Book.class);
-    }
-
-    @Override
     public void setComment(String id, Comment comment) {
         mongoTemplate.updateFirst(Query.query(Criteria.where("_id").is(id)), new Update().push("comments", comment), Book.class);
     }

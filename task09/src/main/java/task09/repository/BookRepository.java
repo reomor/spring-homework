@@ -10,12 +10,10 @@ import java.util.List;
 
 // https://lishman.io/custom-spring-data-mongodb-repository-methods
 public interface BookRepository extends MongoRepository<Book, String>, ExtendedBookRepository {
-    @Override
-    void setGenre(String id, Genre genre);
 
     @Override
-    void setComment(String bookTitle, Comment comment);
+    void setComment(String id, Comment comment);
 
     @Override
-    List<Comment> getComments(String bookTitle);
+    List<Comment> getComments(String id);
 }
