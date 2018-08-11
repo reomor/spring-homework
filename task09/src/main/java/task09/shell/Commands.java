@@ -1,9 +1,10 @@
 package task09.shell;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.shell.standard.ShellComponent;
 import task09.service.ConsoleInteractionService;
 
-//@ShellComponent
+@ShellComponent
 public class Commands {
 /*
     private final ConsoleInteractionService consoleInteractionService;
