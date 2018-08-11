@@ -3,17 +3,9 @@ package task09.service.console;
 import java.io.BufferedReader;
 import java.util.List;
 
-public interface RepositoryConsoleService<T> {
+public interface AbstractConsoleService {
 
     void create(BufferedReader reader);
-
-    T update(BufferedReader reader);
-
-    void delete(int objectId);
-
-    void getById(int id);
-
-    void getAll();
 
     default <T> void printObject(T object) {
         System.out.println("=== object begin ===");

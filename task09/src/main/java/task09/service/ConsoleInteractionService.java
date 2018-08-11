@@ -6,60 +6,72 @@ import task09.service.console.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class ConsoleInteractionService {
 
-    private Map<String, RepositoryConsoleService> mapping = new HashMap<>();
+    private final String BOOK_DAO = "book";
+    private final String AUTHOR_DAO = "author";
+
+    private final AuthorConsoleService authorConsoleService;
+    private final BookConsoleService bookConsoleService;
 
     private final BufferedReader reader;
 
     @Autowired
-    public ConsoleInteractionService(AuthorRepositoryConsoleService authorRepositoryConsoleService,
-                                     BookRepositoryConsoleService bookRepositoryConsoleService) {
-        mapping.put("author", authorRepositoryConsoleService);
-        mapping.put("book", bookRepositoryConsoleService);
+    public ConsoleInteractionService(AuthorConsoleService authorConsoleService,
+                                     BookConsoleService bookConsoleService) {
+        this.authorConsoleService = authorConsoleService;
+        this.bookConsoleService = bookConsoleService;
         reader = new BufferedReader(new InputStreamReader(System.in));
     }
 
     public void create(String dao) {
-        if (isDao(dao)) {
-            mapping.get(dao).create(reader);
+        if (BOOK_DAO.equals(dao)) {
+            bookConsoleService.create(reader);
+        } else if (AUTHOR_DAO.equals(dao)) {
+            authorConsoleService.create(reader);
         }
     }
 
     public void update(String dao) {
-        if (isDao(dao)) {
-            mapping.get(dao).update(reader);
+        if (BOOK_DAO.equals(dao)) {
+            bookConsoleService.update(reader);
+        } else if (AUTHOR_DAO.equals(dao)) {
+            authorConsoleService.update(reader);
         }
     }
 
-    public void delete(String dao, int id) {
-        if (isDao(dao)) {
-            mapping.get(dao).delete(id);
+    public void delete(String dao, String id) {
+        if (BOOK_DAO.equals(dao)) {
+            bookConsoleService.delete(id);
+        } else if (AUTHOR_DAO.equals(dao)) {
+            authorConsoleService.delete(id);
         }
         getAll(dao);
     }
 
-    public void getById(String dao, int id) {
-        if (isDao(dao)) {
-            mapping.get(dao).getById(id);
+    public void getById(String dao, String id) {
+        if (BOOK_DAO.equals(dao)) {
+            bookConsoleService.getById(id);
+        } else if (AUTHOR_DAO.equals(dao)) {
+            authorConsoleService.getById(id);
         }
     }
 
     public void getAll(String dao) {
-        if (isDao(dao)) {
-            mapping.get(dao).getAll();
+        if (BOOK_DAO.equals(dao)) {
+            bookConsoleService.getAll();
+        } else if (AUTHOR_DAO.equals(dao)) {
+            authorConsoleService.getAll();
         }
     }
 
-    public void getByBookId(int bookId) {
-        //((CommentRepositoryConsoleService) mapping.get("comment")).getByBookId(bookId);
+    public void comment(String bookId) {
+        bookConsoleService.setComment(reader, bookId);
     }
 
-    private boolean isDao(String dao) {
-        return mapping.containsKey(dao);
+    public void comments(String bookId) {
+        bookConsoleService.getComments(bookId);
     }
 }

@@ -12,12 +12,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Service
-public class AuthorRepositoryConsoleService implements RepositoryConsoleService<Author> {
+public class AuthorConsoleServiceImpl implements AuthorConsoleService {
 
     private final AuthorRepository repository;
 
     @Autowired
-    public AuthorRepositoryConsoleService(AuthorRepository repository) {
+    public AuthorConsoleServiceImpl(AuthorRepository repository) {
         this.repository = repository;
     }
 
@@ -33,40 +33,36 @@ public class AuthorRepositoryConsoleService implements RepositoryConsoleService<
     }
 
     @Override
-    public Author update(BufferedReader reader) {
-        /*
+    public void update(BufferedReader reader) {
         boolean valid = false;
-        Integer updateId = null;
+        String updateId = null;
         Author updatedAuthor;
         while (!valid) {
             try {
                 getAll();
                 valid = true;
                 System.out.println("Enter author id to update:");
-                updateId = Integer.parseInt(reader.readLine());
+                updateId = reader.readLine();
             } catch (IOException e) {
                 valid = false;
             }
         }
         try {
-            //updatedAuthor = updateAuthor(reader, repository.findById(updateId).orElseThrow(() -> new RuntimeException("No author in repo")));
-            //repository.save(updatedAuthor);
+            updatedAuthor = updateAuthor(reader, repository.findById(updateId).orElseThrow(() -> new RuntimeException("No author in repo")));
+            repository.save(updatedAuthor);
         } catch (IOException e) {
             throw new ConsoleReadException("Error while updating " + Author.class.getName());
         }
-        return updatedAuthor;
-        //*/
-        return null;
     }
 
     @Override
-    public void delete(int id) {
-        //repository.deleteById(id);
+    public void delete(String id) {
+        repository.deleteById(id);
     }
 
     @Override
-    public void getById(int id) {
-        //printObject(repository.findById(id));
+    public void getById(String id) {
+        printObject(repository.findById(id));
     }
 
     @Override
@@ -91,7 +87,6 @@ public class AuthorRepositoryConsoleService implements RepositoryConsoleService<
         if (author == null) {
             throw new ConsoleReadException(Author.class.getName() + " object is null");
         }
-
         System.out.println("Reading Author object.\nEnter name:");
         String name = reader.readLine();
         if (!name.isEmpty()) {

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import task09.domain.Author;
 import task09.domain.Book;
+import task09.domain.Comment;
 import task09.domain.Genre;
 import task09.exception.ConsoleReadException;
 import task09.repository.AuthorRepository;
@@ -17,15 +18,23 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class BookRepositoryConsoleService implements RepositoryConsoleService<Book> {
+public class BookConsoleServiceImpl implements BookConsoleService {
 
     private final BookRepository repository;
     private final AuthorRepository authorRepository;
 
+    private final GenreConsoleService genreConsoleService;
+    private final CommentConsoleService commentConsoleService;
+
     @Autowired
-    public BookRepositoryConsoleService(BookRepository repository, AuthorRepository authorRepository) {
+    public BookConsoleServiceImpl(BookRepository repository,
+                                  AuthorRepository authorRepository,
+                                  GenreConsoleService genreConsoleService,
+                                  CommentConsoleService commentConsoleService) {
         this.repository = repository;
         this.authorRepository = authorRepository;
+        this.genreConsoleService = genreConsoleService;
+        this.commentConsoleService = commentConsoleService;
     }
 
     @Override
@@ -33,8 +42,8 @@ public class BookRepositoryConsoleService implements RepositoryConsoleService<Bo
         Book book;
         try {
             book = readBook(reader);
-            Genre genre;// = readGenre(reader);
-            // book.setGenre(genre);
+            Genre genre = genreConsoleService.create(reader);
+            book.setGenre(genre);
             List<Author> authors = readAuthors(reader);
             book.setAuthors(authors);
             repository.save(book);
@@ -44,16 +53,16 @@ public class BookRepositoryConsoleService implements RepositoryConsoleService<Bo
     }
 
     @Override
-    public Book update(BufferedReader reader) {
+    public void update(BufferedReader reader) {
         boolean valid = false;
-        Integer updateId = null;
+        String updateId = null;
         Book updatedBook;
         while (!valid) {
             try {
                 getAll();
                 valid = true;
                 System.out.println("Enter book id to update:");
-                updateId = Integer.parseInt(reader.readLine());
+                updateId = reader.readLine();
             } catch (IOException e) {
                 valid = false;
             }
@@ -64,16 +73,15 @@ public class BookRepositoryConsoleService implements RepositoryConsoleService<Bo
         } catch (IOException e) {
             throw new ConsoleReadException("Error while updating " + Genre.class.getName());
         }
-        return updatedBook;
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(String id) {
         repository.deleteById(id);
     }
 
     @Override
-    public void getById(int id) {
+    public void getById(String id) {
         printObject(repository.findById(id));
     }
 
@@ -93,6 +101,7 @@ public class BookRepositoryConsoleService implements RepositoryConsoleService<Bo
     }
 
     private Book updateBook(BufferedReader reader, Book book) throws IOException {
+        final String YES_LETTER = "y";
         if (book == null) {
             throw new ConsoleReadException(Book.class.getName() + " object is null");
         }
@@ -114,10 +123,8 @@ public class BookRepositoryConsoleService implements RepositoryConsoleService<Bo
         // ask genre
         System.out.println("Update book genre? (y/n, enter to skip");
         String updateGenreChoice = reader.readLine();
-        Genre updatedGenre = null;
-        final String YES_LETTER = "y";
         if (YES_LETTER.equals(updateGenreChoice)) {
-            // updatedGenre = readGenre(reader);
+            Genre updatedGenre = genreConsoleService.create(reader);
             book.setGenre(updatedGenre);
         }
         // ask authors
@@ -130,29 +137,35 @@ public class BookRepositoryConsoleService implements RepositoryConsoleService<Bo
         }
         return book;
     }
-/*
-    private Genre readGenre(BufferedReader reader) throws IOException {
-        System.out.println("Choose a genre by id:");
-        printList(genreRepository.findAll());
-        final int genreId = Integer.parseInt(reader.readLine());
-        return genreRepository.findById(genreId).orElseThrow(() -> new RuntimeException("No genre in repo"));
-    }
-//*/
+
     private List<Author> readAuthors(BufferedReader reader) {
+        final String EXIT = "exit";
+        final String SAVE_EXIT = "save";
         Set<Author> authors = new HashSet<>();
         while (true) {
-            System.out.println("Choose an author by id (-1 - exit without save, 0 - exit):");
+            System.out.println("Choose an author by id (\"exit\" to exit without save, \"save\" - exit with save):");
             printList(authorRepository.findAll());
             try {
-                int authorId = Integer.parseInt(reader.readLine());
-                if (authorId == -1) {
+                String authorId = reader.readLine();
+                if (EXIT.equals(authorId)) {
                     return new ArrayList<>();
-                } else if (authorId == 0) {
+                } else if (SAVE_EXIT.equals(authorId)) {
                     return new ArrayList<>(authors);
                 }
-                //authors.add(authorRepository.findById(authorId).orElseThrow(() -> new RuntimeException("No author in repo")));
+                authors.add(authorRepository.findById(authorId).orElseThrow(() -> new RuntimeException("No author in repo")));
             } catch (IOException ignored) {
             }
         }
+    }
+
+    @Override
+    public void setComment(BufferedReader reader, String id) {
+        Comment comment = commentConsoleService.create(reader);
+        repository.setComment(id, comment);
+    }
+
+    @Override
+    public void getComments(String id) {
+        printList(repository.getComments(id));
     }
 }
