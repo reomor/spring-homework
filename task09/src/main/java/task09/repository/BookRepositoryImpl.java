@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import task09.domain.Book;
 import task09.domain.Comment;
-import task09.domain.Genre;
 
 import java.util.ArrayList;
 import java.util.List;

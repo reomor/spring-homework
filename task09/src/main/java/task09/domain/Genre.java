@@ -2,10 +2,7 @@ package task09.domain;
 
 import lombok.*;
 
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
 public class Genre {
     private String name;

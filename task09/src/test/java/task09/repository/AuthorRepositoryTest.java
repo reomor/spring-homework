@@ -65,7 +65,7 @@ public class AuthorRepositoryTest {
     }
 
     @Test
-    public void getAll() {
+    public void findAll_ShouldSuccess_FindAllAuthors() {
         Author author = new Author(null, "Test", "Sername", LocalDate.now(), "biography");
         repository.save(author);
         List<Author> all = repository.findAll();
