@@ -2,7 +2,7 @@
 <configuration scan="true" scanPeriod="30 seconds">
     <!--https://www.mkyong.com/logging/logback-xml-example/-->
 
-    <property name="LOG_DIR" value="C:\Git\java\otus\homework\spring"/>
+    <property name="LOG_DIR" value="C:\\Git\\java\\otus\\homework\\spring\\task10"/>
 
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_DIR}/${project.build.finalName}.log</file>
@@ -10,15 +10,6 @@
             <charset>UTF-8</charset>
             <pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{0} [%file:%line] - %msg%n</pattern>
         </encoder>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- rollover daily -->
-            <fileNamePattern>${LOG_DIR}/archived/${project.build.finalName}.%d{yyyy-MM-dd}.%i.log
-            </fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy
-                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>5MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-        </rollingPolicy>
     </appender>
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
