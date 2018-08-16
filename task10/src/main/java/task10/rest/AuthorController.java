@@ -26,7 +26,7 @@ public class AuthorController {
         log.info("Request all authors");
         List<Author> authors = authorRepository.findAll();
         model.addAttribute("authors", authors);
-        return "list";
+        return "author/list";
     }
     // https://www.thymeleaf.org/doc/articles/layouts.html
     // https://github.com/thymeleaf/thymeleafexamples-layouts/tree/master/src/main/java/thymeleafexamples/layouts
@@ -35,7 +35,21 @@ public class AuthorController {
         log.info("Edit author with id " + id);
         Author author = authorRepository.findById(id).orElseThrow(RuntimeException::new);
         model.addAttribute("author", author);
-        return "edit";
+        return "author/edit";
+    }
+
+    @GetMapping("/author/view")
+    public String viewPage(
+            @RequestParam("id") String id,
+            @RequestParam(value = "edit", required = false) Boolean edit,
+            Model model) {
+        log.info("View author with id " + id);
+        Author author = authorRepository.findById(id).orElseThrow(RuntimeException::new);
+        model.addAttribute("author", author);
+        if (edit != null) {
+            model.addAttribute("edit", true);
+        }
+        return "author/view";
     }
 
     @PostMapping("/author")

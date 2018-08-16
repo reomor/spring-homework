@@ -3,6 +3,7 @@ package task10.domain;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -14,6 +15,7 @@ public class Author {
     private String id;
     private String name;
     private String sername;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dateOfBirth;
     private String biography;
 
