@@ -7,6 +7,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
+// lombok bug, order matters :)
+// https://github.com/rzwitserloot/lombok/issues/1703
+@NoArgsConstructor
 @Data
 @AllArgsConstructor
 @Document

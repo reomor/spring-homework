@@ -38,13 +38,26 @@ public class AuthorController {
         return "author/edit";
     }
 
+    @GetMapping("/author/delete")
+    public String deletePage(@RequestParam("id") String id, Model model) {
+        log.info("Delete author with id " + id);
+        authorRepository.deleteById(id);
+        return "redirect:/author";
+    }
+
     @GetMapping("/author/view")
     public String viewPage(
-            @RequestParam("id") String id,
+            @RequestParam(value = "id", required = false) String id,
             @RequestParam(value = "edit", required = false) Boolean edit,
             Model model) {
         log.info("View author with id " + id);
-        Author author = authorRepository.findById(id).orElseThrow(RuntimeException::new);
+        Author author = null;
+        if (id == null) {
+            author = new Author();
+            author.setId(null);
+        } else {
+            author = authorRepository.findById(id).orElseThrow(RuntimeException::new);
+        }
         model.addAttribute("author", author);
         if (edit != null) {
             model.addAttribute("edit", true);
@@ -55,7 +68,7 @@ public class AuthorController {
     @PostMapping("/author")
     public String postPage(@ModelAttribute Author author, Model model) {
         log.info("Got author to update " + author);
-        return "redirect:author";
+        authorRepository.save(author);
+        return "redirect:/author";
     }
-    //*/
 }
