@@ -3,8 +3,6 @@ package task10;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
-import task10.config.AppConfig;
 import task10.domain.Author;
 import task10.repository.AuthorRepository;
 
@@ -20,7 +18,6 @@ import java.time.LocalDate;
     View на Thymeleaf, classic Controllers.
  */
 @SpringBootApplication
-@Import(AppConfig.class)
 public class Main {
 
     @Autowired
@@ -33,6 +30,8 @@ public class Main {
     @PostConstruct
     public void init() {
         Author author = new Author(null, "Test", "Sername", LocalDate.now(), "biography");
-        authorRepository.save(author);
+        if (authorRepository.findAll().size() < 5) {
+            authorRepository.save(author);
+        }
     }
 }
