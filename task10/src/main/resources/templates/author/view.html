@@ -24,14 +24,16 @@
 </div>
 <div class="container-fluid">
     <h1>Author Info:</h1>
-    <form id="edit-form" th:action="@{/author(id=${author.id})}" th:method="post" action="view.html">
-        <div class="form-group row">
-            <label for="id-input" class="col-sm-2 col-form-label">ID:</label>
-            <div class="col-sm-10">
-                <input id="id-input" type="text" class="form-control-plaintext" readonly="readonly" th:value="${author.id}"
-                       value="1"/>
+    <form id="edit-form" th:action="@{${action}}" th:method="post" action="view.html">
+        <th:block th:if="${author.id != null}">
+            <div class="form-group row">
+                <label for="id-input" class="col-sm-2 col-form-label">ID:</label>
+                <div class="col-sm-10">
+                    <input id="id-input" type="text" class="form-control-plaintext" readonly="readonly" th:value="${author.id}"
+                           value="1"/>
+                </div>
             </div>
-        </div>
+        </th:block>
         <div class="form-group row">
             <label for="name-input" class="col-sm-2 col-form-label">Name:</label>
             <div class="col-sm-10">

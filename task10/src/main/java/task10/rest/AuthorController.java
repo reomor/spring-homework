@@ -52,12 +52,14 @@ public class AuthorController {
             Model model) {
         log.info("View author with id " + id);
         Author author = null;
+        String action = "/author";
         if (id == null) {
             author = new Author();
-            author.setId(null);
         } else {
             author = authorRepository.findById(id).orElseThrow(RuntimeException::new);
+            action += "(id=" + id + ")";
         }
+        model.addAttribute("action", action);
         model.addAttribute("author", author);
         if (edit != null) {
             model.addAttribute("edit", true);
