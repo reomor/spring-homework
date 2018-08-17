@@ -1,16 +1,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <head th:fragment="common_header(title,links)">
     <meta charset="UTF-8"/>
     <title th:replace="${title}">The awesome application</title>
     <!-- Common styles and scripts -->
-    <link rel="stylesheet" type="text/css" media="all" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}">
     <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
-    <script type="text/javascript" src="" th:src="@{/webjars/bootstrap/4.0.0/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
     <!--/* Per-page placeholder for additional links */-->
     <th:block th:replace="${links}" />
 </head>
