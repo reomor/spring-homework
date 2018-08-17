@@ -94,6 +94,6 @@ public class BookRepositoryTest {
         Genre genre = new Genre("Genre", "Genre");
         Comment comment = new Comment("Like a shit", LocalDateTime.now());
         Comment comment2 = new Comment("Like a shit2", LocalDateTime.now());
-        return new Book("Title", genre, "ISBN-01", "Description", Collections.emptyList(), Arrays.asList(comment, comment2));
+        return new Book("Title", genre, "978-3-16-148410-0", "Description", Collections.emptyList(), Arrays.asList(comment, comment2));
     }
 }

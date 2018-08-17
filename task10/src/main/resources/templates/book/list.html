@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: common_header(~{::title}, ~{})">
+    <meta charset="UTF-8"/>
+    <title>Authors</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+            <a class="navbar-brand" href="#">Brand</a>
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div class="btn-group">
+    <!--<a type="button" class="btn btn-secondary" th:href="@{/author/view(edit=true)}" href="view.html">Create new author</a>-->
+</div>
+<div class="container-fluid">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Genre</th>
+            <th scope="col">ISBN</th>
+            <th scope="col">Authors</th>
+            <th scope="col">Description</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book : ${books}" th:object="${book}">
+            <td th:text="*{title}">Azbooky</td>
+            <td th:text="*{genre.name}">Detective</td>
+            <td th:text="*{isbn}">978-3-16-148410-0</td>
+            <td>
+                <span th:each="author : *{authors}" th:utext="${author.name} + ' ' + ${author.sername} + '&lt;br /&gt;'">Author Name</span>
+            </td>
+            <td th:text="*{description}">Book about blah blah</td>
+            <td>
+                <a type="button" class="btn btn-secondary" th:href="@{/book/view(id=${book.id})}"
+                   href="view.html">View</a>
+                <a type="button" class="btn btn-secondary" th:href="@{/book/view(id=${book.id})}"
+                   href="edit.html">Edit</a>
+                <a type="button" class="btn btn-secondary" th:href="@{/book/delete(id=${book.id})}"
+                   href="list.html">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
