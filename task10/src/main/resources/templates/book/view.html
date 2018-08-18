@@ -24,14 +24,16 @@
         </div>
     </nav>
 </div>
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editGenreModal">
-    Edit genre
-</button>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editAuthorsModal">
-    Edit authors
-</button>
-<!---->
+<!-- top button group -->
+<div class="btn-group">
+    <a type="button" class="btn btn-secondary" th:href="@{/book/view(edit=true)}" href="view.html">Create new book</a>
+    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editGenreModal">
+        Edit genre
+    </button>
+    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editAuthorsModal">
+        Edit authors
+    </button>
+</div>
 <!-- Modal genre -->
 <div class="modal fade" id="editGenreModal" tabindex="-1" role="dialog" aria-labelledby="editGenreModalTitle"
      aria-hidden="true">
@@ -51,17 +53,17 @@
                         <label for="genre-modal-name-input" class="col-sm-3 col-form-label">Name:</label>
                         <div class="col-sm-9">
                             <input id="genre-modal-name-input" type="text" class="form-control"
-                                   th:field="*{name}" value="Detective"/>
+                                   th:field="*{genreName}" value="Detective"/>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="genre-modal-name-input" class="col-sm-3 col-form-label">Description:</label>
                         <div class="col-sm-9">
                             <input id="genre-modal-description-input" type="text" class="form-control"
-                                   th:field="*{description}" value="Detective description"/>
+                                   th:field="*{genreDescription}" value="Detective description"/>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary btn-block">Save</button>
                 </form>
             </div>
         </div>
@@ -86,14 +88,17 @@
             <div class="modal-body">
                 <form id="authors-edit-form" role="form" th:action="@{/book/authors(id=${book.id})}" th:method="post"
                       action="view.html" th:object="${authors}">
-                    <select class="custom-select" id="authors-select" th:field="*{authorList}" size="5"
-                            multiple="multiple">
-                        <option th:each="author : ${authors.authorList}" th:value="${{author.id}}"
-                                th:text="${author.name + ' ' + author.sername}" th:selected="none">
+                    <div class="form-group">
+                        <select class="custom-select" id="authors-select" th:field="*{authorList}" size="10"
+                                multiple="multiple"/>
+                        <!-- closed select is a lifehack to prevent selection all of authors-->
+                        <option th:each="author : ${authors.authorList}" th:value="${author}"
+                                th:text="${author.name + ' ' + author.sername}">
                             Karl Marks
                         </option>
-                    </select>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Save</button>
                 </form>
             </div>
         </div>
@@ -114,7 +119,7 @@
         </th:block>
         <div class="form-group row">
             <label for="name-input" class="col-sm-2 col-form-label">Title:</label>
-            <div class="col-sm-8">
+            <div class="col-sm-10">
                 <input id="name-input" type="text" class="form-control"
                        th:attrappend="readonly=${edit != null} ? '' : 'readonly'" name="title" th:value="*{title}"
                        value="Book title"/>
@@ -123,43 +128,65 @@
         <!--https://stackoverflow.com/questions/16895406/spring-mvc-binding-complex-objects-to-ui-->
         <div class="form-group row">
             <label for="genre-name-input" class="col-sm-2 col-form-label">Genre name:</label>
-            <div class="col-sm-8">
-                <input id="genre-name-input" th:type="text" th:attrappend="readonly=${edit != null} ? '' : 'readonly'"
-                       class="form-control" name="genre.name" th:value="*{genre.name}" value="Detective"/>
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-primary col-sm-12" data-toggle="modal"
-                        data-target="#editGenreModal">
-                    Edit genre
-                </button>
+            <div class="col-sm-10">
+                <div class="input-group">
+                    <input id="genre-name-input" th:type="text"
+                           th:attrappend="readonly=${edit != null} ? '' : 'readonly'"
+                           class="form-control" name="genreName" th:value="${genre.genreName}" value="Detective"/>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-primary col-sm-12" data-toggle="modal"
+                                data-target="#editGenreModal">
+                            Edit
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="form-group row">
             <label for="genre-description-input" class="col-sm-2 col-form-label">Genre description:</label>
-            <div class="col-sm-8">
+            <div class="col-sm-10">
                 <input id="genre-description-input" type="text"
                        th:attrappend="readonly=${edit != null} ? '' : 'readonly'"
-                       class="form-control" name="genre.description" th:value="${book.genre.description}"
+                       class="form-control" name="genreDescription" th:value="${genre.genreDescription}"
                        value="Detective description"/>
             </div>
         </div>
         <div class="form-group row">
             <label for="isbn-input" class="col-sm-2 col-form-label">ISBN:</label>
-            <div class="col-sm-8">
+            <div class="col-sm-10">
                 <input id="isbn-input" type="text" th:attrappend="readonly=${edit != null} ? '' : 'readonly'"
                        class="form-control" name="isbn" th:value="${book.isbn}" value="978-3-16-148410-0"/>
             </div>
         </div>
         <div class="form-group row">
             <label for="description-input" class="col-sm-2 col-form-label">Description:</label>
-            <div class="col-sm-8">
+            <div class="col-sm-10">
                 <input id="description-input" type="text" th:attrappend="readonly=${edit != null} ? '' : 'readonly'"
                        class="form-control" name="description" th:value="${book.description}" value="Blah blah"/>
             </div>
         </div>
-        <th:block th:if="${edit != null}">
-            <button type="submit" class="btn btn-primary">Save</button>
-        </th:block>
+        <div class="form-group row" th:each="author, itemStat : ${book.authors}">
+            <label th:for="authors-input + ${itemStat.index}" class="col-sm-2 col-form-label" th:text="${ itemStat.first ? 'Authors:' : '&nbsp;'}">Authors:</label>
+            <div class="col-sm-10">
+                <div class="input-group">
+                    <input th:id="authors-input + ${itemStat.index}" type="text" readonly="readonly"
+                           class="form-control" th:value="${author.name + ' ' + author.sername}"/>
+                    <th:block th:if="${itemStat.first}">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary col-sm-12" data-toggle="modal"
+                                    data-target="#editAuthorsModal">
+                                Edit
+                            </button>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <th:block th:if="${edit != null}">
+                <button type="submit" class="btn btn-primary btn-block">Save</button>
+            </th:block>
+        </div>
     </form>
     <table class="table table-hover">
         <thead>

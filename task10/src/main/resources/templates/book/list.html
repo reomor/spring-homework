@@ -21,7 +21,7 @@
     </nav>
 </div>
 <div class="btn-group">
-    <!--<a type="button" class="btn btn-secondary" th:href="@{/author/view(edit=true)}" href="view.html">Create new author</a>-->
+    <a type="button" class="btn btn-secondary" th:href="@{/book/view(edit=true)}" href="view.html">Create new book</a>
 </div>
 <div class="container-fluid">
     <table class="table table-hover">
@@ -38,7 +38,7 @@
         <tbody>
         <tr th:each="book : ${books}" th:object="${book}">
             <td th:text="*{title}">Azbooky</td>
-            <td th:text="*{genre.name}">Detective</td>
+            <td th:text="*{genre.genreName}">Detective</td>
             <td th:text="*{isbn}">978-3-16-148410-0</td>
             <td>
                 <span th:each="author : *{authors}" th:utext="${author.name} + ' ' + ${author.sername} + '&lt;br /&gt;'">Author Name</span>

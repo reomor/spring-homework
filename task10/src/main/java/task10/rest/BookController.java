@@ -68,9 +68,9 @@ public class BookController {
         return "book/view";
     }
 
-    @PostMapping("/book/authors{id}")
+    @PostMapping("/book/authors")
     public String editaAuthorsPage(
-            @PathVariable(value = "id") String id,
+            @RequestParam(value = "id") String id,
             @ModelAttribute AuthorsDto authorsDto,
             Model model) {
         //log.info("Got book to update " + book);
@@ -86,7 +86,10 @@ public class BookController {
     }
 
     @PostMapping("/book")
-    public String postPage(@ModelAttribute Book book, Model model) {
+    public String postPage(
+            @ModelAttribute Genre genre,
+            @ModelAttribute Book book,
+            Model model) {
         log.info("Got book to update " + book);
         //bookRepository.save(book);
         return "redirect:/book";

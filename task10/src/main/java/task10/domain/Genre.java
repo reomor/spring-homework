@@ -5,6 +5,6 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 public class Genre {
-    private String name;
-    private String description;
+    private String genreName;
+    private String genreDescription;
 }
