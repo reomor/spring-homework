@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: common_header(~{::title}, ~{})">
     <meta charset="UTF-8"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -44,7 +44,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="genre-modal-edit-form" role="form" th:action="@{/book/genre(id=${book.id})}" th:method="post" th:object="${genre}"
+                <form id="genre-modal-edit-form" role="form" th:action="@{/book/genre(id=${book.id})}" th:method="post"
+                      th:object="${genre}"
                       action="view.html">
                     <div class="form-group row">
                         <label for="genre-modal-name-input" class="col-sm-3 col-form-label">Name:</label>
@@ -68,7 +69,8 @@
 </div>
 <!-- End modal genre -->
 <!-- Modal authors -->
-<div class="modal fade bd-example-modal-lg" id="editAuthorsModal" tabindex="-1" role="dialog" aria-labelledby="editAuthorsModalTitle"
+<div class="modal fade bd-example-modal-lg" id="editAuthorsModal" tabindex="-1" role="dialog"
+     aria-labelledby="editAuthorsModalTitle"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -78,31 +80,20 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <!--
+            https://github.com/jmiguelsamper/thymeleafexamples-selectmultiple/blob/master/src/main/webapp/WEB-INF/templates/editSelect.html
+            -->
             <div class="modal-body">
                 <form id="authors-edit-form" role="form" th:action="@{/book/authors(id=${book.id})}" th:method="post"
-                      action="view.html" th:object="${book}">
-                    <fieldset>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Sername</th>
-                                <th scope="col">Date of birth</th>
-                                <th scope="col">Biography</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="author, itemStat : ${authors}">
-                                <td><input th:field="*{authors[__${itemStat.index}__].name}"/></td>
-                                <td><input th:field="*{authors[__${itemStat.index}__].sername}"/></td>
-                                <td><input type="date"
-                                           th:field="*{authors[__${itemStat.index}__].dateOfBirth}"/></td>
-                                <td><input th:field="*{authors[__${itemStat.index}__].biography}"/></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </fieldset>
+                      action="view.html" th:object="${authors}">
+                    <select class="custom-select" id="authors-select" th:field="*{authorList}" size="5"
+                            multiple="multiple">
+                        <option th:each="author : ${authors.authorList}" th:value="${{author.id}}"
+                                th:text="${author.name + ' ' + author.sername}" th:selected="none">
+                            Karl Marks
+                        </option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </form>
             </div>
         </div>
@@ -137,7 +128,8 @@
                        class="form-control" name="genre.name" th:value="*{genre.name}" value="Detective"/>
             </div>
             <div class="col-sm-2">
-                <button type="button" class="btn btn-primary col-sm-12" data-toggle="modal" data-target="#editGenreModal">
+                <button type="button" class="btn btn-primary col-sm-12" data-toggle="modal"
+                        data-target="#editGenreModal">
                     Edit genre
                 </button>
             </div>

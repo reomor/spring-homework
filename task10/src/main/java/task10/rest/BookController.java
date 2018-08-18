@@ -4,12 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import task10.domain.Book;
 import task10.domain.Genre;
+import task10.dto.AuthorsDto;
+import task10.repository.AuthorRepository;
 import task10.repository.BookRepository;
 
 import java.util.List;
@@ -20,9 +19,12 @@ public class BookController {
 
     private final BookRepository bookRepository;
 
+    private final AuthorRepository authorRepository;
+
     @Autowired
-    public BookController(BookRepository bookRepository) {
+    public BookController(BookRepository bookRepository, AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
+        this.authorRepository = authorRepository;
     }
 
     @GetMapping("/book")
@@ -52,7 +54,7 @@ public class BookController {
         }
         model.addAttribute("book", book);
         model.addAttribute("genre", book.getGenre());
-        model.addAttribute("authors", book.getAuthors());
+        model.addAttribute("authors", new AuthorsDto(authorRepository.findAll()));
         return "book/view";
     }
 
@@ -66,10 +68,10 @@ public class BookController {
         return "book/view";
     }
 
-    @PostMapping("/book/authors")
+    @PostMapping("/book/authors{id}")
     public String editaAuthorsPage(
-            @RequestParam(value = "id") String id,
-            @ModelAttribute Book book,
+            @PathVariable(value = "id") String id,
+            @ModelAttribute AuthorsDto authorsDto,
             Model model) {
         //log.info("Got book to update " + book);
         //bookRepository.save(book);
