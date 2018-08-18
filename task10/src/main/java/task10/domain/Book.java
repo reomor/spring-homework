@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -20,6 +21,12 @@ public class Book {
     @DBRef
     private List<Author> authors;
     private List<Comment> comments;
+
+    public Book() {
+        this.genre = new Genre();
+        this.authors = Collections.emptyList();
+        this.comments = Collections.emptyList();
+    }
 
     public Book(String title, Genre genre, String isbn, String description, List<Author> authors, List<Comment> comments) {
         this(null, title, genre, isbn, description, authors, comments);
