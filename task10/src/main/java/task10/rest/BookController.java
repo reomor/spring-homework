@@ -57,7 +57,20 @@ public class BookController {
     }
 
     @PostMapping("/book/genre")
-    public String editGenrePage(@ModelAttribute Genre genre, Model model) {
+    public String editGenrePage(
+            @RequestParam(value = "id") String id,
+            @ModelAttribute Genre genre,
+            Model model) {
+        //log.info("Got book to update " + book);
+        //bookRepository.save(book);
+        return "book/view";
+    }
+
+    @PostMapping("/book/authors")
+    public String editaAuthorsPage(
+            @RequestParam(value = "id") String id,
+            @ModelAttribute Book book,
+            Model model) {
         //log.info("Got book to update " + book);
         //bookRepository.save(book);
         return "book/view";

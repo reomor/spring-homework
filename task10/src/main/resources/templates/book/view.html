@@ -44,7 +44,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="genre-edit-form"role="form" th:action="@{/book/genre(id=${book.id})}" th:method="post" th:object="${genre}"
+                <form id="genre-modal-edit-form" role="form" th:action="@{/book/genre(id=${book.id})}" th:method="post" th:object="${genre}"
                       action="view.html">
                     <div class="form-group row">
                         <label for="genre-modal-name-input" class="col-sm-3 col-form-label">Name:</label>
@@ -66,7 +66,49 @@
         </div>
     </div>
 </div>
-<!-- End modal genre- ->
+<!-- End modal genre -->
+<!-- Modal authors -->
+<div class="modal fade bd-example-modal-lg" id="editAuthorsModal" tabindex="-1" role="dialog" aria-labelledby="editAuthorsModalTitle"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editAuthorsModalTitle">Authors</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="authors-edit-form" role="form" th:action="@{/book/authors(id=${book.id})}" th:method="post"
+                      action="view.html" th:object="${book}">
+                    <fieldset>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Sername</th>
+                                <th scope="col">Date of birth</th>
+                                <th scope="col">Biography</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="author, itemStat : ${authors}">
+                                <td><input th:field="*{authors[__${itemStat.index}__].name}"/></td>
+                                <td><input th:field="*{authors[__${itemStat.index}__].sername}"/></td>
+                                <td><input type="date"
+                                           th:field="*{authors[__${itemStat.index}__].dateOfBirth}"/></td>
+                                <td><input th:field="*{authors[__${itemStat.index}__].biography}"/></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End modal authors -->
 <div class="container-fluid">
     <!--<form id="edit-form" th:action="@{/book(id=${book.id})}" th:method="post" action="view.html">-->
     <form id="edit-form" th:action="@{${action}}" th:method="post" th:object="${book}" action="view.html">
