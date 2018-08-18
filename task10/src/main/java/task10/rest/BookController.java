@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import task10.domain.Book;
+import task10.domain.Genre;
 import task10.repository.BookRepository;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class BookController {
     }
 
     @GetMapping("/book/view")
-    public String editPage(
+    public String viewPage(
             @RequestParam(value = "id", required = false) String id,
             @RequestParam(value = "edit", required = false) Boolean edit,
             Model model) {
@@ -41,7 +42,7 @@ public class BookController {
         Book book = bookRepository.findById(id).orElseThrow(RuntimeException::new);
         String action = "/book";
         if (id == null) {
-
+            /*NOP*/
         } else {
             action += "?id=" + id;
         }
@@ -50,6 +51,22 @@ public class BookController {
             model.addAttribute("edit", edit);
         }
         model.addAttribute("book", book);
+        model.addAttribute("genre", book.getGenre());
+        model.addAttribute("authors", book.getAuthors());
+        return "book/view";
+    }
+
+    @PostMapping("/book/genre")
+    public String editGenrePage(@ModelAttribute Genre genre, Model model) {
+        //log.info("Got book to update " + book);
+        //bookRepository.save(book);
+        return "book/view";
+    }
+
+    @PostMapping("/book/edit")
+    public String editPage(@ModelAttribute Book book, Model model) {
+        log.info("Got book to update " + book);
+        //bookRepository.save(book);
         return "book/view";
     }
 
