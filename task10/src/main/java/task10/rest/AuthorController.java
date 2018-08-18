@@ -57,7 +57,7 @@ public class AuthorController {
             author = new Author();
         } else {
             author = authorRepository.findById(id).orElseThrow(RuntimeException::new);
-            action += "(id=" + id + ")";
+            action += "(?id=" + id + ")";
         }
         model.addAttribute("action", action);
         model.addAttribute("author", author);
