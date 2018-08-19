@@ -1,5 +1,6 @@
 package task10.dto;
 
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import task10.domain.Author;
 
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@EqualsAndHashCode
 @ToString
 public class AuthorsDto {
     private List<Author> authorList;

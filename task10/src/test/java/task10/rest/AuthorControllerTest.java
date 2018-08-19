@@ -123,7 +123,8 @@ public class AuthorControllerTest {
         map.forEach((key, value) -> multiValueMap.add(key, (value == null ? "" : value)));
 
         given(authorRepository.save(author)).willReturn(author);
-        mockMvc.perform(post("/author").params(multiValueMap))
+        mockMvc.perform(post("/author")
+                .params(multiValueMap))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/author"));

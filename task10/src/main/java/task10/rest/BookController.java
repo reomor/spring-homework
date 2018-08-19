@@ -83,6 +83,7 @@ public class BookController {
             @RequestParam(value = "id") String id,
             @ModelAttribute Comment comment) {
         log.info("Comment book with id " + id);
+        // check that book exists
         Book book = bookRepository.findById(id).orElseThrow(RuntimeException::new);
         comment.setDate(LocalDateTime.now());
         bookRepository.setComment(id, comment);
@@ -93,7 +94,8 @@ public class BookController {
     public String postPage(
             @ModelAttribute Genre genre,
             @ModelAttribute Book book,
-            @ModelAttribute AuthorsDto authorsDto) {
+            @ModelAttribute AuthorsDto authorsDto,
+            Model model) {
         log.info("Update book({}) with genre({}) and authors({})", book, genre, authorsDto);
         book.setGenre(genre);
         book.setAuthors(authorsDto.getAuthorList());
