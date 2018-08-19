@@ -27,16 +27,10 @@
 <!-- top button group -->
 <div class="btn-group" th:style="'margin: 0 0 16px 0;'">
     <a type="button" class="btn btn-secondary" th:href="@{/book/edit}" href="view.html">Create new book</a>
-    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editGenreModal">
-        Edit genre
-    </button>
-    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editAuthorsModal">
-        Edit authors
-    </button>
 </div>
 <div class="container-fluid">
-    <!--<form id="edit-form" th:action="@{/book(id=${book.id})}" th:method="post" action="view.html">-->
     <form id="edit-form" th:action="@{${action}}" th:method="post" th:object="${book}" action="view.html">
+
         <th:block th:if="${book.id != null}">
             <div class="form-group row">
                 <label for="id-input" class="col-sm-2 col-form-label">ID:</label>
@@ -46,6 +40,7 @@
                 </div>
             </div>
         </th:block>
+
         <div class="form-group row">
             <label for="name-input" class="col-sm-2 col-form-label">Title:</label>
             <div class="col-sm-10">
@@ -54,7 +49,11 @@
                        value="Book title"/>
             </div>
         </div>
-        <!--https://stackoverflow.com/questions/16895406/spring-mvc-binding-complex-objects-to-ui-->
+
+        <!--
+        https://stackoverflow.com/questions/16122257/how-to-pass-two-objects-to-use-in-a-form-using-thymeleaf
+        http://forum.thymeleaf.org/th-selected-not-working-on-multiple-select-td4025883.html
+        -->
         <div th:object="${genre}">
             <div class="form-group row">
                 <label for="genre-name-input" class="col-sm-2 col-form-label">Genre name:</label>
@@ -82,6 +81,7 @@
                        value="978-3-16-148410-0"/>
             </div>
         </div>
+
         <div class="form-group row">
             <label for="description-input" class="col-sm-2 col-form-label">Description:</label>
             <div class="col-sm-10">
@@ -89,28 +89,13 @@
                        th:value="${book.description}" value="Blah blah"/>
             </div>
         </div>
-        <!--
-        <form id="authors-edit-form" role="form" th:action="@{/book/authors(id=${book.id})}" th:method="post"
-                      action="view.html" th:object="${authors}">
-                    <div class="form-group">
-                        <select class="custom-select" id="authors-select" th:field="*{authorList}" size="10"
-                                multiple="multiple">
-                            <option th:each="author : ${authors.authorList}" th:value="${{author.id}}"
-                                    th:text="${author.name + ' ' + author.sername}">
-                                Karl Marks
-                            </option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Save</button>
-                </form>
-        -->
+
         <div th:object="${authors}">
             <div class="form-group">
-                <!--<select class="custom-select" id="authors-select" th:field="*{authorList}" size="10"-->
                 <select class="custom-select" id="authors-select" name="authorList" size="10"
                         multiple="multiple">
                     <option th:each="author : ${authors.authorList}" th:value="${{author.id}}"
-                            th:text="${author.name + ' ' + author.sername}" th:selected="${book.authors.contains(author)}">
+                            th:text="${author.name + ' ' + author.sername + ' ' + author.dateOfBirth}" th:selected="${book.authors.contains(author)}">
                         Karl Marks
                     </option>
                 </select>

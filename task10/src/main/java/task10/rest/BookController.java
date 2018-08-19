@@ -74,28 +74,6 @@ public class BookController {
         return "book/view";
     }
 
-    @PostMapping("/book/genre")
-    public String editGenrePage(
-            @RequestParam(value = "id") String id,
-            @ModelAttribute Genre genre) {
-        log.info("Update book(id={}) genre {}", id, genre);
-        Book book = bookRepository.findById(id).orElseThrow(RuntimeException::new);
-        book.setGenre(genre);
-        bookRepository.save(book);
-        return "book/view";
-    }
-
-    @PostMapping("/book/authors")
-    public String editaAuthorsPage(
-            @RequestParam(value = "id") String id,
-            @ModelAttribute AuthorsDto authorsDto) {
-        log.info("Update book(id={}) authors {}", id, authorsDto);
-        Book book = bookRepository.findById(id).orElseThrow(RuntimeException::new);
-        book.setAuthors(authorsDto.getAuthorList());
-        bookRepository.save(book);
-        return "book/view";
-    }
-
     @PostMapping("/book")
     public String postPage(
             @ModelAttribute Genre genre,
