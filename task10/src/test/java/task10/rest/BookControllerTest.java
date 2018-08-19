@@ -154,13 +154,11 @@ public class BookControllerTest {
         multiValueMap.add("genreDescription", book.getGenre().getGenreDescription());
         multiValueMap.add("description", book.getDescription());
 
-        String authorDtoString = objectMapper.writeValueAsString(new AuthorsDto(authors));
-        multiValueMap.add("authorsDto", authorDtoString);
-
         given(bookRepository.findById("1")).willReturn(Optional.of(book));
 
         mockMvc.perform(post("/book")
-                .params(multiValueMap))
+                .params(multiValueMap)
+                .flashAttr("authorsDto", new AuthorsDto(authors)))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/book"));
     }
