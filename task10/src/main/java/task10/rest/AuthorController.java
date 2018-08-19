@@ -39,7 +39,7 @@ public class AuthorController {
     }
 
     @GetMapping("/author/delete")
-    public String deletePage(@RequestParam("id") String id, Model model) {
+    public String deletePage(@RequestParam("id") String id) {
         log.info("Delete author with id " + id);
         authorRepository.deleteById(id);
         return "redirect:/author";
