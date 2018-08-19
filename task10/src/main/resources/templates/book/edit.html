@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}">
-    <title th:text="${edit == null} ? 'View book' : 'Edit book'"></title>
+    <title>Edit book</title>
 </head>
 <body>
 <div th:replace="fragments/header :: header">
@@ -25,11 +25,17 @@
     </nav>
 </div>
 <!-- top button group -->
-<div class="btn-group">
-    <a type="button" class="btn btn-secondary" th:href="@{/book/edit(edit=true)}" href="view.html">Create new book</a>
+<div class="btn-group" th:style="'margin: 0 0 16px 0;'">
+    <a type="button" class="btn btn-secondary" th:href="@{/book/edit}" href="view.html">Create new book</a>
+    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editGenreModal">
+        Edit genre
+    </button>
+    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editAuthorsModal">
+        Edit authors
+    </button>
 </div>
-
 <div class="container-fluid">
+    <!--<form id="edit-form" th:action="@{/book(id=${book.id})}" th:method="post" action="view.html">-->
     <form id="edit-form" th:action="@{${action}}" th:method="post" th:object="${book}" action="view.html">
         <th:block th:if="${book.id != null}">
             <div class="form-group row">
@@ -44,52 +50,75 @@
             <label for="name-input" class="col-sm-2 col-form-label">Title:</label>
             <div class="col-sm-10">
                 <input id="name-input" type="text" class="form-control"
-                       readonly="readonly" name="title" th:value="*{title}"
+                       name="title" th:value="*{title}"
                        value="Book title"/>
             </div>
         </div>
         <!--https://stackoverflow.com/questions/16895406/spring-mvc-binding-complex-objects-to-ui-->
-        <div class="form-group row">
-            <label for="genre-name-input" class="col-sm-2 col-form-label">Genre name:</label>
-            <div class="col-sm-10">
-                <div class="input-group">
-                    <input id="genre-name-input" th:type="text"
-                           readonly="readonly"
-                           class="form-control" name="genreName" th:value="${genre.genreName}" value="Detective"/>
+        <div th:object="${genre}">
+            <div class="form-group row">
+                <label for="genre-name-input" class="col-sm-2 col-form-label">Genre name:</label>
+                <div class="col-sm-10">
+                    <div class="input-group">
+                        <input id="genre-name-input" th:type="text"
+                               class="form-control" name="genreName" th:field="*{genreName}" value="Detective"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="genre-description-input" class="col-sm-2 col-form-label">Genre description:</label>
+                <div class="col-sm-10">
+                    <input id="genre-description-input" type="text"
+                           class="form-control" name="genreDescription" th:field="*{genreDescription}"
+                           value="Detective description"/>
                 </div>
             </div>
         </div>
-        <div class="form-group row">
-            <label for="genre-description-input" class="col-sm-2 col-form-label">Genre description:</label>
-            <div class="col-sm-10">
-                <input id="genre-description-input" type="text" readonly="readonly" class="form-control"
-                       name="genreDescription" th:value="${genre.genreDescription}"
-                       value="Detective description"/>
-            </div>
-        </div>
+
         <div class="form-group row">
             <label for="isbn-input" class="col-sm-2 col-form-label">ISBN:</label>
             <div class="col-sm-10">
-                <input id="isbn-input" type="text" readonly="readonly"
-                       class="form-control" name="isbn" th:value="${book.isbn}" value="978-3-16-148410-0"/>
+                <input id="isbn-input" type="text" class="form-control" name="isbn" th:value="${book.isbn}"
+                       value="978-3-16-148410-0"/>
             </div>
         </div>
         <div class="form-group row">
             <label for="description-input" class="col-sm-2 col-form-label">Description:</label>
             <div class="col-sm-10">
-                <input id="description-input" type="text" readonly="readonly"
-                       class="form-control" name="description" th:value="${book.description}" value="Blah blah"/>
+                <input id="description-input" type="text" class="form-control" name="description"
+                       th:value="${book.description}" value="Blah blah"/>
             </div>
         </div>
-        <div class="form-group row" th:each="author, itemStat : ${book.authors}">
-            <label th:for="authors-input + ${itemStat.index}" class="col-sm-2 col-form-label"
-                   th:text="${ itemStat.first ? 'Authors:' : '&nbsp;'}">Authors:</label>
-            <div class="col-sm-10">
-                <div class="input-group">
-                    <input th:id="authors-input + ${itemStat.index}" type="text" readonly="readonly"
-                           class="form-control" th:value="${author.name + ' ' + author.sername}"/>
-                </div>
+        <!--
+        <form id="authors-edit-form" role="form" th:action="@{/book/authors(id=${book.id})}" th:method="post"
+                      action="view.html" th:object="${authors}">
+                    <div class="form-group">
+                        <select class="custom-select" id="authors-select" th:field="*{authorList}" size="10"
+                                multiple="multiple">
+                            <option th:each="author : ${authors.authorList}" th:value="${{author.id}}"
+                                    th:text="${author.name + ' ' + author.sername}">
+                                Karl Marks
+                            </option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Save</button>
+                </form>
+        -->
+        <div th:object="${authors}">
+            <div class="form-group">
+                <!--<select class="custom-select" id="authors-select" th:field="*{authorList}" size="10"-->
+                <select class="custom-select" id="authors-select" name="authorList" size="10"
+                        multiple="multiple">
+                    <option th:each="author : ${authors.authorList}" th:value="${{author.id}}"
+                            th:text="${author.name + ' ' + author.sername}" th:selected="${book.authors.contains(author)}">
+                        Karl Marks
+                    </option>
+                </select>
             </div>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Save</button>
         </div>
     </form>
     <table class="table table-hover">

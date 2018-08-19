@@ -35,53 +35,64 @@ public class BookController {
         return "book/list";
     }
 
-    @GetMapping("/book/view")
-    public String viewPage(
+    @GetMapping("/book/delete")
+    public String deletePage(@RequestParam("id") String id) {
+        log.info("Delete book with id " + id);
+        bookRepository.deleteById(id);
+        return "redirect:/book";
+    }
+
+    @GetMapping("/book/edit")
+    public String editPage(
             @RequestParam(value = "id", required = false) String id,
-            @RequestParam(value = "edit", required = false) Boolean edit,
             Model model) {
         log.info("Edit book with id " + id);
-        Book book = bookRepository.findById(id).orElseThrow(RuntimeException::new);
+        Book book = null;
         String action = "/book";
         if (id == null) {
-            /*NOP*/
+            book = new Book();
         } else {
             action += "?id=" + id;
+            book = bookRepository.findById(id).orElseThrow(RuntimeException::new);
         }
         model.addAttribute("action", action);
-        if (edit != null) {
-            model.addAttribute("edit", edit);
-        }
         model.addAttribute("book", book);
         model.addAttribute("genre", book.getGenre());
         model.addAttribute("authors", new AuthorsDto(authorRepository.findAll()));
+        return "book/edit";
+    }
+
+    @GetMapping("/book/view")
+    public String viewPage(
+            @RequestParam(value = "id") String id,
+            Model model) {
+        log.info("View book with id " + id);
+        Book book = bookRepository.findById(id).orElseThrow(RuntimeException::new);
+        model.addAttribute("book", book);
+        model.addAttribute("genre", book.getGenre());
+        model.addAttribute("authors", book.getAuthors());
         return "book/view";
     }
 
     @PostMapping("/book/genre")
     public String editGenrePage(
             @RequestParam(value = "id") String id,
-            @ModelAttribute Genre genre,
-            Model model) {
-        //log.info("Got book to update " + book);
-        //bookRepository.save(book);
+            @ModelAttribute Genre genre) {
+        log.info("Update book(id={}) genre {}", id, genre);
+        Book book = bookRepository.findById(id).orElseThrow(RuntimeException::new);
+        book.setGenre(genre);
+        bookRepository.save(book);
         return "book/view";
     }
 
     @PostMapping("/book/authors")
     public String editaAuthorsPage(
             @RequestParam(value = "id") String id,
-            @ModelAttribute AuthorsDto authorsDto,
-            Model model) {
-        //log.info("Got book to update " + book);
-        //bookRepository.save(book);
-        return "book/view";
-    }
-
-    @PostMapping("/book/edit")
-    public String editPage(@ModelAttribute Book book, Model model) {
-        log.info("Got book to update " + book);
-        //bookRepository.save(book);
+            @ModelAttribute AuthorsDto authorsDto) {
+        log.info("Update book(id={}) authors {}", id, authorsDto);
+        Book book = bookRepository.findById(id).orElseThrow(RuntimeException::new);
+        book.setAuthors(authorsDto.getAuthorList());
+        bookRepository.save(book);
         return "book/view";
     }
 
@@ -89,9 +100,11 @@ public class BookController {
     public String postPage(
             @ModelAttribute Genre genre,
             @ModelAttribute Book book,
-            Model model) {
-        log.info("Got book to update " + book);
-        //bookRepository.save(book);
+            @ModelAttribute AuthorsDto authorsDto) {
+        log.info("Update book({}) with genre({}) and authors({})", book, genre, authorsDto);
+        book.setGenre(genre);
+        book.setAuthors(authorsDto.getAuthorList());
+        bookRepository.save(book);
         return "redirect:/book";
     }
 }
