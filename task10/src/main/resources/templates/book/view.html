@@ -30,7 +30,7 @@
 </div>
 
 <div class="container-fluid">
-    <form id="edit-form" th:action="@{${action}}" th:method="post" th:object="${book}" action="view.html">
+    <form id="edit-form" th:object="${book}" action="view.html">
         <th:block th:if="${book.id != null}">
             <div class="form-group row">
                 <label for="id-input" class="col-sm-2 col-form-label">ID:</label>
@@ -92,6 +92,20 @@
             </div>
         </div>
     </form>
+    <form id="comment-form" th:action="@{${action}}" th:method="post" th:object="${comment}" action="view.html">
+        <div class="form-group row">
+            <label for="comment-name-input" class="col-sm-2 col-form-label">Comment:</label>
+            <div class="col-sm-10">
+                <div class="input-group">
+                    <input id="comment-name-input" th:type="text" class="form-control" th:value="*{commentBody}"
+                           name="commentBody" value="The book is amazing!"/>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary col-sm-12">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -102,7 +116,7 @@
         <tbody>
         <tr th:each="comment : ${book.comments}" th:object="${comment}">
             <td th:text="*{date}">2018-08-15 15:15</td>
-            <td th:text="*{body}">This book is amazing</td>
+            <td th:text="*{commentBody}">This book is amazing</td>
             <td>
                 <!--<a type="button" class="btn btn-secondary" th:href="@{/author/view(id=${author.id})}" href="view.html">View</a>-->
             </td>

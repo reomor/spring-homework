@@ -6,11 +6,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import task10.domain.Book;
+import task10.domain.Comment;
 import task10.domain.Genre;
 import task10.dto.AuthorsDto;
 import task10.repository.AuthorRepository;
 import task10.repository.BookRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -71,7 +73,20 @@ public class BookController {
         model.addAttribute("book", book);
         model.addAttribute("genre", book.getGenre());
         model.addAttribute("authors", book.getAuthors());
+        model.addAttribute("comment", new Comment());
+        model.addAttribute("action", "/book/comment?id=" + id);
         return "book/view";
+    }
+
+    @PostMapping("/book/comment")
+    public String commentPage(
+            @RequestParam(value = "id") String id,
+            @ModelAttribute Comment comment) {
+        log.info("Comment book with id " + id);
+        Book book = bookRepository.findById(id).orElseThrow(RuntimeException::new);
+        comment.setDate(LocalDateTime.now());
+        bookRepository.setComment(id, comment);
+        return "redirect:/book/view?id=" + id;
     }
 
     @PostMapping("/book")

@@ -4,9 +4,10 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
 @Data
 @AllArgsConstructor
 public class Comment {
-    private String body;
+    private String commentBody;
     private LocalDateTime date;
 }

@@ -95,7 +95,7 @@
                 <select class="custom-select" id="authors-select" name="authorList" size="10"
                         multiple="multiple">
                     <option th:each="author : ${authors.authorList}" th:value="${{author.id}}"
-                            th:text="${author.name + ' ' + author.sername + ' ' + author.dateOfBirth}" th:selected="${book.authors.contains(author)}">
+                            th:text="${author.dateOfBirth + ' ' + author.name + ' ' + author.sername}" th:selected="${book.authors.contains(author)}">
                         Karl Marks
                     </option>
                 </select>
@@ -116,7 +116,7 @@
         <tbody>
         <tr th:each="comment : ${book.comments}" th:object="${comment}">
             <td th:text="*{date}">2018-08-15 15:15</td>
-            <td th:text="*{body}">This book is amazing</td>
+            <td th:text="*{commentBody}">This book is amazing</td>
             <td>
                 <!--<a type="button" class="btn btn-secondary" th:href="@{/author/view(id=${author.id})}" href="view.html">View</a>-->
             </td>
