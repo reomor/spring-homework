@@ -21,7 +21,7 @@ public class AuthorRestController {
     }
 
     // list all authors
-    @GetMapping("/authors")
+    @GetMapping("/rest/authors")
     public ResponseEntity<List<Author>> getAllAuthors() throws Throwable {
         return new ResponseEntity<>(authorRepository.findAll(), HttpStatus.OK);
     }

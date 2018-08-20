@@ -45,7 +45,7 @@ public class AuthorRestControllerTest {
 
         given(authorRepository.findAll()).willReturn(authors);
 
-        mockMvc.perform(get("/authors")
+        mockMvc.perform(get("/rest/authors")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(writeValue(authors)))
                 .andDo(print())
