@@ -32,15 +32,13 @@ public class GeneralController {
 
     @GetMapping("/authors")
     public String listAuthorsPage(Model model) {
-        log.info("Request authors list");
+        log.info("Request author list");
         return "author/list";
     }
 
     @GetMapping("/books")
     public String listBooksPage(Model model) {
-        log.info("Request all books");
-        List<Book> books = bookRepository.findAll();
-        model.addAttribute("books", books);
-        return "book/list";
+        log.info("Request book list");
+        return "book/list_bk";
     }
 }

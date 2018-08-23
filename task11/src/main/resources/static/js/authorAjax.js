@@ -8,14 +8,14 @@ $(function () {
 
 function ajaxGetAll() {
     $.get(ajaxUrl,
-        function (date) {
+        function (data) {
             let table = $("#tableBody");
             table.empty();
-            $.each(date, function (key, value) {
+            $.each(data, function (key, value) {
                 let author = "<tr><td>" + value.name + " " + value.sername + "</td>" +
                     "<td>" + value.dateOfBirth + "</td>" +
                     "<td>" + value.biography + "</td>" +
-                    "<td><div class=\"btn-group mr-2\" role=\"group\" aria-label=\"First group\">" +
+                    "<td><div class=\"btn-group mr-2\" role=\"group\" aria-label=\"Action group\">" +
                     "<button type='button' class='btn btn-primary' onclick='ajaxGet(\"" + value.id + "\");'>Edit</button>" +
                     "<button type='button' class='btn btn-secondary' onclick='ajaxDelete(\"" + value.id + "\");'>Delete</button>" +
                     "</div></td></tr>";
@@ -27,13 +27,13 @@ function ajaxGetAll() {
 function ajaxGet(id) {
     $("#authorModalLabel").html("Edit author");
     $.get(ajaxUrl + "/" + id,
-        function (date) {
-            $.each(date, function (key, value) {
-                console.log(value);
+        function (data) {
+            $.each(data, function (key, value) {
                 form.find("input[name='" + key + "']").val(value);
             });
-        });
-    modal.modal();
+        }).done(function () {
+        modal.modal();
+    });
 }
 
 function ajaxDelete(id) {

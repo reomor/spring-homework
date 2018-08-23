@@ -1,20 +1,16 @@
 package task11.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import task11.domain.Author;
-import task11.dto.AuthorDto;
 import task11.exception.ObjectNotFound;
 import task11.repository.AuthorRepository;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,12 +20,9 @@ public class AuthorRestController {
 
     private final AuthorRepository authorRepository;
 
-    private final ObjectMapper objectMapper;
-
     @Autowired
-    public AuthorRestController(AuthorRepository authorRepository, ObjectMapper objectMapper) {
+    public AuthorRestController(AuthorRepository authorRepository) {
         this.authorRepository = authorRepository;
-        this.objectMapper = objectMapper;
     }
 
     // list all authors
@@ -39,10 +32,10 @@ public class AuthorRestController {
         return new ResponseEntity<>(authorRepository.findAll(), HttpStatus.OK);
     }
 
-    // list all authors
+    // get author by id
     @GetMapping("/rest/authors/{id}")
     public ResponseEntity<Author> getAuthor(@PathVariable String id) throws Throwable {
-        log.info("Get author by id{} by rest", id);
+        log.info("Get author by id({}) by rest", id);
         Author author = checkIfExists(id);
         return new ResponseEntity<>(author, HttpStatus.OK);
     }
@@ -53,6 +46,7 @@ public class AuthorRestController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Author> createNewAuthor(@RequestBody Author authorNew, HttpServletRequest request) {
+        log.info("Create new author({}) by rest", authorNew);
         authorNew.setId(null);
         Author author = authorRepository.save(authorNew);
         return new ResponseEntity<>(author, HttpStatus.CREATED);
@@ -61,6 +55,7 @@ public class AuthorRestController {
     // update existing author
     @PutMapping("/rest/authors/{id}")
     public ResponseEntity<Author> updateAuthor(@PathVariable String id, @RequestBody Author authorNew) {
+        log.info("Update author({}) by id({}) by rest", id, authorNew);
         checkIfExists(id);
         authorNew.setId(id);
         Author author = authorRepository.save(authorNew);
@@ -70,6 +65,7 @@ public class AuthorRestController {
     // delete author
     @DeleteMapping("/rest/authors/{id}")
     public ResponseEntity<Author> deleteAuthor(@PathVariable String id) {
+        log.info("Delete author by id({}) by rest", id);
         Author author = checkIfExists(id);
         authorRepository.deleteById(author.getId());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
