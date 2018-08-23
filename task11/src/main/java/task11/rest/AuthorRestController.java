@@ -52,22 +52,26 @@ public class AuthorRestController {
             value = "/rest/authors",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Author> createNewAuthor(@RequestBody Author author, HttpServletRequest request) {
-        Author newAuthor = new Author("1", "Test1", "Sername1", LocalDate.now(), "biography1");
-        return new ResponseEntity<>(newAuthor, HttpStatus.CREATED);
+    public ResponseEntity<Author> createNewAuthor(@RequestBody Author authorNew, HttpServletRequest request) {
+        authorNew.setId(null);
+        Author author = authorRepository.save(authorNew);
+        return new ResponseEntity<>(author, HttpStatus.CREATED);
     }
 
     // update existing author
-    @PostMapping("/rest/authors/{id}")
-    public ResponseEntity<Author> updateAuthor(@PathVariable String id, @RequestBody Author author) {
-        Author existingAuthor = checkIfExists(id);
-        return new ResponseEntity<>(existingAuthor, HttpStatus.ACCEPTED);
+    @PutMapping("/rest/authors/{id}")
+    public ResponseEntity<Author> updateAuthor(@PathVariable String id, @RequestBody Author authorNew) {
+        checkIfExists(id);
+        authorNew.setId(id);
+        Author author = authorRepository.save(authorNew);
+        return new ResponseEntity<>(author, HttpStatus.ACCEPTED);
     }
 
     // delete author
+    @DeleteMapping("/rest/authors/{id}")
     public ResponseEntity<Author> deleteAuthor(@PathVariable String id) {
         Author author = checkIfExists(id);
-        //authorRepository.deleteById(author.getId());
+        authorRepository.deleteById(author.getId());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

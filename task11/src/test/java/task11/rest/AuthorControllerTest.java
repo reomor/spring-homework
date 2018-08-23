@@ -27,12 +27,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(SpringRunner.class)
-// to test with the full context
-//@SpringBootTest
-//@AutoConfigureMockMvc
-//to test without the whole context
-@WebMvcTest(AuthorController.class)
+//@RunWith(SpringRunner.class)
+//// to test with the full context
+////@SpringBootTest
+////@AutoConfigureMockMvc
+////to test without the whole context
+//@WebMvcTest(AuthorController.class)
 public class AuthorControllerTest {
     @MockBean
     private AuthorRepository authorRepository;
