@@ -1,7 +1,5 @@
 package task11.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,23 +7,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import task11.domain.Author;
 import task11.domain.Book;
+import task11.dto.BookDto;
+import task11.repository.AuthorRepository;
 import task11.repository.BookRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
 public class BookRestController {
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     private final BookRepository bookRepository;
 
+    private final AuthorRepository authorRepository;
+
     @Autowired
-    public BookRestController(BookRepository bookRepository) {
+    public BookRestController(BookRepository bookRepository, AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
+        this.authorRepository = authorRepository;
     }
 
     // list all books
@@ -38,10 +40,11 @@ public class BookRestController {
 
     // get book by id
     @GetMapping("/rest/books/{id}")
-    public ResponseEntity<Book> getBook(@PathVariable String id) throws JsonProcessingException {
+    public ResponseEntity<BookDto> getBook(@PathVariable String id) {
         log.info("Get book by id({}) by rest", id);
         Book book = bookRepository.findById(id).orElseThrow(RuntimeException::new);
-        String json = objectMapper.writeValueAsString(book);
-        return new ResponseEntity<>(book, HttpStatus.OK);
+        List<Author> all = authorRepository.findAll();
+        List<String> authorIds = book.getAuthors().stream().map(Author::getId).collect(Collectors.toList());
+        return new ResponseEntity<>(new BookDto(book, all, authorIds), HttpStatus.OK);
     }
 }

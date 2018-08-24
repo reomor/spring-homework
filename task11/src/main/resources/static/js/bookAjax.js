@@ -13,10 +13,8 @@ function ajaxGetAll() {
             table.empty();
             $.each(data, function (key, value) {
                 let authors = "";
-                console.log(value);
                 $.each(value.authors, function (k, v) {
-                    console.log(k + " | " + v);
-                    //authors += v.name + " " + v.sername + "<br/>";
+                    authors += v.name + " " + v.sername + "<br/>";
                 });
 
                 let book = "<tr><td>" + value.title + "</td>" +
@@ -37,7 +35,10 @@ function ajaxGet(id) {
     $("#bookModalLabelModalLabel").html("Edit book");
     $.get(ajaxUrl + "/" + id,
         function (data) {
-            $.each(data, function (key, value) {
+            let book = data.book;
+            let authorList = data.authorList;
+            let authorIds = data.authorIds;
+            $.each(book, function (key, value) {
                 switch (key) {
                     case 'genre':
                         form.find("input[name='genreName']").val(value.genreName);
@@ -45,14 +46,23 @@ function ajaxGet(id) {
                         break;
                     case 'authors':
                         let select = $("#authors-select");
-                        $.each(value, function (k, v) {
+                        $.each(authorList, function (k, v) {
                             if (v.id) {
                                 select.append(
                                     $("<option></option>")
                                         .attr("value", v.id)
+                                        .attr("selected", authorIds.includes(v.id))
                                         .text(v.name + " " + v.sername)
                                 );
+                                console.log(authorIds.includes(v.id));
                             }
+                        });
+                        break;
+                    case 'comments':
+                        $.each(value, function (k, v) {
+                            let comment = "<tr><td>" + v.date + "</td>" +
+                                "<td>" + v.commentBody + "</td></tr>";
+                            $("#commentsTableBody").append(comment);
                         });
                         break;
                     default:
@@ -70,6 +80,6 @@ function ajaxSave() {
     let formData = {
         id: $("#inputBookId").val(),
         authors: $("#authors-select").val()
-    }
+    };
     console.log(JSON.stringify(formData));
 }
