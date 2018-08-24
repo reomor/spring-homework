@@ -52,7 +52,7 @@ public class BookController {
         Book book = null;
         String action = "/book";
         if (id == null) {
-            book = new Book();
+            //book = new Book();
         } else {
             action += "?id=" + id;
             book = bookRepository.findById(id).orElseThrow(RuntimeException::new);
@@ -73,7 +73,7 @@ public class BookController {
         model.addAttribute("book", book);
         model.addAttribute("genre", book.getGenre());
         model.addAttribute("authors", book.getAuthors());
-        model.addAttribute("comment", new Comment());
+        model.addAttribute("comment", new Comment("", LocalDateTime.now()));
         model.addAttribute("action", "/book/comment?id=" + id);
         return "book/view";
     }
