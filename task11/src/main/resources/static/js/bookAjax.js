@@ -24,7 +24,7 @@ function ajaxGetAll() {
                     "<td>" + value.description + "</td>" +
                     "<td><div class=\"btn-group mr-2\" role=\"group\" aria-label=\"Action group\">" +
                     "<button type='button' class='btn btn-primary' onclick='ajaxGet(\"" + value.id + "\")'>Edit</button>" +
-                    "<button type='button' class='btn btn-secondary' onclick='" + value.id + "'>Delete</button>" +
+                    "<button type='button' class='btn btn-secondary' onclick='ajaxDelete(\"" + value.id + "\"'>Delete</button>" +
                     "</div></td></tr>";
                 table.append(book);
             });
@@ -32,7 +32,7 @@ function ajaxGetAll() {
 }
 
 function ajaxGet(id) {
-    $("#bookModalLabelModalLabel").html("Edit book");
+    $("#bookModalLabel").html("Edit book");
     $.get(ajaxUrl + "/" + id,
         function (data) {
             let book = data.book;
@@ -50,11 +50,11 @@ function ajaxGet(id) {
                             if (v.id) {
                                 select.append(
                                     $("<option></option>")
+                                        // .attr("value", v.id)
                                         .attr("value", v.id)
                                         .attr("selected", authorIds.includes(v.id))
                                         .text(v.name + " " + v.sername)
                                 );
-                                console.log(authorIds.includes(v.id));
                             }
                         });
                         break;
@@ -74,12 +74,56 @@ function ajaxGet(id) {
     });
 }
 
+function ajaxDelete(id) {
+    $.ajax({
+        url: ajaxUrl + "/" + id,
+        type: "DELETE"
+    }).done(function () {
+        location.reload(true)
+    });
+    ajaxGetAll();
+}
+
 function ajaxSave() {
     let url = ajaxUrl;
     let type = "POST";
     let formData = {
-        id: $("#inputBookId").val(),
-        authors: $("#authors-select").val()
+        book: {
+            id: $("#inputBookId").val(),
+            title: $("#inputBookTitle").val(),
+            genre: {
+                genreName: $("#inputBookGenreName").val(),
+                genreDescription: $("#inputBookGenreDescription").val()
+            },
+            isbn: $("#inputBookIsbn").val(),
+            description: $("#inputBookDescription").val(),
+        },
+        authorList: [],
+        authorIds: $("#authors-select").val()
     };
+
+    if (formData.book.id !== "") {
+        url += "/" + formData.book.id;
+        type = "PUT";
+    }
     console.log(JSON.stringify(formData));
+    console.log(url);
+    console.log(type);
+    $.ajax({
+        url: url,
+        type: type,
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify(formData)
+        //data: JSON.stringify(form.serializeArray())
+    }).done(function () {
+        modal.modal("hide");
+        location.reload(true);
+    });
+}
+
+function addNew() {
+    $("#bookModalLabel").html("New book");
+    form.find(":input").val("");
+    modal.modal();
 }

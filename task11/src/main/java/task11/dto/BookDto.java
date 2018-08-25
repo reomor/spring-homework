@@ -1,14 +1,13 @@
 package task11.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.ToString;
-import lombok.Value;
+import lombok.*;
 import task11.domain.Author;
 import task11.domain.Book;
 
 import java.util.List;
 
-@Value
+@NoArgsConstructor
+@Data
 @ToString
 @AllArgsConstructor
 public class BookDto {
