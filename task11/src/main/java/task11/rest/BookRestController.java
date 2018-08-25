@@ -15,6 +15,7 @@ import task11.exception.ObjectNotFound;
 import task11.repository.AuthorRepository;
 import task11.repository.BookRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -83,9 +84,12 @@ public class BookRestController {
         authorRepository.deleteById(book.getId());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    // add comment to book
     @PostMapping("/rest/books/comment/{id}")
     public ResponseEntity<Comment> commentBook(@PathVariable String id, @RequestBody Comment comment) {
-        return null;
+        comment.setDate(LocalDateTime.now());
+        bookRepository.setComment(id, comment);
+        return new ResponseEntity<>(comment, HttpStatus.CREATED);
     }
 
     private Book checkIfExists(String id) {

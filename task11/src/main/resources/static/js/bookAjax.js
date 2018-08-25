@@ -47,6 +47,7 @@ function ajaxGet(id) {
                         break;
                     case 'authors':
                         let select = $("#authors-select");
+                        select.empty();
                         $.each(authorList, function (k, v) {
                             if (v.id) {
                                 select.append(
@@ -60,6 +61,7 @@ function ajaxGet(id) {
                         });
                         break;
                     case 'comments':
+                        $("#commentsTableBody").empty();
                         $.each(value, function (k, v) {
                             let comment = "<tr><td>" + v.date + "</td>" +
                                 "<td>" + v.commentBody + "</td></tr>";
@@ -107,9 +109,7 @@ function ajaxSave() {
         url += "/" + formData.book.id;
         type = "PUT";
     }
-    console.log(JSON.stringify(formData));
-    console.log(url);
-    console.log(type);
+
     $.ajax({
         url: url,
         type: type,
@@ -132,10 +132,33 @@ function addNew() {
             $.each(data, function (key, value) {
                 select.append(
                     $("<option></option>")
-                    // .attr("value", v.id)
                         .attr("value", value.id)
                         .text(value.name + " " + value.sername));
             });
         });
     modal.modal();
+}
+
+function addComment() {
+    let id = $("#inputBookId").val();
+    if (id === "") {
+        return;
+    }
+
+    let url = ajaxUrl + "/comment/" + id;
+    let formData = {
+        commentBody: $("#inputCommentBody").val()
+    };
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify(formData)
+    }).done(function () {
+        modal.modal("hide");
+        location.reload(true);
+    });
+    ajaxGet(id);
 }
