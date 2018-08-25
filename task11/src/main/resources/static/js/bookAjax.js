@@ -1,6 +1,7 @@
 let form = $("#bookForm");
 let modal = $("#bookModal");
 let ajaxUrl = "/rest/books";
+let authorsAjaxUrl = "/rest/authors";
 
 $(function () {
     ajaxGetAll();
@@ -125,5 +126,16 @@ function ajaxSave() {
 function addNew() {
     $("#bookModalLabel").html("New book");
     form.find(":input").val("");
+    $.get(authorsAjaxUrl,
+        function (data) {
+            let select = $("#authors-select");
+            $.each(data, function (key, value) {
+                select.append(
+                    $("<option></option>")
+                    // .attr("value", v.id)
+                        .attr("value", value.id)
+                        .text(value.name + " " + value.sername));
+            });
+        });
     modal.modal();
 }

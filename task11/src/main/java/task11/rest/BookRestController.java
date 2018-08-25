@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import task11.domain.Author;
 import task11.domain.Book;
+import task11.domain.Comment;
 import task11.dto.BookDto;
 import task11.exception.ObjectNotFound;
 import task11.repository.AuthorRepository;
@@ -48,24 +49,32 @@ public class BookRestController {
         Book book = bookRepository.findById(id).orElseThrow(RuntimeException::new);
         List<Author> all = authorRepository.findAll();
         List<String> authorIds = book.getAuthors().stream().map(Author::getId).collect(Collectors.toList());
-
-        BookDto bookDto = new BookDto(book, all, authorIds);
-        String json = objectMapper.writeValueAsString(bookDto);
-        return new ResponseEntity<>(bookDto, HttpStatus.OK);
+        return new ResponseEntity<>(new BookDto(book, all, authorIds), HttpStatus.OK);
     }
-
+    //post new book
     @PostMapping("/rest/books")
     public ResponseEntity<Book> createNewBook(@RequestBody BookDto bookDto) {
-
-        return null;
+        List<Author> authorList = bookDto.getAuthorIds()
+                .stream()
+                .map(id -> authorRepository.findById(id).orElseThrow(RuntimeException::new))
+                .collect(Collectors.toList());
+        Book book = bookDto.getBook();
+        book.setId(null);
+        book.setAuthors(authorList);
+        return new ResponseEntity<>(bookRepository.save(book), HttpStatus.CREATED);
     }
-
+    // update existing book
     @PutMapping("/rest/books/{id}")
     public ResponseEntity<Book> updateBook(@PathVariable String id, @RequestBody BookDto bookDto) {
-
-        return null;
+        List<Author> authorList = bookDto.getAuthorIds()
+                .stream()
+                .map(authorId -> authorRepository.findById(authorId).orElseThrow(RuntimeException::new))
+                .collect(Collectors.toList());
+        Book book = bookDto.getBook();
+        book.setId(id);
+        book.setAuthors(authorList);
+        return new ResponseEntity<>(bookRepository.save(book), HttpStatus.ACCEPTED);
     }
-
     // delete book
     @DeleteMapping("/rest/books/{id}")
     public ResponseEntity<Book> deleteBook(@PathVariable String id) {
@@ -73,6 +82,10 @@ public class BookRestController {
         Book book = checkIfExists(id);
         authorRepository.deleteById(book.getId());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    @PostMapping("/rest/books/comment/{id}")
+    public ResponseEntity<Comment> commentBook(@PathVariable String id, @RequestBody Comment comment) {
+        return null;
     }
 
     private Book checkIfExists(String id) {
