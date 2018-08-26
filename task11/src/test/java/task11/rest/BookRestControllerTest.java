@@ -153,8 +153,8 @@ public class BookRestControllerTest {
     private Book getBook(String id) {
         Author author = getAuthor();
         Genre genre = new Genre("GenreMockName", "GenreMockDescription");
-        Comment comment = new Comment("Like a shit", LocalDateTime.now());
-        Comment comment2 = new Comment("Like a shit2", LocalDateTime.now());
+        Comment comment = new Comment("Random comment about", LocalDateTime.now());
+        Comment comment2 = new Comment("Random comment about2", LocalDateTime.now());
         return new Book(id,"Title", genre, "978-3-16-148410-0", "Description", Collections.singletonList(author), Arrays.asList(comment, comment2));
     }
 
