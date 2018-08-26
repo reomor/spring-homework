@@ -1,5 +1,6 @@
 package task11.domain;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -14,13 +15,20 @@ import java.util.List;
 @Document
 public class Book {
     @Id
+    @ApiModelProperty(notes = "MongoDB generated id", example = "5nv56f92z0kvde2738fh5fvc")
     private String id;
+    @ApiModelProperty(notes = "Book title", example = "The Complete Sherlock Holmes")
     private String title;
+    @ApiModelProperty(notes = "Genre", example = "")
     private Genre genre;
+    @ApiModelProperty(notes = "ISBN", example = "978-0553328257")
     private String isbn;
+    @ApiModelProperty(notes = "Book description", example = "Volume I includes the early novel A Study in Scarlet...")
     private String description;
     @DBRef
+    @ApiModelProperty(notes = "Book authors (References to authors)", example = "")
     private List<Author> authors;
+    @ApiModelProperty(notes = "Book comments", example = "")
     private List<Comment> comments;
 
     public Book(String title, Genre genre, String isbn, String description, List<Author> authors, List<Comment> comments) {

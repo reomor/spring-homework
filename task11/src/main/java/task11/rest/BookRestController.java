@@ -2,6 +2,10 @@ package task11.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +26,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
+@Api(value = "book controller", description = "Operation to manage books")
 public class BookRestController {
 
     private final BookRepository bookRepository;
@@ -35,6 +40,13 @@ public class BookRestController {
 
     // list all books
     @GetMapping("/rest/books")
+    @ApiOperation(value = "View a list of all books", response = Iterable.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved books list"),
+            @ApiResponse(code = 401, message = "Not authorized to do operation"),
+            @ApiResponse(code = 403, message = "Access to book is forbidden"),
+            @ApiResponse(code = 404, message = "Book is not found")
+    })
     public ResponseEntity<List<Book>> getAllBooks() {
         log.info("Get all books by rest");
         List<Book> all = bookRepository.findAll();

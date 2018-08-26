@@ -19,14 +19,14 @@ public class Author implements Serializable {
     @Id
     @ApiModelProperty(notes = "MongoDB generated id", example = "5b77ff92f489de2738fa6c07")
     private String id;
-    @ApiModelProperty(notes = "Author name", example = "Alex")
+    @ApiModelProperty(notes = "Author name", example = "Sir Arthur")
     private String name;
-    @ApiModelProperty(notes = "Author sername", example = "Alexeev")
+    @ApiModelProperty(notes = "Author sername", example = "Conan Doyle")
     private String sername;
-    @ApiModelProperty(notes = "Author date of birth", example = "2018-08-18")
+    @ApiModelProperty(notes = "Author date of birth (LocalDate)", example = "1859-05-22")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dateOfBirth;
-    @ApiModelProperty(notes = "Author biography", example = "The life of Alex Alexeev")
+    @ApiModelProperty(notes = "Author biography", example = "was a British writer best known for his detective fiction featuring the character Sherlock Holmes...")
     private String biography;
 
     public Author(String name, String sername, LocalDate dateOfBirth, String biography) {
