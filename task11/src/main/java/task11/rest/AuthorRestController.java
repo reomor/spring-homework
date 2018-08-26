@@ -10,7 +10,6 @@ import task11.domain.Author;
 import task11.exception.ObjectNotFound;
 import task11.repository.AuthorRepository;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +44,7 @@ public class AuthorRestController {
             value = "/rest/authors",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Author> createNewAuthor(@RequestBody Author authorNew, HttpServletRequest request) {
+    public ResponseEntity<Author> createNewAuthor(@RequestBody Author authorNew) {
         log.info("Create new author({}) by rest", authorNew);
         authorNew.setId(null);
         Author author = authorRepository.save(authorNew);
@@ -77,13 +76,5 @@ public class AuthorRestController {
             return authorOptional.get();
         }
         throw new ObjectNotFound();
-    }
-
-    private String contactUrlHelper(Author author, HttpServletRequest request) {
-        StringBuilder resourcePath = new StringBuilder();
-        resourcePath.append(request.getRequestURL());
-        resourcePath.append("/");
-        resourcePath.append(author.getId());
-        return resourcePath.toString();
     }
 }

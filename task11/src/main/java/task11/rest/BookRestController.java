@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 public class BookRestController {
 
     private final BookRepository bookRepository;
-
     private final AuthorRepository authorRepository;
 
     @Autowired
@@ -41,8 +40,7 @@ public class BookRestController {
         List<Book> all = bookRepository.findAll();
         return new ResponseEntity<>(all, HttpStatus.OK);
     }
-    @Autowired
-    private ObjectMapper objectMapper;
+
     // get book by id
     @GetMapping("/rest/books/{id}")
     public ResponseEntity<BookDto> getBook(@PathVariable String id) throws JsonProcessingException {
@@ -52,6 +50,7 @@ public class BookRestController {
         List<String> authorIds = book.getAuthors().stream().map(Author::getId).collect(Collectors.toList());
         return new ResponseEntity<>(new BookDto(book, all, authorIds), HttpStatus.OK);
     }
+
     //post new book
     @PostMapping("/rest/books")
     public ResponseEntity<Book> createNewBook(@RequestBody BookDto bookDto) {
@@ -64,6 +63,7 @@ public class BookRestController {
         book.setAuthors(authorList);
         return new ResponseEntity<>(bookRepository.save(book), HttpStatus.CREATED);
     }
+
     // update existing book
     @PutMapping("/rest/books/{id}")
     public ResponseEntity<Book> updateBook(@PathVariable String id, @RequestBody BookDto bookDto) {
@@ -76,6 +76,7 @@ public class BookRestController {
         book.setAuthors(authorList);
         return new ResponseEntity<>(bookRepository.save(book), HttpStatus.ACCEPTED);
     }
+
     // delete book
     @DeleteMapping("/rest/books/{id}")
     public ResponseEntity<Book> deleteBook(@PathVariable String id) {
@@ -84,6 +85,7 @@ public class BookRestController {
         authorRepository.deleteById(book.getId());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
     // add comment to book
     @PostMapping("/rest/books/comment/{id}")
     public ResponseEntity<Comment> commentBook(@PathVariable String id, @RequestBody Comment comment) {
