@@ -61,9 +61,7 @@ public class AuthorRestControllerTest {
         Author author = new Author(id, "Test1", "Sername1", LocalDate.now(), "biography1");
         given(authorRepository.findById(id)).willReturn(Optional.of(author));
 
-        mockMvc.perform(get("/rest/authors/" + id)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(writeValue(author)))
+        mockMvc.perform(get("/rest/authors/" + id))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -115,7 +113,7 @@ public class AuthorRestControllerTest {
     }
 
     @Test
-    public void deleteExistingAuthor_whenDeleteAuthor_then() throws Exception {
+    public void deleteExistingAuthor_whenDeleteAuthor_thenNoContent() throws Exception {
         final String id = "1";
         Author author = new Author(id, "Test1", "Sername1", LocalDate.now(), "biography1");
         Mockito.doNothing().when(authorRepository).deleteById(id);

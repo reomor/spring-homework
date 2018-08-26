@@ -43,7 +43,7 @@ public class BookRestController {
 
     // get book by id
     @GetMapping("/rest/books/{id}")
-    public ResponseEntity<BookDto> getBook(@PathVariable String id) throws JsonProcessingException {
+    public ResponseEntity<BookDto> getBook(@PathVariable String id) {
         log.info("Get book by id({}) by rest", id);
         Book book = bookRepository.findById(id).orElseThrow(RuntimeException::new);
         List<Author> all = authorRepository.findAll();
