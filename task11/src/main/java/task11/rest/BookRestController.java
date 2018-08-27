@@ -38,14 +38,10 @@ public class BookRestController {
         this.authorRepository = authorRepository;
     }
 
-    // list all books
     @GetMapping("/rest/books")
-    @ApiOperation(value = "View a list of all books", response = Iterable.class)
+    @ApiOperation(value = "Get list of all books", response = Book.class, responseContainer = "List")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully retrieved books list"),
-            @ApiResponse(code = 401, message = "Not authorized to do operation"),
-            @ApiResponse(code = 403, message = "Access to book is forbidden"),
-            @ApiResponse(code = 404, message = "Book is not found")
+            @ApiResponse(code = 200, message = "Successfully retrieved books list")
     })
     public ResponseEntity<List<Book>> getAllBooks() {
         log.info("Get all books by rest");
@@ -53,7 +49,10 @@ public class BookRestController {
         return new ResponseEntity<>(all, HttpStatus.OK);
     }
 
-    // get book by id
+    @ApiOperation(value = "Get book by id", response = Book.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved book")
+    })
     @GetMapping("/rest/books/{id}")
     public ResponseEntity<BookDto> getBook(@PathVariable String id) {
         log.info("Get book by id({}) by rest", id);
@@ -63,7 +62,10 @@ public class BookRestController {
         return new ResponseEntity<>(new BookDto(book, all, authorIds), HttpStatus.OK);
     }
 
-    //post new book
+    @ApiOperation(value = "Create new book", code = 201, response = Book.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successfully created book")
+    })
     @PostMapping("/rest/books")
     public ResponseEntity<Book> createNewBook(@RequestBody BookDto bookDto) {
         List<Author> authorList = bookDto.getAuthorIds()
@@ -76,7 +78,10 @@ public class BookRestController {
         return new ResponseEntity<>(bookRepository.save(book), HttpStatus.CREATED);
     }
 
-    // update existing book
+    @ApiOperation(value = "Update existing book", code = 202, response = Book.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 202, message = "Update accepted")
+    })
     @PutMapping("/rest/books/{id}")
     public ResponseEntity<Book> updateBook(@PathVariable String id, @RequestBody BookDto bookDto) {
         List<Author> authorList = bookDto.getAuthorIds()
@@ -89,7 +94,10 @@ public class BookRestController {
         return new ResponseEntity<>(bookRepository.save(book), HttpStatus.ACCEPTED);
     }
 
-    // delete book
+    @ApiOperation(value = "Delete book by id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Delete completed")
+    })
     @DeleteMapping("/rest/books/{id}")
     public ResponseEntity<Book> deleteBook(@PathVariable String id) {
         log.info("Delete author by id({}) by rest", id);
@@ -98,7 +106,10 @@ public class BookRestController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    // add comment to book
+    @ApiOperation(value = "Comment a book")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Comment added")
+    })
     @PostMapping("/rest/books/comment/{id}")
     public ResponseEntity<Comment> commentBook(@PathVariable String id, @RequestBody Comment comment) {
         comment.setDate(LocalDateTime.now());

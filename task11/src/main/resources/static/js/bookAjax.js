@@ -52,7 +52,6 @@ function ajaxGet(id) {
                             if (v.id) {
                                 select.append(
                                     $("<option></option>")
-                                        // .attr("value", v.id)
                                         .attr("value", v.id)
                                         .attr("selected", authorIds.includes(v.id))
                                         .text(v.name + " " + v.sername)
@@ -116,7 +115,6 @@ function ajaxSave() {
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         data: JSON.stringify(formData)
-        //data: JSON.stringify(form.serializeArray())
     }).done(function () {
         modal.modal("hide");
         location.reload(true);

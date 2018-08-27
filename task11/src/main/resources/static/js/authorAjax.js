@@ -68,7 +68,6 @@ function ajaxSave() {
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         data: JSON.stringify(formData)
-        //data: JSON.stringify(form.serializeArray())
     }).done(function () {
         modal.modal("hide");
         location.reload(true);

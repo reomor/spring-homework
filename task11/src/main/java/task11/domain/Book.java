@@ -19,16 +19,16 @@ public class Book {
     private String id;
     @ApiModelProperty(notes = "Book title", example = "The Complete Sherlock Holmes")
     private String title;
-    @ApiModelProperty(notes = "Genre", example = "")
+    @ApiModelProperty(notes = "Genre")
     private Genre genre;
     @ApiModelProperty(notes = "ISBN", example = "978-0553328257")
     private String isbn;
     @ApiModelProperty(notes = "Book description", example = "Volume I includes the early novel A Study in Scarlet...")
     private String description;
     @DBRef
-    @ApiModelProperty(notes = "Book authors (References to authors)", example = "")
+    @ApiModelProperty(notes = "Book authors (References to authors)")
     private List<Author> authors;
-    @ApiModelProperty(notes = "Book comments", example = "")
+    @ApiModelProperty(notes = "Book comments")
     private List<Comment> comments;
 
     public Book(String title, Genre genre, String isbn, String description, List<Author> authors, List<Comment> comments) {
