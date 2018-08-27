@@ -29,32 +29,32 @@ public class AuthorRestController {
         this.authorRepository = authorRepository;
     }
 
-    // list all authors
     @GetMapping("/rest/authors")
-    @ApiOperation(value = "View a list of all authors", response = Iterable.class)
+    @ApiOperation(value = "View a list of all authors", response = Author.class, responseContainer = "List")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully retrieved authors list"),
-            @ApiResponse(code = 401, message = "Not authorized to do operation"),
-            @ApiResponse(code = 403, message = "Access to author is forbidden"),
-            @ApiResponse(code = 404, message = "Author is not found")
+            @ApiResponse(code = 200, message = "Successfully retrieved authors list")
     })
     public ResponseEntity<List<Author>> getAllAuthors() {
         log.info("Get all authors by rest");
         return new ResponseEntity<>(authorRepository.findAll(), HttpStatus.OK);
     }
 
-    // get author by id
     @GetMapping("/rest/authors/{id}")
     @ApiOperation(value = "Get author by id", response = Author.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved author")
+    })
     public ResponseEntity<Author> getAuthor(@PathVariable String id) {
         log.info("Get author by id({}) by rest", id);
         Author author = checkIfExists(id);
         return new ResponseEntity<>(author, HttpStatus.OK);
     }
 
-    // create new author
     @PostMapping(value = "/rest/authors", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Post new author", response = Author.class)
+    @ApiOperation(value = "Post new author", code = 201, response = Author.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successfully created author")
+    })
     public ResponseEntity<Author> createNewAuthor(@RequestBody Author author) {
         log.info("Create new author({}) by rest", author);
         author.setId(null);
@@ -62,9 +62,11 @@ public class AuthorRestController {
         return new ResponseEntity<>(authorSaved, HttpStatus.CREATED);
     }
 
-    // update existing author
     @PutMapping("/rest/authors/{id}")
-    @ApiOperation(value = "Update author by id (demonstrates PUT)", response = Author.class)
+    @ApiOperation(value = "Update author by id (demonstrates PUT)", code = 202, response = Author.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 202, message = "Update accepted")
+    })
     public ResponseEntity<Author> updateAuthor(@PathVariable String id, @RequestBody Author author) {
         log.info("Update author({}) by id({}) by rest", id, author);
         checkIfExists(id);
@@ -73,9 +75,11 @@ public class AuthorRestController {
         return new ResponseEntity<>(authorSaved, HttpStatus.ACCEPTED);
     }
 
-    // delete author
     @DeleteMapping("/rest/authors/{id}")
-    @ApiOperation(value = "Deleting author by id")
+    @ApiOperation(value = "Deleting author by id", code = 204)
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Delete completed")
+    })
     public ResponseEntity<Author> deleteAuthor(@PathVariable String id) {
         log.info("Delete author by id({}) by rest", id);
         Author author = checkIfExists(id);

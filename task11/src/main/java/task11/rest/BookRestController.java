@@ -94,7 +94,7 @@ public class BookRestController {
         return new ResponseEntity<>(bookRepository.save(book), HttpStatus.ACCEPTED);
     }
 
-    @ApiOperation(value = "Delete book by id")
+    @ApiOperation(value = "Delete book by id", code = 204)
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Delete completed")
     })
@@ -106,7 +106,7 @@ public class BookRestController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @ApiOperation(value = "Comment a book")
+    @ApiOperation(value = "Comment a book", code = 201)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Comment added")
     })
