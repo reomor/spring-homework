@@ -1,4 +1,4 @@
-package task11.repository;
+package task12.repository;
 
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -11,8 +11,6 @@
         </encoder>
     </appender>
 
-    <logger name="ru.javaops.masterjava" level="debug"/>
-
     <root level="info">
         <appender-ref ref="console"/>
     </root>
