@@ -26,24 +26,28 @@ public class RestAuthorRouterHandlers {
     public Mono<ServerResponse> findById(ServerRequest request) {
         return ServerResponse.ok().body(repository.findById(request.pathVariable("id")), Author.class);
     }
+
     // https://github.com/ibercode/spring-webflux-mono-flux-router-handler/
     // save
     public Mono<ServerResponse> save(ServerRequest request) {
         Mono<Author> authorMono = request.body(BodyExtractors.toMono(Author.class)).flatMap(repository::save);
         return ServerResponse.ok().body(authorMono, Author.class);
     }
+
     // update
     public Mono<ServerResponse> update(ServerRequest request) {
-        Mono<Author> authorMono = repository.findById(request.pathVariable("id")).flatMap(author -> {
-            Author authorUpdated = request.body(BodyExtractors.toMono(Author.class)).block();
-            author.setName(authorUpdated.getName());
-            author.setSername(authorUpdated.getSername());
-            author.setBiography(authorUpdated.getBiography());
-            author.setDateOfBirth(authorUpdated.getDateOfBirth());
-            return repository.save(author);
-        });
+        Mono<Author> authorMono = repository.findById(request.pathVariable("id"))
+                .flatMap(author -> request.body(BodyExtractors.toMono(Author.class))
+                        .flatMap(authorInBody -> {
+                            author.setName(authorInBody.getName());
+                            author.setSername(authorInBody.getSername());
+                            author.setBiography(authorInBody.getBiography());
+                            author.setDateOfBirth(authorInBody.getDateOfBirth());
+                            return repository.save(author);
+                        }));
         return ServerResponse.ok().body(authorMono, Author.class);
     }
+
     // delete
     public Mono<ServerResponse> delete(ServerRequest request) {
         repository.findById(request.pathVariable("id")).flatMap(repository::delete).subscribe();
