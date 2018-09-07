@@ -19,7 +19,7 @@ public class RestAuthorRouterHandlers {
         this.repository = repository;
     }
 
-    public Mono<ServerResponse> getAll(ServerRequest request) {
+    public Mono<ServerResponse> findAll(ServerRequest request) {
         return ServerResponse.ok().body(repository.findAll(), Author.class);
     }
 
@@ -28,27 +28,24 @@ public class RestAuthorRouterHandlers {
     }
 
     // https://github.com/ibercode/spring-webflux-mono-flux-router-handler/
-    // save
     public Mono<ServerResponse> save(ServerRequest request) {
         Mono<Author> authorMono = request.body(BodyExtractors.toMono(Author.class)).flatMap(repository::save);
         return ServerResponse.ok().body(authorMono, Author.class);
     }
 
-    // update
     public Mono<ServerResponse> update(ServerRequest request) {
         Mono<Author> authorMono = repository.findById(request.pathVariable("id"))
                 .flatMap(author -> request.body(BodyExtractors.toMono(Author.class))
-                        .flatMap(authorInBody -> {
-                            author.setName(authorInBody.getName());
-                            author.setSername(authorInBody.getSername());
-                            author.setBiography(authorInBody.getBiography());
-                            author.setDateOfBirth(authorInBody.getDateOfBirth());
+                        .flatMap(authorInRequestBody -> {
+                            author.setName(authorInRequestBody.getName());
+                            author.setSername(authorInRequestBody.getSername());
+                            author.setBiography(authorInRequestBody.getBiography());
+                            author.setDateOfBirth(authorInRequestBody.getDateOfBirth());
                             return repository.save(author);
                         }));
         return ServerResponse.ok().body(authorMono, Author.class);
     }
 
-    // delete
     public Mono<ServerResponse> delete(ServerRequest request) {
         repository.findById(request.pathVariable("id")).flatMap(repository::delete).subscribe();
         return ServerResponse.ok().build();
