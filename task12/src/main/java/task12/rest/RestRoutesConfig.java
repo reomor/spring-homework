@@ -21,6 +21,11 @@ public class RestRoutesConfig {
                 .andRoute(RequestPredicates.PUT("/rest/authors/{id}"), authorRouterHandlers::update)
                 .andRoute(RequestPredicates.DELETE("/rest/authors/{id}"), authorRouterHandlers::delete)
                 .andRoute(RequestPredicates.GET("/rest/books"), bookRouterHandlers::findAll)
+                .andRoute(RequestPredicates.GET("/rest/books/{id}"), bookRouterHandlers::findById)
+                .andRoute(RequestPredicates.POST("/rest/books"), bookRouterHandlers::save)
+                .andRoute(RequestPredicates.PUT("/rest/books/{id}"), bookRouterHandlers::update)
+                .andRoute(RequestPredicates.DELETE("/rest/books/{id}"), bookRouterHandlers::delete)
+                .andRoute(RequestPredicates.POST("/rest/books/{id}/comments"), bookRouterHandlers::addComment)
                 .andRoute(RequestPredicates.GET("/rest/books/{id}/comments"), bookRouterHandlers::findComments);
     }
 }

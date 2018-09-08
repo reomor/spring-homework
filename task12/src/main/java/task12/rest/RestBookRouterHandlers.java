@@ -10,6 +10,7 @@ import task12.domain.Book;
 import task12.domain.Comment;
 import task12.repository.BookReactiveRepository;
 
+
 @Component
 public class RestBookRouterHandlers {
 
@@ -28,10 +29,30 @@ public class RestBookRouterHandlers {
         return ServerResponse.ok().body(repository.findById(request.pathVariable("id")), Book.class);
     }
 
-    //save
-    //update
-    //delete
-    //comment - custom
+    public Mono<ServerResponse> save(ServerRequest request) {
+        Mono<Book> bookMono = request.body(BodyExtractors.toMono(Book.class)).flatMap(repository::save);
+        return ServerResponse.ok().body(bookMono, Book.class);
+    }
+
+    public Mono<ServerResponse> update(ServerRequest request) {
+        Mono<Book> bookMono = repository.findById(request.pathVariable("id"))
+                .flatMap(book -> request.body(BodyExtractors.toMono(Book.class))
+                        .flatMap(bookInRequestBody -> {
+                            book.setTitle(bookInRequestBody.getTitle());
+                            book.setDescription(bookInRequestBody.getDescription());
+                            book.setGenre(bookInRequestBody.getGenre());
+                            book.setIsbn(bookInRequestBody.getIsbn());
+                            book.setAuthors(bookInRequestBody.getAuthors());
+                            return repository.save(book);
+                        }));
+        return ServerResponse.ok().body(bookMono, Book.class);
+    }
+
+    public Mono<ServerResponse> delete(ServerRequest request) {
+        repository.findById(request.pathVariable("id")).flatMap(repository::delete).subscribe();
+        return ServerResponse.ok().build();
+    }
+
     public Mono<ServerResponse> addComment(ServerRequest request) {
         repository.findById(request.pathVariable("id"))
                 .flatMap(book -> request.body(BodyExtractors.toMono(Comment.class))
