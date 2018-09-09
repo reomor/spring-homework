@@ -79,7 +79,9 @@ public class RestAuthorTest extends AbstractRestTest {
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
                 .expectBody(Author.class)
-                .consumeWith(response -> Assertions.assertThat(response.getResponseBody()).isEqualTo(authorSaved))
+                .consumeWith(response -> {
+                    Assertions.assertThat(response.getResponseBody()).isEqualTo(authorSaved);
+                })
                 .returnResult();
 
         System.out.println(result.getResponseBody());
