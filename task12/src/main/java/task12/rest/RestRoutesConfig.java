@@ -2,7 +2,6 @@ package task12.rest;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.reactive.function.server.RequestPredicate;
 import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
@@ -26,6 +25,6 @@ public class RestRoutesConfig {
                 .andRoute(RequestPredicates.PUT("/rest/books/{id}"), bookRouterHandlers::update)
                 .andRoute(RequestPredicates.DELETE("/rest/books/{id}"), bookRouterHandlers::delete)
                 .andRoute(RequestPredicates.POST("/rest/books/{id}/comments"), bookRouterHandlers::addComment)
-                .andRoute(RequestPredicates.GET("/rest/books/{id}/comments"), bookRouterHandlers::findComments);
+                .andRoute(RequestPredicates.GET("/rest/books/{id}/comments"), bookRouterHandlers::findAllComments);
     }
 }

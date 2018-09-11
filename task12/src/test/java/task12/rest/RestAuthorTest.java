@@ -2,9 +2,12 @@ package task12.rest;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
@@ -19,7 +22,9 @@ import java.util.Objects;
 
 import static org.mockito.BDDMockito.given;
 
-public class RestAuthorTest extends AbstractRestTest {
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class RestAuthorTest {
 
     @Autowired
     private WebTestClient webTestClient;
@@ -90,16 +95,16 @@ public class RestAuthorTest extends AbstractRestTest {
     @Test
     public void givenUpdatedAuthor_whenUpdateAuthor_thenStatusOk() {
         LocalDate dateOfBirth = LocalDate.of(1991, Month.APRIL, 24);
-        Author author = new Author("1", "Test1Updated", "Sername1", dateOfBirth, "biography1");
+        Author author = new Author("1", "Test1", "Sername1", dateOfBirth, "biography1");
         Author authorUpdated = new Author("1", "Test1Updated", "Sername1", dateOfBirth, "biography1");
 
         given(repository.findById("1")).willReturn(Mono.just(author));
-        given(repository.save(author)).willReturn(Mono.just(authorUpdated));
+        given(repository.save(authorUpdated)).willReturn(Mono.just(authorUpdated));
 
         EntityExchangeResult<Author> result = webTestClient.put()
                 .uri("/rest/authors/" + author.getId())
                 .accept(MediaType.APPLICATION_JSON_UTF8)
-                .body(Mono.just(author), Author.class)
+                .body(Mono.just(authorUpdated), Author.class)
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -114,7 +119,7 @@ public class RestAuthorTest extends AbstractRestTest {
     public void givenId_whenDeleteAuthor_thenStatusOk() {
         Author authorToDelete = new Author("1", "Test1", "Sername1", LocalDate.now(), "biography1");
 
-        given(repository.findById("1")).willReturn(Mono.just(authorToDelete));
+        given(repository.findById(authorToDelete.getId())).willReturn(Mono.just(authorToDelete));
         given(repository.delete(authorToDelete)).willReturn(Mono.empty());
 
         webTestClient.delete()

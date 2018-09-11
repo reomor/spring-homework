@@ -60,7 +60,7 @@ public class RestBookRouterHandlers {
         return ServerResponse.ok().build();
     }
 
-    public Mono<ServerResponse> findComments(ServerRequest request) {
+    public Mono<ServerResponse> findAllComments(ServerRequest request) {
         return ServerResponse.ok().body(repository.getComments(request.pathVariable("id")), Comment.class);
     }
 }
