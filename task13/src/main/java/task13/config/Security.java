@@ -60,10 +60,9 @@ public class Security extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .formLogin()
+                .formLogin().loginPage("/login").permitAll()
                 //.loginPage()
-                .defaultSuccessUrl("/books")
-                .permitAll()
+                .defaultSuccessUrl("/books").permitAll()
                 .and()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()

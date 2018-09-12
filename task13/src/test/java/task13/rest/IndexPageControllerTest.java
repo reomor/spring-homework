@@ -13,8 +13,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(GeneralController.class)
-public class GeneralControllerTest {
+@WebMvcTest(IndexPageController.class)
+public class IndexPageControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

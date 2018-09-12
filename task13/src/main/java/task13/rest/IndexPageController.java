@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Slf4j
 @Controller
-public class GeneralController {
+public class IndexPageController {
 
     @GetMapping("/")
     public String listPage() {
