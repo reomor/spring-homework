@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import task13.domain.User;
 import task13.service.UserService;
 
@@ -69,7 +70,7 @@ public class Security extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .formLogin().loginPage("/login").defaultSuccessUrl("/books").permitAll()
                 .and()
-                .logout().logoutUrl("/logout").logoutSuccessUrl("/login")
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/login?logout"))
                 .and()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
