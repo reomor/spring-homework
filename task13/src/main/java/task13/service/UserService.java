@@ -8,8 +8,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import task13.domain.User;
+import task13.domain.UserRoles;
+import task13.exception.AlreadyExists;
 import task13.repository.UserRepository;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -24,10 +27,13 @@ public class UserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User create(User user, String password) {
-        final String passwordSalt = UUID.randomUUID().toString();
-        user.setPasswordSalt(passwordSalt);
-        user.setPasswordHash(passwordEncoder.encode(password + passwordSalt));
+    public User create(String name, String email, String password, UserRoles role, UserRoles ... roles) {
+        if(Objects.nonNull(userRepository.findOneByEmail(email))) {
+            throw new AlreadyExists("User with this email has been registered before");
+        }
+        String passwordSalt = UUID.randomUUID().toString();
+        String passwordHash = passwordEncoder.encode(password + passwordSalt);
+        User user = new User(name, email, passwordHash, passwordSalt, role, roles);
         return userRepository.save(user);
     }
 
