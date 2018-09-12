@@ -14,6 +14,11 @@ public class IndexPageController {
         return "index";
     }
 
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
     @GetMapping("/authors")
     public String listAuthorsPage() {
         log.info("Request author list");
