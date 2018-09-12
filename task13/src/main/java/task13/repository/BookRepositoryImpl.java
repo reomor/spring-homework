@@ -5,16 +5,22 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Component;
 import task13.domain.Book;
 import task13.domain.Comment;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class BookRepositoryImpl implements ExtendedBookRepository {
 
+    private final MongoTemplate mongoTemplate;
+
     @Autowired
-    private MongoTemplate mongoTemplate;
+    public BookRepositoryImpl(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
 
     @Override
     public void setComment(String id, Comment comment) {

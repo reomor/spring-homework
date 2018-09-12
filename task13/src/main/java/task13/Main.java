@@ -3,6 +3,8 @@ package task13;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import javax.annotation.PostConstruct;
+
 /*
     Домашнее задание
     CRUD приложение с Web UI и хранением данных в БД
@@ -19,10 +21,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
     В крутых веб-приложениях иногда просто даются ссылку на сваггер с подробным описанием, и часто этого просто достаточно для интеграции с сервисом.
 
     Большая просьба - отдокументировать все параметры и не документировать контроллеры ошибок спринг-бут.
+
+    В CRUD Web-приложение добавить механизм аутентификации
+    В существующее CRUD-приложение добавить мехнизм Form-based аутентификации.
+    UsersServices реализовать самостоятельно.
  */
 @SpringBootApplication
 public class Main {
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
+    }
+
+    @PostConstruct
+    public void initUsers() {
+
     }
 }
