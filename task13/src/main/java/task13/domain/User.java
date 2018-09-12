@@ -30,11 +30,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> authoritySet = new HashSet<>();
-        for (UserRoles role : this.rolesList) {
-            authoritySet.add(new SimpleGrantedAuthority(role.name()));
-        }
-        return authoritySet;
+        return rolesList;
     }
 
     @Override
