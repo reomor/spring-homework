@@ -8,11 +8,16 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import task13.config.Security;
 import task13.domain.Author;
 import task13.repository.AuthorRepository;
+import task13.service.UserService;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -25,12 +30,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+// https://stackoverflow.com/questions/15203485/spring-test-security-how-to-mock-authentication
+
 @RunWith(SpringRunner.class)
-@WebMvcTest(AuthorRestController.class)
+@WebMvcTest(
+        value = AuthorRestController.class,
+        includeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = Security.class)}
+        )
+// or instead of includeFilters
+//@Import(Security.class)
 public class AuthorRestControllerTest {
 
     @MockBean
     private AuthorRepository authorRepository;
+
+    @MockBean
+    private UserService userService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,6 +54,7 @@ public class AuthorRestControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
+    @WithMockUser(roles = "USER")
     public void givenAuthors_whenFindAllAuthors_thenStatus2xx() throws Exception {
         Author author1 = new Author("1", "Test1", "Sername1", LocalDate.now(), "biography1");
         Author author2 = new Author("2", "Test2", "Sername2", LocalDate.now(), "biography2");
@@ -56,6 +72,7 @@ public class AuthorRestControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void getAuthor_whenFindAuthorById_thenStatus2xx() throws Exception {
         final String id = "1";
         Author author = new Author(id, "Test1", "Sername1", LocalDate.now(), "biography1");
@@ -69,6 +86,7 @@ public class AuthorRestControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void postAuthor_whenSaveNewAuthor_thenStatus2xx() throws Exception {
         Author author = new Author(null, "Test1", "Sername1", LocalDate.now(), "biography1");
         Author authorSaved = new Author("1", "Test1", "Sername1", LocalDate.now(), "biography1");
@@ -84,6 +102,18 @@ public class AuthorRestControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
+    public void postAuthor_whenSaveNewAuthor_thenStatus4xx() throws Exception {
+        Author author = new Author(null, "Test1", "Sername1", LocalDate.now(), "biography1");
+
+        mockMvc.perform(post("/rest/authors")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(writeValue(author)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
     public void putExistingAuthor_whenUpdateAuthor_thenStatus2xx() throws Exception {
         final String id = "1";
         Author author = new Author(id, "Test1", "Sername1", LocalDate.now(), "biography1");
@@ -92,7 +122,7 @@ public class AuthorRestControllerTest {
 
         mockMvc.perform(put("/rest/authors/" + id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(author)))
+                .content(writeValue(author)))
                 .andDo(print())
                 .andExpect(status().isAccepted())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -100,6 +130,18 @@ public class AuthorRestControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
+    public void putExistingAuthor_whenUpdateAuthor_thenStatus4xx() throws Exception {
+        final String id = "1";
+        Author author = new Author(id, "Test1", "Sername1", LocalDate.now(), "biography1");
+        mockMvc.perform(put("/rest/authors/" + id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(writeValue(author)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
     public void putExistingAuthor_whenUpdateAuthor_thenError() throws Exception {
         final String id = "1";
         Author author = new Author(id, "Test1", "Sername1", LocalDate.now(), "biography1");
@@ -107,12 +149,13 @@ public class AuthorRestControllerTest {
 
         mockMvc.perform(put("/rest/authors/" + id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(author)))
+                .content(writeValue(author)))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void deleteExistingAuthor_whenDeleteAuthor_thenNoContent() throws Exception {
         final String id = "1";
         Author author = new Author(id, "Test1", "Sername1", LocalDate.now(), "biography1");
