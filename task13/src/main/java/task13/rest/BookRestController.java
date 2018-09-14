@@ -108,11 +108,21 @@ public class BookRestController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Comment added")
     })
-    @PostMapping("/rest/books/comment/{id}")
+    @PostMapping("/rest/books/{id}/comments")
     public ResponseEntity<Comment> commentBook(@PathVariable String id, @RequestBody Comment comment) {
         comment.setDate(LocalDateTime.now());
         bookRepository.setComment(id, comment);
         return new ResponseEntity<>(comment, HttpStatus.CREATED);
+    }
+
+    @ApiOperation(value = "Get all book comments", code = 201)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Comment added")
+    })
+    @GetMapping("/rest/books/{id}/comments")
+    public ResponseEntity<List<Comment>> getBookComments(@PathVariable String id) {
+        List<Comment> comments = bookRepository.findById(id).orElseThrow(ObjectNotFound::new).getComments();
+        return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 
     private Book checkIfExists(String id) {
