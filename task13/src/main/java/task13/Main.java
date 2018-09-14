@@ -3,6 +3,8 @@ package task13;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import task13.domain.UserRoles;
 import task13.service.UserService;
 
@@ -29,6 +31,8 @@ import javax.annotation.PostConstruct;
     В существующее CRUD-приложение добавить мехнизм Form-based аутентификации.
     UsersServices реализовать самостоятельно.
  */
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @SpringBootApplication
 public class Main {
 

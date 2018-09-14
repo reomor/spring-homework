@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -62,21 +64,30 @@ public class Security extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         // allows access to swagger
-        web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**");
+        web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**",
+                "/configuration/**", "/swagger-ui.html", "/webjars/**", "/js/**", "/css/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .anonymous().authorities("ROLE_ANONYMOUS")
+                .and()
                 .formLogin().loginPage("/login").defaultSuccessUrl("/books").permitAll()
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/login?logout"))
                 .and()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/webjars/**").permitAll()
-                .antMatchers("/js/**").permitAll()
-                .antMatchers("/css/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/rest/authors").hasAuthority("ROLE_ADMIN")
+                .antMatchers(HttpMethod.PUT, "/rest/authors/**").hasAuthority("ROLE_ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/rest/authors/**").hasAuthority("ROLE_ADMIN")
+                .antMatchers(HttpMethod.POST, "/rest/books").hasAuthority("ROLE_ADMIN")
+                .antMatchers(HttpMethod.PUT, "/rest/books/**").hasAuthority("ROLE_ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/rest/books/**").hasAuthority("ROLE_ADMIN")
+                .antMatchers(HttpMethod.POST, "/rest/books/**/comments").hasAuthority("ROLE_USER")
                 .anyRequest().authenticated();
     }
 }
