@@ -8,9 +8,13 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import task13.config.Security;
 import task13.domain.Author;
 import task13.domain.Book;
 import task13.domain.Comment;
@@ -18,6 +22,7 @@ import task13.domain.Genre;
 import task13.dto.BookDto;
 import task13.repository.AuthorRepository;
 import task13.repository.BookRepository;
+import task13.service.UserService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -34,7 +39,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(BookRestController.class)
+@WebMvcTest(
+        value = BookRestController.class,
+        includeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = Security.class)}
+)
 public class BookRestControllerTest {
 
     @MockBean
@@ -43,6 +51,9 @@ public class BookRestControllerTest {
     @MockBean
     private BookRepository bookRepository;
 
+    @MockBean
+    private UserService userService;
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -50,7 +61,8 @@ public class BookRestControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    public void givenBooks_whenFindAllBooks_thenStatus2xx() throws Exception {
+    @WithMockUser(roles = "USER")
+    public void givenBooks_whenUserFindAllBooks_thenStatus2xx() throws Exception {
         Book book = getBook("1");
         List<Book> books = Arrays.asList(book, book);
         given(bookRepository.findAll()).willReturn(books);
@@ -63,7 +75,8 @@ public class BookRestControllerTest {
     }
 
     @Test
-    public void givenBook_whenFindBookById_thenStatus2xx() throws Exception {
+    @WithMockUser(roles = "USER")
+    public void givenBook_whenUserFindBookById_thenStatus2xx() throws Exception {
         final String id = "1";
         Book book = getBook(id);
         Author author1 = new Author("1", "Test1", "Sername1", LocalDate.now(), "biography1");
@@ -84,7 +97,8 @@ public class BookRestControllerTest {
     }
 
     @Test
-    public void givenBook_whenSaveNewBook_thenStatus2xx() throws Exception {
+    @WithMockUser(roles = "ADMIN")
+    public void givenBook_whenAdminSaveNewBook_thenStatus2xx() throws Exception {
         Book book = getBook(null);
         Book bookSaved = getBook("1");
         List<String> authorIds = book.getAuthors().stream().map(Author::getId).collect(Collectors.toList());
@@ -104,7 +118,22 @@ public class BookRestControllerTest {
     }
 
     @Test
-    public void givenBook_whenUpdateBook_thenStatus2xx() throws Exception {
+    @WithMockUser(roles = "USER")
+    public void givenBook_whenUserSaveNewBook_thenStatus4xx() throws Exception {
+        Book book = getBook(null);
+        List<String> authorIds = book.getAuthors().stream().map(Author::getId).collect(Collectors.toList());
+
+        BookDto bookDto = new BookDto(book, Collections.emptyList(), authorIds);
+
+        mockMvc.perform(post("/rest/books")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(writeValue(bookDto)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void givenBook_whenAdminUpdateBook_thenStatus2xx() throws Exception {
         final String id = "1";
         Book book = getBook(id);
         List<String> authorIds = book.getAuthors().stream().map(Author::getId).collect(Collectors.toList());
@@ -124,26 +153,72 @@ public class BookRestControllerTest {
     }
 
     @Test
-    public void givenId_whenDeleteBook_thenNoContent() throws Exception {
+    @WithMockUser(roles = "USER")
+    public void givenBook_whenUserUpdateBook_thenStatus4xx() throws Exception {
         final String id = "1";
         Book book = getBook(id);
+        List<String> authorIds = book.getAuthors().stream().map(Author::getId).collect(Collectors.toList());
+
+        BookDto bookDto = new BookDto(book, Collections.emptyList(), authorIds);
+
+        mockMvc.perform(put("/rest/books/" + id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(writeValue(bookDto)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void givenId_whenAdminDeleteBook_thenNoContent() throws Exception {
+        final String id = "1";
+        Book book = getBook(id);
+
         Mockito.doNothing().when(bookRepository).deleteById(id);
         given(bookRepository.findById(id)).willReturn(Optional.of(book));
+
         mockMvc.perform(delete("/rest/books/" + id))
                 .andDo(print())
                 .andExpect(status().isNoContent());
     }
 
     @Test
-    public void givenBook_whenComment_thenStatus2xx() throws Exception {
+    @WithMockUser(roles = "USER")
+    public void givenId_whenUserDeleteBook_thenStatus4xx() throws Exception {
+        final String id = "1";
+
+        mockMvc.perform(delete("/rest/books/" + id))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    public void givenBook_whenUserComment_thenStatus2xx() throws Exception {
         final String id = "1";
         Comment comment = new Comment("New comment", LocalDateTime.now());
+
         Mockito.doNothing().when(bookRepository).setComment("1", comment);
-        mockMvc.perform(post("/rest/books/comment/" + id)
+
+        mockMvc.perform(post("/rest/books/" + id + "/comments")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(writeValue(comment)))
                 .andDo(print())
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    public void givenBook_whenUserFindAllComments_thenStatus2xx() throws Exception {
+        final String id = "1";
+        Book book = getBook(id);
+        List<Comment> comments = book.getComments();
+        given(bookRepository.findById(id)).willReturn(Optional.of(book));
+        given(bookRepository.getComments(id)).willReturn(comments);
+
+        mockMvc.perform(get("/rest/books/" + id + "/comments"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().json(writeValue(comments)));
     }
 
     private Author getAuthor() {

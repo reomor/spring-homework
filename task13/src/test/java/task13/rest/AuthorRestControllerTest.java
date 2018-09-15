@@ -55,7 +55,7 @@ public class AuthorRestControllerTest {
 
     @Test
     @WithMockUser(roles = "USER")
-    public void givenAuthors_whenFindAllAuthors_thenStatus2xx() throws Exception {
+    public void givenAuthors_whenUserFindAllAuthors_thenStatus2xx() throws Exception {
         Author author1 = new Author("1", "Test1", "Sername1", LocalDate.now(), "biography1");
         Author author2 = new Author("2", "Test2", "Sername2", LocalDate.now(), "biography2");
         List<Author> authors = Arrays.asList(author1, author2);
@@ -73,9 +73,10 @@ public class AuthorRestControllerTest {
 
     @Test
     @WithMockUser(roles = "USER")
-    public void getAuthor_whenFindAuthorById_thenStatus2xx() throws Exception {
+    public void getAuthor_whenUserFindAuthorById_thenStatus2xx() throws Exception {
         final String id = "1";
         Author author = new Author(id, "Test1", "Sername1", LocalDate.now(), "biography1");
+
         given(authorRepository.findById(id)).willReturn(Optional.of(author));
 
         mockMvc.perform(get("/rest/authors/" + id))
@@ -86,10 +87,19 @@ public class AuthorRestControllerTest {
     }
 
     @Test
+    public void getAuthor_whenWithoutCredentialsFindAuthorById_thenStatus3xx() throws Exception {
+        final String id = "1";
+        mockMvc.perform(get("/rest/authors/" + id))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
     @WithMockUser(roles = "ADMIN")
-    public void postAuthor_whenSaveNewAuthor_thenStatus2xx() throws Exception {
+    public void postAuthor_whenAdminSaveNewAuthor_thenStatus2xx() throws Exception {
         Author author = new Author(null, "Test1", "Sername1", LocalDate.now(), "biography1");
         Author authorSaved = new Author("1", "Test1", "Sername1", LocalDate.now(), "biography1");
+
         given(authorRepository.save(author)).willReturn(authorSaved);
 
         mockMvc.perform(post("/rest/authors")
@@ -103,7 +113,7 @@ public class AuthorRestControllerTest {
 
     @Test
     @WithMockUser(roles = "USER")
-    public void postAuthor_whenSaveNewAuthor_thenStatus4xx() throws Exception {
+    public void postAuthor_whenUserSaveNewAuthor_thenStatus4xx() throws Exception {
         Author author = new Author(null, "Test1", "Sername1", LocalDate.now(), "biography1");
 
         mockMvc.perform(post("/rest/authors")
@@ -114,7 +124,7 @@ public class AuthorRestControllerTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    public void putExistingAuthor_whenUpdateAuthor_thenStatus2xx() throws Exception {
+    public void putExistingAuthor_whenAdminUpdateAuthor_thenStatus2xx() throws Exception {
         final String id = "1";
         Author author = new Author(id, "Test1", "Sername1", LocalDate.now(), "biography1");
         given(authorRepository.findById(id)).willReturn(Optional.of(author));
@@ -131,7 +141,7 @@ public class AuthorRestControllerTest {
 
     @Test
     @WithMockUser(roles = "USER")
-    public void putExistingAuthor_whenUpdateAuthor_thenStatus4xx() throws Exception {
+    public void putExistingAuthor_whenUserUpdateAuthor_thenStatus4xx() throws Exception {
         final String id = "1";
         Author author = new Author(id, "Test1", "Sername1", LocalDate.now(), "biography1");
         mockMvc.perform(put("/rest/authors/" + id)
@@ -142,21 +152,7 @@ public class AuthorRestControllerTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    public void putExistingAuthor_whenUpdateAuthor_thenError() throws Exception {
-        final String id = "1";
-        Author author = new Author(id, "Test1", "Sername1", LocalDate.now(), "biography1");
-        given(authorRepository.findById(id)).willReturn(Optional.empty());
-
-        mockMvc.perform(put("/rest/authors/" + id)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(writeValue(author)))
-                .andDo(print())
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    @WithMockUser(roles = "ADMIN")
-    public void deleteExistingAuthor_whenDeleteAuthor_thenNoContent() throws Exception {
+    public void deleteExistingAuthor_whenAdminDeleteAuthor_thenNoContent() throws Exception {
         final String id = "1";
         Author author = new Author(id, "Test1", "Sername1", LocalDate.now(), "biography1");
         Mockito.doNothing().when(authorRepository).deleteById(id);
@@ -164,6 +160,14 @@ public class AuthorRestControllerTest {
         mockMvc.perform(delete("/rest/authors/" + id))
                 .andDo(print())
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    public void deleteExistingAuthor_whenUserDeleteAuthor_then4xx() throws Exception {
+        final String id = "1";
+        mockMvc.perform(delete("/rest/authors/" + id))
+                .andExpect(status().isForbidden());
     }
 
     private <T> String writeValue(T obj) {

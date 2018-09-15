@@ -19,15 +19,20 @@ public class User implements UserDetails {
     @Id
     @ApiModelProperty(notes = "MongoDB generated id", example = "5b77ff92f489de2738fa6c07")
     private String id;
+
     @ApiModelProperty(notes = "User name", example = "Alexey")
     private String name;
+
     @Indexed(unique = true, sparse = true)
     @ApiModelProperty(notes = "User email is used to authenticate", example = "email@email.com")
     private String email;
+
     @ApiModelProperty(notes = "Hashed password", example = "")
     private String passwordHash;
+
     @ApiModelProperty(notes = "Salt for user's password, random for every user")
     private String passwordSalt;
+
     @ApiModelProperty(notes = "List of roles from enumeration")
     private Set<UserRoles> rolesList;
 
