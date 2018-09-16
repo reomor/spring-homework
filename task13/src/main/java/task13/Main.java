@@ -30,6 +30,9 @@ import javax.annotation.PostConstruct;
     В CRUD Web-приложение добавить механизм аутентификации
     В существующее CRUD-приложение добавить мехнизм Form-based аутентификации.
     UsersServices реализовать самостоятельно.
+
+    Требуется протестировать Ваше приложение в стиле BDD с помощью Cucumber, а если совсем хотите наворотов, то и с помощью Gherkin
+    Вот замечательная статья - https://habr.com/post/332754/
  */
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
