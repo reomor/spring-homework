@@ -26,11 +26,9 @@ public class RegistrationFormDto {
     @Email(message = "Email must be valid")
     private String email;
 
-    @NotBlank
     @Size(min = 4, max = 100, message = "Password size must be at least 4, less than 100 characters")
     private String password;
 
-    @NotBlank
     @Size(min = 4, max = 100, message = "Password size must be at least 4, less than 100 characters")
     private String passwordConfirmation;
 }
