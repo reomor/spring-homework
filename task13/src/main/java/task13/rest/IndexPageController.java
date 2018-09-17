@@ -43,6 +43,7 @@ public class IndexPageController {
             model.addAttribute("registrationForm", registrationFormDto);
             return "registration/form";
         }
+        // TODO register user
         return "redirect:/login";
     }
 

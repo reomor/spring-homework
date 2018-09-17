@@ -81,6 +81,7 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
+                .antMatchers("/register").permitAll()
                 .antMatchers(HttpMethod.POST, "/rest/authors").hasAuthority("ROLE_ADMIN")
                 .antMatchers(HttpMethod.PUT, "/rest/authors/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/rest/authors/**").hasAuthority("ROLE_ADMIN")

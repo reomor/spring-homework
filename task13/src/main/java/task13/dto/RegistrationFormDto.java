@@ -2,12 +2,14 @@ package task13.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import task13.annotation.FieldsConfirmation;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+@NoArgsConstructor
 @Data
 @AllArgsConstructor
 @FieldsConfirmation(
