@@ -49,8 +49,8 @@ public class Main {
     @PostConstruct
     public void initUsers() {
         try {
-            userService.create("User", "usr@a.ru", "123", UserRoles.ROLE_USER);
-            userService.create("Admin", "adm@a.ru", "123", UserRoles.ROLE_USER, UserRoles.ROLE_ADMIN);
+            userService.register("User", "usr@a.ru", "123", UserRoles.ROLE_USER);
+            userService.register("Admin", "adm@a.ru", "123", UserRoles.ROLE_USER, UserRoles.ROLE_ADMIN);
         } catch (Exception ignore) {
             /* NOP */
         }
