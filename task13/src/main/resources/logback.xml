@@ -20,6 +20,7 @@
         </encoder>
     </appender>
 
+    <logger name="org.springframework.security" level="debug"/>
     <logger name="task13" level="info"/>
 
     <root level="warn">
