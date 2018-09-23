@@ -15,8 +15,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import task13.config.Security;
-import task13.domain.Author;
-import task13.repository.AuthorRepository;
+import task13.business.domain.Author;
+import task13.business.repository.AuthorRepository;
 import task13.service.UserService;
 
 import java.time.LocalDate;

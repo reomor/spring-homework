@@ -1,9 +1,9 @@
-package task13.dto;
+package task13.business.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-import task13.domain.Author;
-import task13.domain.Book;
+import task13.business.domain.Author;
+import task13.business.domain.Book;
 
 import java.util.List;
 

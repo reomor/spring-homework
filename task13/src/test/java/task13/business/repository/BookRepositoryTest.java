@@ -1,10 +1,10 @@
-package task13.repository;
+package task13.business.repository;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import task13.domain.Book;
-import task13.domain.Comment;
-import task13.domain.Genre;
+import task13.business.domain.Book;
+import task13.business.domain.Comment;
+import task13.business.domain.Genre;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;

@@ -1,9 +1,9 @@
-package task13.repository;
+package task13.business.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-import task13.domain.Book;
-import task13.domain.Comment;
+import task13.business.domain.Book;
+import task13.business.domain.Comment;
 
 import java.util.List;
 

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import task13.domain.UserRoles;
-import task13.dto.RegistrationFormDto;
+import task13.business.domain.UserRoles;
+import task13.business.dto.RegistrationFormDto;
 import task13.service.UserService;
 
 import javax.validation.Valid;

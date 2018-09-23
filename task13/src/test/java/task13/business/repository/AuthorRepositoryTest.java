@@ -1,8 +1,8 @@
-package task13.repository;
+package task13.business.repository;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import task13.domain.Author;
+import task13.business.domain.Author;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,4 +1,4 @@
-package task13.repository;
+package task13.business.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -6,8 +6,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
-import task13.domain.Book;
-import task13.domain.Comment;
+import task13.business.domain.Book;
+import task13.business.domain.Comment;
 
 import java.util.ArrayList;
 import java.util.List;

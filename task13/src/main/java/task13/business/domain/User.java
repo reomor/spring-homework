@@ -1,4 +1,4 @@
-package task13.domain;
+package task13.business.domain;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

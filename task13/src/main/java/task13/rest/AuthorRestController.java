@@ -10,9 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import task13.domain.Author;
+import task13.business.domain.Author;
 import task13.exception.ObjectNotFound;
-import task13.repository.AuthorRepository;
+import task13.business.repository.AuthorRepository;
 
 import java.util.List;
 import java.util.Optional;

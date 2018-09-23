@@ -1,4 +1,4 @@
-package task13.dto;
+package task13.business.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

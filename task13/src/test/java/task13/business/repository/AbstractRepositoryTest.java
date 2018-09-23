@@ -1,4 +1,4 @@
-package task13.repository;
+package task13.business.repository;
 
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

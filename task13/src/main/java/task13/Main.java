@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import task13.domain.UserRoles;
+import task13.business.domain.UserRoles;
 import task13.service.UserService;
 
 import javax.annotation.PostConstruct;

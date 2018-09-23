@@ -1,6 +1,6 @@
-package task13.repository;
+package task13.business.repository;
 
-import task13.domain.Comment;
+import task13.business.domain.Comment;
 
 import java.util.List;
 
