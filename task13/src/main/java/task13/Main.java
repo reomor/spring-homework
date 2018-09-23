@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import task13.business.domain.UserRoles;
+import task13.acl.domain.UserRoles;
 import task13.service.UserService;
 
 import javax.annotation.PostConstruct;
@@ -49,8 +49,8 @@ public class Main {
     @PostConstruct
     public void initUsers() {
         try {
-            userService.register("User", "usr@a.ru", "123", UserRoles.ROLE_USER);
-            userService.register("Admin", "adm@a.ru", "123", UserRoles.ROLE_USER, UserRoles.ROLE_ADMIN);
+            userService.register("User", "usr@a.ru", "12345", UserRoles.ROLE_USER);
+            userService.register("Admin", "adm@a.ru", "12345", UserRoles.ROLE_USER, UserRoles.ROLE_ADMIN);
         } catch (Exception ignore) {
             /* NOP */
         }

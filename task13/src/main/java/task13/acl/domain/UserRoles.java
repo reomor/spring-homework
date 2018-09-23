@@ -1,4 +1,4 @@
-package task13.business.domain;
+package task13.acl.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 

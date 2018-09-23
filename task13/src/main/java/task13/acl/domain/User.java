@@ -1,22 +1,22 @@
-package task13.business.domain;
+package task13.acl.domain;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.CollectionUtils;
 
+import javax.persistence.*;
 import java.util.*;
 
 @NoArgsConstructor
 @Data
-@Document
+@Entity
 public class User implements UserDetails {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(notes = "MongoDB generated id", example = "5b77ff92f489de2738fa6c07")
     private String id;
 
@@ -34,6 +34,10 @@ public class User implements UserDetails {
     private String passwordSalt;
 
     @ApiModelProperty(notes = "List of roles from enumeration")
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<UserRoles> rolesList;
 
     public User(String name, String email, String passwordHash, String passwordSalt, UserRoles role, UserRoles... roles) {

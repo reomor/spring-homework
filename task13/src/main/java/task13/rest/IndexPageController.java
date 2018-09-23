@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import task13.business.domain.UserRoles;
+import task13.acl.domain.UserRoles;
 import task13.business.dto.RegistrationFormDto;
 import task13.service.UserService;
 
@@ -59,7 +59,7 @@ public class IndexPageController {
             return "registration/form";
         }
         log.info("Successfully registered");
-        // is validated already
+        // is validated
         userService.register(registrationFormDto.getName(), registrationFormDto.getEmail(), registrationFormDto.getPassword(), UserRoles.ROLE_USER);
         redirectAttributes.addFlashAttribute("alertSuccess", "Successfully registered");
         return "redirect:/login";

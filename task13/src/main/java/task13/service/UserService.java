@@ -7,10 +7,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import task13.business.domain.User;
-import task13.business.domain.UserRoles;
+import task13.acl.domain.User;
+import task13.acl.domain.UserRoles;
 import task13.exception.AlreadyExists;
-import task13.business.repository.UserRepository;
+import task13.acl.repository.UserRepository;
 
 import java.util.Objects;
 import java.util.UUID;

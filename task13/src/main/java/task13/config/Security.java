@@ -19,7 +19,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import task13.business.domain.User;
+import task13.acl.domain.User;
 import task13.service.UserService;
 
 @Configuration
@@ -71,6 +71,7 @@ public class Security extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
+                //.headers().frameOptions().disable().and() // allow h2-console
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .anonymous().authorities("ROLE_ANONYMOUS")
@@ -80,6 +81,7 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/login?logout"))
                 .and()
                 .authorizeRequests()
+                //.antMatchers("/**").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers(HttpMethod.POST, "/rest/authors").hasAuthority("ROLE_ADMIN")
