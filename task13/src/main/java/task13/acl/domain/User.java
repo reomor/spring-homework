@@ -17,8 +17,8 @@ import java.util.*;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(notes = "MongoDB generated id", example = "5b77ff92f489de2738fa6c07")
-    private String id;
+    @ApiModelProperty(notes = "H2 generated id", example = "1001")
+    private Long id;
 
     @ApiModelProperty(notes = "User name", example = "Alexey")
     private String name;
@@ -44,7 +44,7 @@ public class User implements UserDetails {
         this(null, name, email, passwordHash, passwordSalt, EnumSet.of(role, roles));
     }
 
-    public User(String id, String name, String email, String passwordHash, String passwordSalt, Set<UserRoles> rolesList) {
+    public User(Long id, String name, String email, String passwordHash, String passwordSalt, Set<UserRoles> rolesList) {
         this.id = id;
         this.name = name;
         this.email = email;

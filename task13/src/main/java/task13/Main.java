@@ -43,16 +43,4 @@ public class Main {
         SpringApplication.run(Main.class, args);
     }
 
-    @Autowired
-    private UserService userService;
-
-    @PostConstruct
-    public void initUsers() {
-        try {
-            userService.register("User", "usr@a.ru", "12345", UserRoles.ROLE_USER);
-            userService.register("Admin", "adm@a.ru", "12345", UserRoles.ROLE_USER, UserRoles.ROLE_ADMIN);
-        } catch (Exception ignore) {
-            /* NOP */
-        }
-    }
 }
