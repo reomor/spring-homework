@@ -27,7 +27,6 @@ public class UserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // @Secured({"ROLE_ADMIN"})
     public User register(String name, String email, String password, UserRoles role, UserRoles ... roles) {
         if(Objects.nonNull(userRepository.findOneByEmail(email))) {
             throw new AlreadyExists("User with this email has been registered before");

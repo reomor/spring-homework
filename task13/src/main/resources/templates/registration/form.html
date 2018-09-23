@@ -25,12 +25,13 @@
     </nav>
 </div>
 <div class="container">
+
     <form class="form-horizontal form" th:action="@{/register}" th:object="${registrationForm}" method="post">
         <h3 class="text-center text-primary">Registration form</h3>
         <div class="form-group row">
             <label for="name" class="col-sm-4 col-form-label">Name:</label><br>
             <div class="col-sm-8">
-                <input type="text" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : 'is-valid'" th:field="*{name}" class="form-control">
+                <input type="text" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'" th:field="*{name}" class="form-control">
                 <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="invalid-feedback"></div>
             </div>
 
@@ -38,22 +39,24 @@
         <div class="form-group row">
             <label for="email" class="col-sm-4 col-form-label">Email:</label><br>
             <div class="col-sm-8">
-                <input type="text" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : 'is-valid'" th:field="*{email}" class="form-control">
+                <input type="text" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" th:field="*{email}" class="form-control">
                 <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback"></div>
             </div>
         </div>
         <div class="form-group row">
             <label for="password" class="col-sm-4 col-form-label">Password:</label><br>
             <div class="col-sm-8">
-                <input type="password" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : 'is-valid'" th:field="*{password}" class="form-control">
+                <input type="password" th:classappend="${#fields.hasErrors('password') or #fields.hasErrors('global')} ? 'is-invalid'" th:field="*{password}" class="form-control">
                 <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback"></div>
+                <div th:if="${#fields.hasErrors('global')}" th:errors="global" class="invalid-feedback"></div>
             </div>
         </div>
         <div class="form-group row">
             <label for="passwordConfirmation" class="col-sm-4 col-form-label">Password confirmation:</label><br>
             <div class="col-sm-8">
-                <input type="password" th:classappend="${#fields.hasErrors('passwordConfirmation')} ? 'is-invalid' : 'is-valid'" th:field="*{passwordConfirmation}" class="form-control">
+                <input type="password" th:classappend="${#fields.hasErrors('passwordConfirmation') or #fields.hasErrors('global')} ? 'is-invalid'" th:field="*{passwordConfirmation}" class="form-control">
                 <div th:if="${#fields.hasErrors('passwordConfirmation')}" th:errors="*{passwordConfirmation}" class="invalid-feedback"></div>
+                <div th:if="${#fields.hasErrors('global')}" th:errors="global" class="invalid-feedback"></div>
             </div>
         </div>
         <div class="form-group">
