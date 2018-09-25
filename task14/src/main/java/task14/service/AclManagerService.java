@@ -31,13 +31,6 @@ public class AclManagerService implements AclManager {
 
     @Override
     public <T> void addPermission(Class<T> clazz, Serializable identifier, Sid sid, Permission permission, Permission ... permissions) {
-        /*
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        authentication.getAuthorities();
-        Sid s = new PrincipalSid(authentication);
-        // aclService.
-         aclManager.addPermission(User.class, 1, new GrantedAuthoritySid("ROLE_ADMIN"), BasePermission.READ);
-        //*/
         ObjectIdentity identity = new ObjectIdentityImpl(clazz, identifier);
         MutableAcl acl = aclCreateIfNotExist(identity);
         List<Permission> permissionList = new ArrayList<>();

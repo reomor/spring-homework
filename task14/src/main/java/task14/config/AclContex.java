@@ -56,7 +56,7 @@ public class AclContex {
 
     @Bean
     public AclAuthorizationStrategy aclAuthorizationStrategy() {
-        return new AclAuthorizationStrategyImpl(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_UBER"));
+        return new AclAuthorizationStrategyImpl(new SimpleGrantedAuthority("ROLE_UBER"));
     }
 
     @Bean

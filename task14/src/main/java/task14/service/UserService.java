@@ -2,6 +2,7 @@ package task14.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,7 +12,9 @@ import task14.acl.domain.User;
 import task14.acl.domain.UserRoles;
 import task14.exception.AlreadyExists;
 import task14.acl.repository.UserRepository;
+import task14.exception.ObjectNotFound;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -52,5 +55,21 @@ public class UserService implements UserDetailsService {
             return user;
         }
         return null;
+    }
+
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    public User findById(Long id) {
+        return userRepository.findById(id).orElseThrow(ObjectNotFound::new);
+    }
+
+    public void delete(User user) {
+        userRepository.delete(user);
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }
