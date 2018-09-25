@@ -17,5 +17,4 @@ public class AclMethodSecurityConfiguration extends GlobalMethodSecurityConfigur
     protected MethodSecurityExpressionHandler createExpressionHandler() {
         return defaultMethodSecurityExpressionHandler;
     }
-
 }
