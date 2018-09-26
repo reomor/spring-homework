@@ -48,6 +48,14 @@ public class AclManagerService implements AclManager {
         aclService.updateAcl(acl);
     }
 
+    public <T> void delAllPermissions(Class<T> clazz, Serializable identifier, Sid sid) {
+        ObjectIdentity identity = new ObjectIdentityImpl(clazz.getCanonicalName(), identifier);
+        MutableAcl acl = (MutableAcl) aclService.readAclById(identity);
+        List<AccessControlEntry> aclEntries = acl.getEntries();
+        aclEntries.clear();
+        aclService.updateAcl(acl);
+    }
+
     @Override
     public <T> boolean isPermissionGranted(Class<T> clazz, Serializable identifier, Sid sid, Permission permission) {
         ObjectIdentity identity = new ObjectIdentityImpl(clazz.getCanonicalName(), identifier);
@@ -56,7 +64,7 @@ public class AclManagerService implements AclManager {
     }
 
     @Override
-    public void deleteAllGrantedAcl() {
+    public void clearAllAclTables() {
         jdbcTemplate.update("delete from acl_entry");
         jdbcTemplate.update("delete from acl_object_identity");
         jdbcTemplate.update("delete from acl_sid");

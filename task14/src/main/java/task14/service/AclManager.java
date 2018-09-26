@@ -18,7 +18,7 @@ public interface AclManager {
      * @param sid        Security Identifier, could be a {@link PrincipalSid} or a {@link GrantedAuthoritySid}
      * @param permission The permissions based on {@link BasePermission}, one or multiple
      */
-    public <T> void addPermission(Class<T> clazz, Serializable identifier, Sid sid, Permission permission, Permission ... permissions);
+    public <T> void addPermission(Class<T> clazz, Serializable identifier, Sid sid, Permission permission, Permission... permissions);
 
     /**
      * Remove a permission from the given object
@@ -29,6 +29,15 @@ public interface AclManager {
      * @param permission The permission based on {@link BasePermission}
      */
     public <T> void delPermission(Class<T> clazz, Serializable identifier, Sid sid, Permission permission);
+
+    /**
+     * Remove all permission from the given object
+     *
+     * @param clazz      Domain class
+     * @param identifier Id from the given domain
+     * @param sid        Security Identifier, could be a {@link PrincipalSid} or a {@link GrantedAuthoritySid}
+     */
+    public <T> void delAllPermissions(Class<T> clazz, Serializable identifier, Sid sid);
 
     /**
      * Check whether the given object has permission
@@ -44,5 +53,5 @@ public interface AclManager {
     /*
      * Delete all from acl tables
      */
-    void deleteAllGrantedAcl();
+    void clearAllAclTables();
 }
