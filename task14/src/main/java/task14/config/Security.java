@@ -70,8 +70,8 @@ public class Security extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                // allow h2-console
-                .headers().frameOptions().disable().and()
+                .headers().frameOptions().disable().and()// allow h2-console
+                // store session or else authorization is lost with new request
                 //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 //.and()
                 .anonymous().authorities("ROLE_ANONYMOUS")
