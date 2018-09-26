@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import task14.acl.domain.UserRoles;
 import task14.business.dto.RegistrationFormDto;
 import task14.service.UserService;
 
@@ -51,7 +50,7 @@ public class IndexPageController {
             Errors errors,
             Model model,
             RedirectAttributes redirectAttributes
-            ) {
+    ) {
         log.info("Attempt to register with " + registrationFormDto);
         if (errors.hasErrors()) {
             log.info("Errors during registration");
@@ -60,7 +59,7 @@ public class IndexPageController {
         }
         log.info("Successfully registered");
         // is validated
-        userService.register(registrationFormDto.getName(), registrationFormDto.getEmail(), registrationFormDto.getPassword(), UserRoles.ROLE_USER);
+        userService.register(registrationFormDto.getName(), registrationFormDto.getEmail(), registrationFormDto.getPassword());
         redirectAttributes.addFlashAttribute("alertSuccess", "Successfully registered");
         return "redirect:/login";
     }
