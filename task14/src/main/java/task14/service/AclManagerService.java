@@ -3,17 +3,17 @@ package task14.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.acls.domain.GrantedAuthoritySid;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.jdbc.JdbcMutableAclService;
 import org.springframework.security.acls.model.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional
@@ -41,24 +41,20 @@ public class AclManagerService implements AclManager {
     }
 
     public <T> void delPermission(Class<T> clazz, Serializable identifier, Sid sid, Permission permission) {
-        ObjectIdentity identity = new ObjectIdentityImpl(clazz.getCanonicalName(), identifier);
+        ObjectIdentity identity = new ObjectIdentityImpl(clazz, identifier);
         MutableAcl acl = (MutableAcl) aclService.readAclById(identity);
         List<AccessControlEntry> aclEntries = acl.getEntries();
         aclEntries.removeIf(accessControlEntry -> accessControlEntry.getSid().equals(sid) && accessControlEntry.getPermission().equals(permission));
         aclService.updateAcl(acl);
     }
 
-    public <T> void delAllPermissions(Class<T> clazz, Serializable identifier) {
-        ObjectIdentity identity = new ObjectIdentityImpl(clazz.getCanonicalName(), identifier);
-        MutableAcl acl = (MutableAcl) aclService.readAclById(identity);
-        List<AccessControlEntry> aclEntries = acl.getEntries();
-        aclEntries.clear();
-        aclService.updateAcl(acl);
+    public <T> void delAllPermissions(MutableAcl acl) {
+        aclService.deleteAcl(acl.getObjectIdentity(), true);
     }
 
     @Override
     public <T> boolean isPermissionGranted(Class<T> clazz, Serializable identifier, Sid sid, Permission permission) {
-        ObjectIdentity identity = new ObjectIdentityImpl(clazz.getCanonicalName(), identifier);
+        ObjectIdentity identity = new ObjectIdentityImpl(clazz, identifier);
         MutableAcl acl = (MutableAcl) aclService.readAclById(identity);
         return acl.isGranted(Collections.singletonList(permission), Collections.singletonList(sid), false);
     }
@@ -69,6 +65,12 @@ public class AclManagerService implements AclManager {
         jdbcTemplate.update("delete from acl_object_identity");
         jdbcTemplate.update("delete from acl_sid");
         jdbcTemplate.update("delete from acl_class");
+    }
+
+    @Override
+    public <T> MutableAcl getAclById(Class<T> clazz, Serializable identifier) {
+        ObjectIdentity identity = new ObjectIdentityImpl(clazz, identifier);
+        return  (MutableAcl) aclService.readAclById(identity);
     }
 
     private MutableAcl aclCreateIfNotExist(ObjectIdentity identity) {

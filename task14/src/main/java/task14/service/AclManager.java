@@ -3,6 +3,7 @@ package task14.service;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.GrantedAuthoritySid;
 import org.springframework.security.acls.domain.PrincipalSid;
+import org.springframework.security.acls.model.MutableAcl;
 import org.springframework.security.acls.model.Permission;
 import org.springframework.security.acls.model.Sid;
 
@@ -32,12 +33,8 @@ public interface AclManager {
 
     /**
      * Remove all permission from the given object
-     *
-     * @param clazz      Domain class
-     * @param identifier Id from the given domain
-     * @param sid        Security Identifier, could be a {@link PrincipalSid} or a {@link GrantedAuthoritySid}
      */
-    public <T> void delAllPermissions(Class<T> clazz, Serializable identifier);
+    public <T> void delAllPermissions(MutableAcl acl);
 
     /**
      * Check whether the given object has permission
@@ -54,4 +51,6 @@ public interface AclManager {
      * Delete all from acl tables
      */
     void clearAllAclTables();
+
+    public <T> MutableAcl getAclById(Class<T> clazz, Serializable identifier);
 }

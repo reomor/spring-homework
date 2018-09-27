@@ -5,6 +5,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.GrantedAuthoritySid;
@@ -19,9 +21,11 @@ import task14.acl.domain.User;
 import task14.acl.domain.UserRoles;
 import task14.exception.UnauthorizedAuthority;
 
+import java.sql.ResultSet;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,6 +43,9 @@ public class UserServiceTest {
 
     @Autowired
     private JdbcMutableAclService aclService;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     // Register
     @Test
@@ -91,6 +98,19 @@ public class UserServiceTest {
     }
 
     // Delete
+    @Test
+    @WithMockUser(username = "b@b.b", roles = "ADMIN")
+    public void givenUser_adminDeleteUser() throws Exception {
+        Long rowsBeforeCreate = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM ACL_ENTRY", Long.class);
+        User registeredUser = userService.createUser("Test", "x@x.x", "12345");
+        Long rowsAfterCreate = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM ACL_ENTRY", Long.class);
+        userService.delete(registeredUser);
+        Optional<User> byId = userService.findById(registeredUser.getId());
+        assertThat(byId.isPresent()).isFalse();
+        Long rowsAfterDelete = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM ACL_ENTRY", Long.class);
+        assertThat(rowsBeforeCreate).isEqualTo(rowsAfterDelete);
+        assertThat(rowsAfterCreate).isNotEqualTo(rowsAfterDelete);
+    }
 
     // findAll
     /*

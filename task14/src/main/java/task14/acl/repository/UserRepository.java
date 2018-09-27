@@ -20,7 +20,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
     User save(User user);
 
     @Override
-    @PostAuthorize("hasPermission(returnObject, 'READ')")
+    @PostAuthorize("hasAuthority('ROLE_ADMIN') || hasPermission(returnObject, 'READ')")
     Optional<User> findById(Long id);
 
     @Override

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.GrantedAuthoritySid;
 import org.springframework.security.acls.domain.PrincipalSid;
+import org.springframework.security.acls.model.MutableAcl;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -107,13 +108,14 @@ public class UserService implements UserDetailsService {
         return null;
     }
 
-    public User findById(Long id) {
-        return userRepository.findById(id).orElseThrow(ObjectNotFound::new);
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
     }
 
     public void delete(User user) {
+        MutableAcl acl = aclManager.getAclById(User.class, user.getId());
         userRepository.delete(user);
-        aclManager.delAllPermissions(User.class, user.getId());
+        aclManager.delAllPermissions(acl);
     }
 
     public List<User> findAll() {
