@@ -83,7 +83,7 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //.antMatchers("/**").permitAll()
                 .antMatchers("/").permitAll()
-                .antMatchers("/register").permitAll()
+                .antMatchers("/register").hasAuthority("ROLE_ANONYMOUS")
                 .antMatchers(HttpMethod.POST, "/rest/authors").hasAuthority("ROLE_ADMIN")
                 .antMatchers(HttpMethod.PUT, "/rest/authors/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/rest/authors/**").hasAuthority("ROLE_ADMIN")

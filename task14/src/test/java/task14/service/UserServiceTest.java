@@ -93,6 +93,7 @@ public class UserServiceTest {
     // Delete
 
     // findAll
+    /*
     @Test
     @WithMockUser(roles = "USER")
     public void givenUser_findAllUsers() {
@@ -113,4 +114,5 @@ public class UserServiceTest {
         List<User> all = userService.findAll();
         assertThat(all).isNotEmpty();
     }
+    //*/
 }
