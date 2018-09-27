@@ -1,12 +1,10 @@
 package task14.service;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.GrantedAuthoritySid;
@@ -19,9 +17,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import task14.acl.domain.User;
 import task14.acl.domain.UserRoles;
+import task14.exception.ObjectNotFound;
 import task14.exception.UnauthorizedAuthority;
 
-import java.sql.ResultSet;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -39,13 +37,14 @@ public class UserServiceTest {
     private UserService userService;
 
     @Autowired
-    private AclManager aclManager;
-
-    @Autowired
     private JdbcMutableAclService aclService;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    private static long UBER_ID = 1L;
+    private static long ADMIN_ID = 2L;
+    private static long USER_ID = 3L;
 
     // Register
     @Test
@@ -75,7 +74,7 @@ public class UserServiceTest {
     @Test(expected = UnauthorizedAuthority.class)
     @WithMockUser(username = "b@b.b", roles = "ADMIN")
     public void givenUser_adminCreateAdmin() throws Exception {
-        User registeredUser = userService.createAdmin("Test", "x@x.x", "12345");
+        userService.createAdmin("Test", "x@x.x", "12345");
     }
 
     @Test
@@ -94,7 +93,7 @@ public class UserServiceTest {
     @Test(expected = UnauthorizedAuthority.class)
     @WithMockUser(roles = "USER")
     public void givenUser_userCreateUser() throws Exception {
-        User registeredUser = userService.createUser("Test", "x@x.x", "12345");
+        userService.createUser("Test", "x@x.x", "12345");
     }
 
     // Delete
@@ -112,27 +111,85 @@ public class UserServiceTest {
         assertThat(rowsAfterCreate).isNotEqualTo(rowsAfterDelete);
     }
 
+    @Test(expected = AccessDeniedException.class)
+    @WithMockUser(username = "b@b.b", roles = "ADMIN")
+    public void givenUser_adminDeleteAdmin() throws Exception {
+        User admin = userService.findById(ADMIN_ID).orElseThrow(ObjectNotFound::new);
+        userService.delete(admin);
+    }
+
+    @Test
+    @WithMockUser(username = "b@b.b", roles = "UBER")
+    public void givenUser_uberDeleteAdmin() throws Exception {
+        User admin = userService.findById(ADMIN_ID).orElseThrow(ObjectNotFound::new);
+        Long rowsBeforeDelete = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM ACL_ENTRY", Long.class);
+        userService.delete(admin);
+        Long rowsAfterDelete = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM ACL_ENTRY", Long.class);
+        assertThat(rowsAfterDelete).isNotEqualTo(rowsBeforeDelete);
+    }
+
+    @Test(expected = AccessDeniedException.class)
+    @WithMockUser(username = "b@b.b", roles = "UBER")
+    public void givenUser_uberDeleteUber() throws Exception {
+        User uber = userService.findById(UBER_ID).orElseThrow(ObjectNotFound::new);
+        userService.delete(uber);
+    }
+
+    @Test(expected = AccessDeniedException.class)
+    @WithMockUser(username = "b@b.b", roles = "UBER")
+    public void givenUser_uberDeleteUser() throws Exception {
+        User user = userService.findById(USER_ID).orElseThrow(ObjectNotFound::new);
+        userService.delete(user);
+    }
+
+    //findById
+    @Test
+    @WithMockUser(username = "root", roles = "UBER")
+    public void givenUser_uberFindByIdAdmin() throws Exception {
+        Optional<User> userOptional = userService.findById(ADMIN_ID);
+        assertThat(userOptional.isPresent()).isTrue();
+    }
+
+    @Test(expected = AccessDeniedException.class)
+    @WithMockUser(username = "root", roles = "UBER")
+    public void givenUser_uberFindByIdUser() throws Exception {
+        userService.findById(USER_ID);
+    }
+
+    @Test
+    @WithMockUser(username = "adm@a.ru", roles = "ADMIN")
+    public void givenUser_adminFindByIdUser() throws Exception {
+        Optional<User> userOptional = userService.findById(USER_ID);
+        assertThat(userOptional.isPresent()).isTrue();
+    }
+
+    @Test
+    @WithMockUser(username = "usr@a.ru", roles = "USER")
+    public void givenUser_userFindByIdHimself() throws Exception {
+        Optional<User> userOptional = userService.findById(USER_ID);
+        assertThat(userOptional.isPresent()).isTrue();
+    }
+
     // findAll
-    /*
+
     @Test
     @WithMockUser(roles = "USER")
-    public void givenUser_findAllUsers() {
+    public void givenUser_userFindAllUsers() {
         List<User> all = userService.findAll();
-        assertThat(all).isEmpty();
+        assertThat(all.size()).isEqualTo(1);
     }
 
     @Test
     @WithMockUser(roles = "ADMIN")
     public void givenAdmin_findAllUsers() {
         List<User> all = userService.findAll();
-        assertThat(all).isNotEmpty();
+        assertThat(all.size()).isEqualTo(2);
     }
 
     @Test
     @WithMockUser(roles = "UBER")
     public void givenUber_findAllUsers() {
         List<User> all = userService.findAll();
-        assertThat(all).isNotEmpty();
+        assertThat(all.size()).isEqualTo(2);
     }
-    //*/
 }
