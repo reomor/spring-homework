@@ -49,7 +49,7 @@ public class UserServiceTest {
     // Register
     @Test
     @WithMockUser(roles = "ANONYMOUS")
-    public void givenUser_registerUser() throws Exception {
+    public void givenAnonymousRole_shouldRegisterUser_thenSuccess() throws Exception {
         String password = "12345";
         User user = userService.register("Test", "x@x.x", password);
         User registeredUser = userService.findAndAuthenticate(user.getEmail(), password);
@@ -60,7 +60,7 @@ public class UserServiceTest {
     // Create
     @Test
     @WithMockUser(username = "b@b.b", roles = "UBER")
-    public void givenUser_uberCreateAdmin() throws Exception {
+    public void givenUberRole_shouldCreateAdmin_thenSuccess() throws Exception {
         User registeredUser = userService.createAdmin("Test", "x@x.x", "12345");
         ObjectIdentity identity = new ObjectIdentityImpl(User.class, registeredUser.getId());
         Acl acl = aclService.readAclById(identity);
@@ -73,13 +73,13 @@ public class UserServiceTest {
 
     @Test(expected = UnauthorizedAuthority.class)
     @WithMockUser(username = "b@b.b", roles = "ADMIN")
-    public void givenUser_adminCreateAdmin() throws Exception {
+    public void givenAdminRole_tryCreateAdmin_thenException() throws Exception {
         userService.createAdmin("Test", "x@x.x", "12345");
     }
 
     @Test
     @WithMockUser(username = "b@b.b", roles = "ADMIN")
-    public void givenUser_adminCreateUser() throws Exception {
+    public void givenAdminRole_shouldCreateUser_thenSuccess() throws Exception {
         User registeredUser = userService.createUser("Test", "x@x.x", "12345");
         ObjectIdentity identity = new ObjectIdentityImpl(User.class, registeredUser.getId());
         Acl acl = aclService.readAclById(identity);
@@ -92,14 +92,14 @@ public class UserServiceTest {
 
     @Test(expected = UnauthorizedAuthority.class)
     @WithMockUser(roles = "USER")
-    public void givenUser_userCreateUser() throws Exception {
+    public void givenUserRole_tryCreateUser_thenException() throws Exception {
         userService.createUser("Test", "x@x.x", "12345");
     }
 
     // Delete
     @Test
     @WithMockUser(username = "b@b.b", roles = "ADMIN")
-    public void givenUser_adminDeleteUser() throws Exception {
+    public void givenAdminRole_shouldDeleteUser_thenSuccess() throws Exception {
         Long rowsBeforeCreate = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM ACL_ENTRY", Long.class);
         User registeredUser = userService.createUser("Test", "x@x.x", "12345");
         Long rowsAfterCreate = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM ACL_ENTRY", Long.class);
@@ -113,14 +113,14 @@ public class UserServiceTest {
 
     @Test(expected = AccessDeniedException.class)
     @WithMockUser(username = "b@b.b", roles = "ADMIN")
-    public void givenUser_adminDeleteAdmin() throws Exception {
+    public void givenAdminRole_tryDeleteAdmin_thenException() throws Exception {
         User admin = userService.findById(ADMIN_ID).orElseThrow(ObjectNotFound::new);
         userService.delete(admin);
     }
 
     @Test
     @WithMockUser(username = "b@b.b", roles = "UBER")
-    public void givenUser_uberDeleteAdmin() throws Exception {
+    public void givenUberRole_shouldDeleteAdmin_thenSuccess() throws Exception {
         User admin = userService.findById(ADMIN_ID).orElseThrow(ObjectNotFound::new);
         Long rowsBeforeDelete = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM ACL_ENTRY", Long.class);
         userService.delete(admin);
@@ -130,14 +130,14 @@ public class UserServiceTest {
 
     @Test(expected = AccessDeniedException.class)
     @WithMockUser(username = "b@b.b", roles = "UBER")
-    public void givenUser_uberDeleteUber() throws Exception {
+    public void givenUberRole_tryDeleteHimself_thenException() throws Exception {
         User uber = userService.findById(UBER_ID).orElseThrow(ObjectNotFound::new);
         userService.delete(uber);
     }
 
     @Test(expected = AccessDeniedException.class)
     @WithMockUser(username = "b@b.b", roles = "UBER")
-    public void givenUser_uberDeleteUser() throws Exception {
+    public void givenUberRole_tryDeleteUser_thenException() throws Exception {
         User user = userService.findById(USER_ID).orElseThrow(ObjectNotFound::new);
         userService.delete(user);
     }
@@ -145,27 +145,27 @@ public class UserServiceTest {
     //findById
     @Test
     @WithMockUser(username = "root", roles = "UBER")
-    public void givenUser_uberFindByIdAdmin() throws Exception {
+    public void givenUberRole_shouldFindByIdAdmin_thenSuccess() throws Exception {
         Optional<User> userOptional = userService.findById(ADMIN_ID);
         assertThat(userOptional.isPresent()).isTrue();
     }
 
     @Test(expected = AccessDeniedException.class)
     @WithMockUser(username = "root", roles = "UBER")
-    public void givenUser_uberFindByIdUser() throws Exception {
+    public void givenUberRole_tryFindByIdUser_thenException() throws Exception {
         userService.findById(USER_ID);
     }
 
     @Test
     @WithMockUser(username = "adm@a.ru", roles = "ADMIN")
-    public void givenUser_adminFindByIdUser() throws Exception {
+    public void givenAdminRole_shouldFindByIdUser_thenSuccess() throws Exception {
         Optional<User> userOptional = userService.findById(USER_ID);
         assertThat(userOptional.isPresent()).isTrue();
     }
 
     @Test
     @WithMockUser(username = "usr@a.ru", roles = "USER")
-    public void givenUser_userFindByIdHimself() throws Exception {
+    public void givenUserRole_shouldFindByIdHimself_thenSuccess() throws Exception {
         Optional<User> userOptional = userService.findById(USER_ID);
         assertThat(userOptional.isPresent()).isTrue();
     }
@@ -174,21 +174,21 @@ public class UserServiceTest {
 
     @Test
     @WithMockUser(roles = "USER")
-    public void givenUser_userFindAllUsers() {
+    public void givenUserRole_tryFindAllUsers_thenListIsOnlyWithHimself() {
         List<User> all = userService.findAll();
         assertThat(all.size()).isEqualTo(1);
     }
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    public void givenAdmin_findAllUsers() {
+    public void givenAdminRole_tryFindAllUsers_thenFindOnlyAdminsAndUsers() {
         List<User> all = userService.findAll();
         assertThat(all.size()).isEqualTo(2);
     }
 
     @Test
     @WithMockUser(roles = "UBER")
-    public void givenUber_findAllUsers() {
+    public void givenUberRole_tryFindAllUsers_thenFindOnlyUbersAndAdmins() {
         List<User> all = userService.findAll();
         assertThat(all.size()).isEqualTo(2);
     }
