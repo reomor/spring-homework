@@ -1,6 +1,5 @@
 package task14.service;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.acls.domain.BasePermission;
@@ -38,16 +37,13 @@ public class UserService implements UserDetailsService {
 
     abstract class AbstractUserBuilder {
         protected User user;
+
         public User getUser() {
             return user;
         }
-        void grantPermissions() throws UnauthorizedAuthority {
-            try {
-                grantAclPermissions(user);
-            } catch (UnauthorizedAuthority unauthorizedAuthority) {
-                userRepository.delete(user);
-                throw unauthorizedAuthority;
-            }
+
+        void grantPermissions() {
+            grantAclPermissions(user);
         }
     }
 
@@ -73,19 +69,24 @@ public class UserService implements UserDetailsService {
         return new UserBuilder(name, email, password).getUser();
     }
 
-    public User register(String name, String email, String password) {
+    public User register(String name, String email, String password) throws UnauthorizedAuthority {
         User user = create(name, email, password, UserRoles.ROLE_USER);
         grantAclPermissionsToRegisteredUser(user);
         return user;
     }
 
-    private User create(String name, String email, String password, UserRoles role, UserRoles... roles) {
+    private User create(String name, String email, String password, UserRoles role, UserRoles... roles) throws UnauthorizedAuthority {
         if (Objects.nonNull(userRepository.findOneByEmail(email))) {
             throw new ObjectAlreadyExists("User with this email has been registered before");
         }
         String passwordSalt = UUID.randomUUID().toString();
         String passwordHash = passwordEncoder.encode(password + passwordSalt);
         User user = new User(name, email, passwordHash, passwordSalt, role, roles);
+        // compare current superior role with creating user roles
+        UserRoles superiorCurrentUserRole = getSuperiorContextRole();
+        if (containsRole(user.getAuthorities(), superiorCurrentUserRole)) {
+            throw new UnauthorizedAuthority("Current user doesn't have authority to create user with the same superior role");
+        }
         return userRepository.save(user);
     }
 
@@ -110,18 +111,17 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(id).orElseThrow(ObjectNotFound::new);
     }
 
-    public void delete(User user) throws UnauthorizedAuthority {
-        GrantedAuthoritySid sid = getSuperiorCurrentUserSid();
+    public void delete(User user) {
         userRepository.delete(user);
-        aclManager.delAllPermissions(User.class, user.getId(), sid);
+        aclManager.delAllPermissions(User.class, user.getId());
     }
 
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    private void grantAclPermissions(User user) throws UnauthorizedAuthority {
-        GrantedAuthoritySid sid = getSuperiorCurrentUserSid();
+    private void grantAclPermissions(User user) {
+        GrantedAuthoritySid sid = new GrantedAuthoritySid(getSuperiorContextRole());
         aclManager.addPermission(User.class, user.getId(), sid, BasePermission.READ, BasePermission.DELETE, BasePermission.ADMINISTRATION);
         aclManager.addPermission(User.class, user.getId(), new PrincipalSid(user.getEmail()), BasePermission.READ, BasePermission.WRITE);
     }
@@ -131,20 +131,19 @@ public class UserService implements UserDetailsService {
         aclManager.addPermission(User.class, user.getId(), new PrincipalSid(user.getEmail()), BasePermission.READ, BasePermission.WRITE);
     }
 
-    private GrantedAuthoritySid getSuperiorCurrentUserSid() throws UnauthorizedAuthority {
-        GrantedAuthoritySid sid;
-        if (containsRole(UserRoles.ROLE_UBER)) {
-            sid = new GrantedAuthoritySid(UserRoles.ROLE_UBER);
-        } else if (containsRole(UserRoles.ROLE_ADMIN)) {
-            sid = new GrantedAuthoritySid(UserRoles.ROLE_ADMIN);
-        } else {
-            throw new UnauthorizedAuthority("Current user doesn't have authority to get ACL permissions");
+    private UserRoles getSuperiorContextRole() {
+        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        if (containsRole(authorities, UserRoles.ROLE_UBER)) {
+            return UserRoles.ROLE_UBER;
+        } else if (containsRole(authorities, UserRoles.ROLE_ADMIN)) {
+            return UserRoles.ROLE_ADMIN;
+        } else if (containsRole(authorities, UserRoles.ROLE_USER)) {
+            return UserRoles.ROLE_USER;
         }
-        return sid;
+        return UserRoles.ROLE_ANONYMOUS;
     }
 
-    private boolean containsRole(UserRoles role) {
-        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+    private boolean containsRole(Collection<? extends GrantedAuthority> authorities, UserRoles role) {
         for (GrantedAuthority next : authorities) {
             if (next.getAuthority().equals(role.getAuthority())) {
                 return true;

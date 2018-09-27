@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import task14.business.dto.RegistrationFormDto;
+import task14.exception.UnauthorizedAuthority;
 import task14.service.UserService;
 
 import javax.validation.Valid;
@@ -59,8 +60,13 @@ public class IndexPageController {
         }
         log.info("Successfully registered");
         // is validated
-        userService.register(registrationFormDto.getName(), registrationFormDto.getEmail(), registrationFormDto.getPassword());
-        redirectAttributes.addFlashAttribute("alertSuccess", "Successfully registered");
+        try {
+            userService.register(registrationFormDto.getName(), registrationFormDto.getEmail(), registrationFormDto.getPassword());
+        } catch (UnauthorizedAuthority unauthorizedAuthority) {
+            redirectAttributes.addFlashAttribute("alertError", "Error during registration.");
+            return "redirect:/login";
+        }
+        redirectAttributes.addFlashAttribute("alertSuccess", "Successfully registered. Please, login :)");
         return "redirect:/login";
     }
 

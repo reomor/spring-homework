@@ -37,7 +37,7 @@ public interface AclManager {
      * @param identifier Id from the given domain
      * @param sid        Security Identifier, could be a {@link PrincipalSid} or a {@link GrantedAuthoritySid}
      */
-    public <T> void delAllPermissions(Class<T> clazz, Serializable identifier, Sid sid);
+    public <T> void delAllPermissions(Class<T> clazz, Serializable identifier);
 
     /**
      * Check whether the given object has permission

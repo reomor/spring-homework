@@ -48,7 +48,7 @@ public class AclManagerService implements AclManager {
         aclService.updateAcl(acl);
     }
 
-    public <T> void delAllPermissions(Class<T> clazz, Serializable identifier, Sid sid) {
+    public <T> void delAllPermissions(Class<T> clazz, Serializable identifier) {
         ObjectIdentity identity = new ObjectIdentityImpl(clazz.getCanonicalName(), identifier);
         MutableAcl acl = (MutableAcl) aclService.readAclById(identity);
         List<AccessControlEntry> aclEntries = acl.getEntries();

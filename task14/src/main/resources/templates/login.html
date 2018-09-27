@@ -26,6 +26,7 @@
 </div>
 <div class="alert-container container">
     <div th:if="${alertSuccess}" th:text="${alertSuccess}" th:class="(${alertSuccess == null} ? 'hidden' : 'show') + ' alert alert-success'"></div>
+    <div th:if="${alertError}" th:text="${alertError}" th:class="(${alertError == null} ? 'hidden' : 'show') + ' alert alert-danger'"></div>
 </div>
 <div id="login" class="container">
     <div id="login-row" class="row justify-content-center align-items-center">
