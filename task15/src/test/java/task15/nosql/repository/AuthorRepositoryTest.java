@@ -1,8 +1,8 @@
-package task10.nosql.repository;
+package task15.nosql.repository;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import task10.nosql.domain.Author;
+import task15.nosql.domain.Author;
 
 import java.time.LocalDate;
 import java.util.List;

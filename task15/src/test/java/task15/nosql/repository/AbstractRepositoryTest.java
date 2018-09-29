@@ -1,4 +1,4 @@
-package task10.nosql.repository;
+package task15.nosql.repository;
 
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,10 +1,10 @@
-package task10.nosql.repository;
+package task15.nosql.repository;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import task10.nosql.domain.Book;
-import task10.nosql.domain.Comment;
-import task10.nosql.domain.Genre;
+import task15.nosql.domain.Book;
+import task15.nosql.domain.Comment;
+import task15.nosql.domain.Genre;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;

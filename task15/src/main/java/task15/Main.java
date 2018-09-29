@@ -1,10 +1,10 @@
-package task10;
+package task15;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import task10.nosql.repository.AuthorRepository;
+import task15.nosql.repository.AuthorRepository;
 
 import java.sql.SQLException;
 

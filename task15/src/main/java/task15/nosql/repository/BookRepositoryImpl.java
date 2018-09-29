@@ -1,12 +1,12 @@
-package task10.nosql.repository;
+package task15.nosql.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import task10.nosql.domain.Book;
-import task10.nosql.domain.Comment;
+import task15.nosql.domain.Book;
+import task15.nosql.domain.Comment;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,9 +1,8 @@
-package task10.nosql.repository;
+package task15.nosql.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import task10.nosql.domain.Book;
-import task10.nosql.domain.Comment;
-import task10.nosql.domain.Genre;
+import task15.nosql.domain.Book;
+import task15.nosql.domain.Comment;
 
 import java.util.List;
 

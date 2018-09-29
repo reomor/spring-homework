@@ -1,7 +1,6 @@
-package task10.nosql.repository;
+package task15.nosql.repository;
 
-import task10.nosql.domain.Comment;
-import task10.nosql.domain.Genre;
+import task15.nosql.domain.Comment;
 
 import java.util.List;
 

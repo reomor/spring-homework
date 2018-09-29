@@ -1,4 +1,4 @@
-package task10.nosql.domain;
+package task15.nosql.domain;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

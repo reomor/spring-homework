@@ -20,7 +20,7 @@
         </encoder>
     </appender>
 
-    <logger name="task10" level="info"/>
+    <logger name="task15" level="info"/>
 
     <root level="warn">
         <appender-ref ref="file"/>
