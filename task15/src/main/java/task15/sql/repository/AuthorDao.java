@@ -1,18 +1,18 @@
 package task15.sql.repository;
 
-import task15.sql.domain.Author;
+import task15.sql.domain.RdbmsAuthor;
 
 import java.util.List;
 
 public interface AuthorDao {
 
-    void create(Author author);
+    void create(RdbmsAuthor author);
 
-    Author update(Author author);
+    RdbmsAuthor update(RdbmsAuthor author);
 
     void delete(int id);
 
-    Author getById(int id);
+    RdbmsAuthor getById(int id);
 
-    List<Author> getAll();
+    List<RdbmsAuthor> getAll();
 }

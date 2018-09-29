@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Author {
+public class RdbmsAuthor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,14 +28,14 @@ public class Author {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "authors")
     private List<Book> books = new ArrayList<>();
 
-    protected Author() {
+    protected RdbmsAuthor() {
     }
 
-    public Author(Integer id, String name, String sername, LocalDate dateOfBirth, String biography) {
+    public RdbmsAuthor(Integer id, String name, String sername, LocalDate dateOfBirth, String biography) {
         this(id, name, sername, dateOfBirth, biography, null);
     }
 
-    public Author(Integer id, String name, String sername, LocalDate dateOfBirth, String biography, List<Book> books) {
+    public RdbmsAuthor(Integer id, String name, String sername, LocalDate dateOfBirth, String biography, List<Book> books) {
         this.id = id;
         this.name = name;
         this.sername = sername;
@@ -90,7 +90,7 @@ public class Author {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Author author = (Author) o;
+        RdbmsAuthor author = (RdbmsAuthor) o;
         return Objects.equals(id, author.id) &&
                 Objects.equals(name, author.name) &&
                 Objects.equals(sername, author.sername) &&
@@ -106,7 +106,7 @@ public class Author {
 
     @Override
     public String toString() {
-        return "Author{" +
+        return "MongoAuthor{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", sername='" + sername + '\'' +

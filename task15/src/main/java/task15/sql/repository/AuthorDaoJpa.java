@@ -2,7 +2,7 @@ package task15.sql.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import task15.sql.domain.Author;
+import task15.sql.domain.RdbmsAuthor;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,29 +17,29 @@ public class AuthorDaoJpa implements AuthorDao {
     private EntityManager em;
 
     @Override
-    public void create(Author author) {
+    public void create(RdbmsAuthor author) {
         em.persist(author);
     }
 
     @Override
-    public Author update(Author author) {
+    public RdbmsAuthor update(RdbmsAuthor author) {
         return em.merge(author);
     }
 
     @Override
     public void delete(int id) {
-        Author author = getById(id);
+        RdbmsAuthor author = getById(id);
         em.remove(author);
     }
 
     @Override
-    public Author getById(int id) {
-        return em.find(Author.class, id);
+    public RdbmsAuthor getById(int id) {
+        return em.find(RdbmsAuthor.class, id);
     }
 
     @Override
-    public List<Author> getAll() {
-        TypedQuery<Author> query = em.createQuery("SELECT a FROM Author a", Author.class);
+    public List<RdbmsAuthor> getAll() {
+        TypedQuery<RdbmsAuthor> query = em.createQuery("SELECT a FROM RdbmsAuthor a", RdbmsAuthor.class);
         return query.getResultList();
     }
 }

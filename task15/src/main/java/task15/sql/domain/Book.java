@@ -31,7 +31,7 @@ public class Book {
             joinColumns = {@JoinColumn(name = "book_id")},
             inverseJoinColumns = {@JoinColumn(name = "author_id")}
     )
-    private List<Author> authors;
+    private List<RdbmsAuthor> authors;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
     private List<Comment> comments;
@@ -43,7 +43,7 @@ public class Book {
         this(id, title, genre, isbn, description, new ArrayList<>(), new ArrayList<>());
     }
 
-    public Book(Integer id, String title, Genre genre, String isbn, String description, List<Author> authors, List<Comment> comments) {
+    public Book(Integer id, String title, Genre genre, String isbn, String description, List<RdbmsAuthor> authors, List<Comment> comments) {
         this.title = title;
         this.genre = genre;
         this.isbn = isbn;
@@ -92,11 +92,11 @@ public class Book {
         this.description = description;
     }
 
-    public List<Author> getAuthors() {
+    public List<RdbmsAuthor> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<Author> authors) {
+    public void setAuthors(List<RdbmsAuthor> authors) {
         this.authors = authors;
     }
 
@@ -130,7 +130,7 @@ public class Book {
                 .append(", description=").append(description);
         if (authors != null && authors.size() > 0) {
             toString.append("\n");
-            for (Author author : authors) {
+            for (RdbmsAuthor author : authors) {
                 toString.append(author).append("\n");
             }
         }

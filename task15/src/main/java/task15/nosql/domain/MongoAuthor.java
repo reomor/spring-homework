@@ -12,8 +12,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
-@Document
-public class Author {
+@Document(collection = "author")
+public class MongoAuthor {
     @Id
     private String id;
     private String name;
@@ -22,7 +22,7 @@ public class Author {
     private LocalDate dateOfBirth;
     private String biography;
 
-    public Author(String name, String sername, LocalDate dateOfBirth, String biography) {
+    public MongoAuthor(String name, String sername, LocalDate dateOfBirth, String biography) {
         this(null, name, sername, dateOfBirth, biography);
     }
 }

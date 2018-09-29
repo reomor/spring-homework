@@ -19,7 +19,7 @@ public class Book {
     private String isbn;
     private String description;
     @DBRef
-    private List<Author> authors;
+    private List<MongoAuthor> authors;
     private List<Comment> comments;
 
     public Book() {
@@ -28,7 +28,7 @@ public class Book {
         this.comments = Collections.emptyList();
     }
 
-    public Book(String title, Genre genre, String isbn, String description, List<Author> authors, List<Comment> comments) {
+    public Book(String title, Genre genre, String isbn, String description, List<MongoAuthor> authors, List<Comment> comments) {
         this(null, title, genre, isbn, description, authors, comments);
     }
 }
