@@ -1,10 +1,10 @@
-package task10.repository;
+package task10.nosql.repository;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import task10.domain.Book;
-import task10.domain.Comment;
-import task10.domain.Genre;
+import task10.nosql.domain.Book;
+import task10.nosql.domain.Comment;
+import task10.nosql.domain.Genre;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -20,6 +20,7 @@ public class BookRepositoryTest extends AbstractRepositoryTest {
     @Autowired
     private BookRepository repository;
 
+    @Test
     public void saveBook_ShouldSuccess_SaveNewBook() {
         Book expected = getBook();
         Book actual = repository.save(expected);

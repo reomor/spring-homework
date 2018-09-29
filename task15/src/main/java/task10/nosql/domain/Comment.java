@@ -1,4 +1,4 @@
-package task10.domain;
+package task10.nosql.domain;
 
 import lombok.*;
 
