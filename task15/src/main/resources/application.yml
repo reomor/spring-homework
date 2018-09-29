@@ -3,3 +3,11 @@ spring:
     mongodb:
       database: library
       port: 0
+  datasource:
+    url: jdbc:h2:mem:library
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop

@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import task15.nosql.repository.AuthorRepository;
+import task15.sql.repository.AuthorDao;
 
 import java.sql.SQLException;
 
@@ -25,6 +26,9 @@ public class Main implements CommandLineRunner {
     @Autowired
     private AuthorRepository authorRepository;
 
+    @Autowired
+    private AuthorDao authorDao;
+
     public static void main(String[] args) throws SQLException {
         SpringApplication.run(Main.class, args);
     }
@@ -32,5 +36,6 @@ public class Main implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println(authorRepository.findAll().size());
+        System.out.println(authorDao.getAll().size());
     }
 }
