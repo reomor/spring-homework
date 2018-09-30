@@ -39,7 +39,7 @@ public class GenreDaoJpa implements GenreDao {
 
     @Override
     public List<RdbmsGenre> getAll() {
-        TypedQuery<RdbmsGenre> query = em.createQuery("SELECT g FROM Genre g", RdbmsGenre.class);
+        TypedQuery<RdbmsGenre> query = em.createQuery("SELECT g FROM RdbmsGenre g", RdbmsGenre.class);
         return query.getResultList();
     }
 }

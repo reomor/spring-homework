@@ -4,7 +4,6 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
 @Data
 @AllArgsConstructor
 public class MongoComment {

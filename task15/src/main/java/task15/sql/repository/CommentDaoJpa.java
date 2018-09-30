@@ -34,13 +34,13 @@ public class CommentDaoJpa implements CommentDao {
 
     @Override
     public List<RdbmsComment> getByBookId(int bookId) {
-        TypedQuery<RdbmsComment> query = em.createQuery("SELECT c FROM Comment c WHERE c.book.id=:id", RdbmsComment.class);
+        TypedQuery<RdbmsComment> query = em.createQuery("SELECT c FROM RdbmsComment c WHERE c.book.id=:id", RdbmsComment.class);
         return query.setParameter("id", bookId).getResultList();
     }
 
     @Override
     public List<RdbmsComment> getAll() {
-        TypedQuery<RdbmsComment> query = em.createQuery("SELECT c FROM Comment c", RdbmsComment.class);
+        TypedQuery<RdbmsComment> query = em.createQuery("SELECT c FROM RdbmsComment c", RdbmsComment.class);
         return query.getResultList();
     }
 }

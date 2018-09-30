@@ -18,7 +18,7 @@ public class RdbmsBook {
     @Column(name = "title")
     private String title;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "genre_id")
     private RdbmsGenre genre;
 
@@ -28,7 +28,7 @@ public class RdbmsBook {
     @Column(name = "description")
     private String description;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "author_book",
             joinColumns = {@JoinColumn(name = "book_id")},
@@ -39,11 +39,8 @@ public class RdbmsBook {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RdbmsComment> comments;
 
-    public RdbmsBook() {
-    }
-
-    public RdbmsBook(Integer id, String title, RdbmsGenre genre, String isbn, String description) {
-        this(id, title, genre, isbn, description, new ArrayList<>(), new ArrayList<>());
+    public RdbmsBook(String title, RdbmsGenre genre, String isbn, String description, List<RdbmsAuthor> authors, List<RdbmsComment> comments) {
+        this(null, title, genre, isbn, description, authors == null ? new ArrayList<>() : authors, comments == null ? new ArrayList<>() : comments);
     }
 
     public RdbmsBook(Integer id, String title, RdbmsGenre genre, String isbn, String description, List<RdbmsAuthor> authors, List<RdbmsComment> comments) {
