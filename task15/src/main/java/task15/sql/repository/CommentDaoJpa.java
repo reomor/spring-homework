@@ -2,7 +2,7 @@ package task15.sql.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import task15.sql.domain.Comment;
+import task15.sql.domain.RdbmsComment;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,30 +17,30 @@ public class CommentDaoJpa implements CommentDao {
     private EntityManager em;
 
     @Override
-    public void create(Comment comment) {
+    public void create(RdbmsComment comment) {
         em.persist(comment);
     }
 
     @Override
     public void delete(int id) {
-        Comment comment = getById(id);
+        RdbmsComment comment = getById(id);
         em.remove(comment);
     }
 
     @Override
-    public Comment getById(int id) {
-        return em.find(Comment.class, id);
+    public RdbmsComment getById(int id) {
+        return em.find(RdbmsComment.class, id);
     }
 
     @Override
-    public List<Comment> getByBookId(int bookId) {
-        TypedQuery<Comment> query = em.createQuery("SELECT c FROM Comment c WHERE c.book.id=:id", Comment.class);
+    public List<RdbmsComment> getByBookId(int bookId) {
+        TypedQuery<RdbmsComment> query = em.createQuery("SELECT c FROM Comment c WHERE c.book.id=:id", RdbmsComment.class);
         return query.setParameter("id", bookId).getResultList();
     }
 
     @Override
-    public List<Comment> getAll() {
-        TypedQuery<Comment> query = em.createQuery("SELECT c FROM Comment c", Comment.class);
+    public List<RdbmsComment> getAll() {
+        TypedQuery<RdbmsComment> query = em.createQuery("SELECT c FROM Comment c", RdbmsComment.class);
         return query.getResultList();
     }
 }

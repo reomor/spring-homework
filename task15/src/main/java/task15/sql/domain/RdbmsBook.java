@@ -1,12 +1,15 @@
 package task15.sql.domain;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Data
 @Entity
-public class Book {
+public class RdbmsBook {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +20,7 @@ public class Book {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "genre_id")
-    private Genre genre;
+    private RdbmsGenre genre;
 
     @Column(name = "isbn")
     private String isbn;
@@ -33,78 +36,22 @@ public class Book {
     )
     private List<RdbmsAuthor> authors;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
-    private List<Comment> comments;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RdbmsComment> comments;
 
-    public Book() {
+    public RdbmsBook() {
     }
 
-    public Book(Integer id, String title, Genre genre, String isbn, String description) {
+    public RdbmsBook(Integer id, String title, RdbmsGenre genre, String isbn, String description) {
         this(id, title, genre, isbn, description, new ArrayList<>(), new ArrayList<>());
     }
 
-    public Book(Integer id, String title, Genre genre, String isbn, String description, List<RdbmsAuthor> authors, List<Comment> comments) {
+    public RdbmsBook(Integer id, String title, RdbmsGenre genre, String isbn, String description, List<RdbmsAuthor> authors, List<RdbmsComment> comments) {
         this.title = title;
         this.genre = genre;
         this.isbn = isbn;
         this.description = description;
         this.authors = authors;
-        this.comments = comments;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Genre getGenre() {
-        return genre;
-    }
-
-    public void setGenre(Genre genre) {
-        this.genre = genre;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<RdbmsAuthor> getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(List<RdbmsAuthor> authors) {
-        this.authors = authors;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 
@@ -112,7 +59,7 @@ public class Book {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
+        RdbmsBook book = (RdbmsBook) o;
         return Objects.equals(id, book.id);
     }
 
@@ -123,7 +70,7 @@ public class Book {
     @Override
     public String toString() {
         StringBuilder toString = new StringBuilder();
-        toString.append("Book{id=").append(id)
+        toString.append("RdbmsBook{id=").append(id)
                 .append(", title=").append(title)
                 .append(", genre=").append(genre)
                 .append(", isbn=").append(isbn)

@@ -1,18 +1,18 @@
 package task15.sql.repository;
 
-import task15.sql.domain.Book;
+import task15.sql.domain.RdbmsBook;
 
 import java.util.List;
 
 public interface BookDao {
 
-    void create(Book book);
+    void create(RdbmsBook book);
 
-    Book update(Book book);
+    RdbmsBook update(RdbmsBook book);
 
     void delete(int id);
 
-    Book getById(int id);
+    RdbmsBook getById(int id);
 
-    List<Book> getAll();
+    List<RdbmsBook> getAll();
 }

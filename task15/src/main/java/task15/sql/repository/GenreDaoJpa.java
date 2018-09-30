@@ -2,7 +2,7 @@ package task15.sql.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import task15.sql.domain.Genre;
+import task15.sql.domain.RdbmsGenre;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,29 +17,29 @@ public class GenreDaoJpa implements GenreDao {
     private EntityManager em;
 
     @Override
-    public void create(Genre genre) {
+    public void create(RdbmsGenre genre) {
         em.persist(genre);
     }
 
     @Override
-    public Genre update(Genre genre) {
+    public RdbmsGenre update(RdbmsGenre genre) {
         return em.merge(genre);
     }
 
     @Override
     public void delete(int id) {
-        Genre genre = getById(id);
+        RdbmsGenre genre = getById(id);
         em.remove(genre);
     }
 
     @Override
-    public Genre getById(int id) {
-        return em.find(Genre.class, id);
+    public RdbmsGenre getById(int id) {
+        return em.find(RdbmsGenre.class, id);
     }
 
     @Override
-    public List<Genre> getAll() {
-        TypedQuery<Genre> query = em.createQuery("SELECT g FROM Genre g", Genre.class);
+    public List<RdbmsGenre> getAll() {
+        TypedQuery<RdbmsGenre> query = em.createQuery("SELECT g FROM Genre g", RdbmsGenre.class);
         return query.getResultList();
     }
 }

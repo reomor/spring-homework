@@ -1,14 +1,11 @@
 package task15.sql.domain;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Data
 @Entity
@@ -31,13 +28,13 @@ public class RdbmsAuthor {
     private String biography;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "authors")
-    private List<Book> books = new ArrayList<>();
+    private List<RdbmsBook> books = new ArrayList<>();
 
     public RdbmsAuthor(String name, String sername, LocalDate dateOfBirth, String biography) {
         this(null, name, sername, dateOfBirth, biography, null);
     }
 
-    public RdbmsAuthor(Integer id, String name, String sername, LocalDate dateOfBirth, String biography, List<Book> books) {
+    public RdbmsAuthor(Integer id, String name, String sername, LocalDate dateOfBirth, String biography, List<RdbmsBook> books) {
         this.id = id;
         this.name = name;
         this.sername = sername;

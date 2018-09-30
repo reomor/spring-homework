@@ -1,17 +1,17 @@
 package task15.sql.repository;
 
-import task15.sql.domain.Comment;
+import task15.sql.domain.RdbmsComment;
 
 import java.util.List;
 
 public interface CommentDao {
-    void create(Comment comment);
+    void create(RdbmsComment comment);
 
     void delete(int id);
 
-    Comment getById(int id);
+    RdbmsComment getById(int id);
 
-    List<Comment> getByBookId(int bookId);
+    List<RdbmsComment> getByBookId(int bookId);
 
-    List<Comment> getAll();
+    List<RdbmsComment> getAll();
 }

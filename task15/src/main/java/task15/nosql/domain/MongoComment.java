@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
-public class Comment {
+public class MongoComment {
     private String commentBody;
     private LocalDateTime date;
 }

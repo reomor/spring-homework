@@ -1,18 +1,18 @@
 package task15.sql.repository;
 
-import task15.sql.domain.Genre;
+import task15.sql.domain.RdbmsGenre;
 
 import java.util.List;
 
 public interface GenreDao {
 
-    void create(Genre genre);
+    void create(RdbmsGenre genre);
 
-    Genre update(Genre genre);
+    RdbmsGenre update(RdbmsGenre genre);
 
     void delete(int id);
 
-    Genre getById(int id);
+    RdbmsGenre getById(int id);
 
-    List<Genre> getAll();
+    List<RdbmsGenre> getAll();
 }

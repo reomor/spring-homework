@@ -5,7 +5,7 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
-public class Genre {
+public class MongoGenre {
     private String genreName;
     private String genreDescription;
 }

@@ -11,24 +11,24 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @Document
-public class Book {
+public class MongoBook {
     @Id
     private String id;
     private String title;
-    private Genre genre;
+    private MongoGenre genre;
     private String isbn;
     private String description;
     @DBRef
     private List<MongoAuthor> authors;
-    private List<Comment> comments;
+    private List<MongoComment> comments;
 
-    public Book() {
-        this.genre = new Genre();
+    public MongoBook() {
+        this.genre = new MongoGenre();
         this.authors = Collections.emptyList();
         this.comments = Collections.emptyList();
     }
 
-    public Book(String title, Genre genre, String isbn, String description, List<MongoAuthor> authors, List<Comment> comments) {
+    public MongoBook(String title, MongoGenre genre, String isbn, String description, List<MongoAuthor> authors, List<MongoComment> comments) {
         this(null, title, genre, isbn, description, authors, comments);
     }
 }
