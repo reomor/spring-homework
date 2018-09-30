@@ -1,11 +1,16 @@
 package task15.sql.domain;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Data
 @Entity
 public class RdbmsAuthor {
 
@@ -28,11 +33,8 @@ public class RdbmsAuthor {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "authors")
     private List<Book> books = new ArrayList<>();
 
-    protected RdbmsAuthor() {
-    }
-
-    public RdbmsAuthor(Integer id, String name, String sername, LocalDate dateOfBirth, String biography) {
-        this(id, name, sername, dateOfBirth, biography, null);
+    public RdbmsAuthor(String name, String sername, LocalDate dateOfBirth, String biography) {
+        this(null, name, sername, dateOfBirth, biography, null);
     }
 
     public RdbmsAuthor(Integer id, String name, String sername, LocalDate dateOfBirth, String biography, List<Book> books) {
@@ -46,67 +48,9 @@ public class RdbmsAuthor {
         }
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSername() {
-        return sername;
-    }
-
-    public void setSername(String sername) {
-        this.sername = sername;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getBiography() {
-        return biography;
-    }
-
-    public void setBiography(String biography) {
-        this.biography = biography;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RdbmsAuthor author = (RdbmsAuthor) o;
-        return Objects.equals(id, author.id) &&
-                Objects.equals(name, author.name) &&
-                Objects.equals(sername, author.sername) &&
-                Objects.equals(dateOfBirth, author.dateOfBirth) &&
-                Objects.equals(biography, author.biography);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, name, sername, dateOfBirth);
-    }
-
     @Override
     public String toString() {
-        return "MongoAuthor{" +
+        return "RdbmsAuthor{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", sername='" + sername + '\'' +

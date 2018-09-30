@@ -1,13 +1,17 @@
 package task15;
 
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import task15.nosql.domain.MongoAuthor;
 import task15.nosql.repository.AuthorRepository;
 import task15.sql.repository.AuthorDao;
 
+import javax.annotation.PostConstruct;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 /*
     Домашнее задание
@@ -31,6 +35,12 @@ public class Main implements CommandLineRunner {
 
     public static void main(String[] args) throws SQLException {
         SpringApplication.run(Main.class, args);
+    }
+
+    @PostConstruct
+    public void init() {
+        MongoAuthor mongoAuthor = new MongoAuthor("Name", "Sername", LocalDate.now(), "Biography");
+        authorRepository.save(mongoAuthor);
     }
 
     @Override

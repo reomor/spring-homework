@@ -7,6 +7,6 @@ import task15.sql.domain.RdbmsAuthor;
 public class AuthorNoSqlToSqlProcessor implements ItemProcessor<MongoAuthor, RdbmsAuthor> {
     @Override
     public RdbmsAuthor process(MongoAuthor mongoAuthor) throws Exception {
-        return null;
+        return new RdbmsAuthor(mongoAuthor.getName(), mongoAuthor.getSername(), mongoAuthor.getDateOfBirth(), mongoAuthor.getBiography());
     }
 }
