@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import task15.nosql.domain.MongoAuthor;
 import task15.nosql.repository.AuthorRepository;
+import task15.service.JobService;
 import task15.sql.repository.AuthorDao;
 
 import javax.annotation.PostConstruct;
@@ -33,6 +34,9 @@ public class Main implements CommandLineRunner {
     @Autowired
     private AuthorDao authorDao;
 
+    @Autowired
+    private JobService jobService;
+
     public static void main(String[] args) throws SQLException {
         SpringApplication.run(Main.class, args);
     }
@@ -47,5 +51,7 @@ public class Main implements CommandLineRunner {
     public void run(String... args) throws Exception {
         System.out.println(authorRepository.findAll().size());
         System.out.println(authorDao.getAll().size());
+        Thread.sleep(3000);
+        jobService.start("noSqlToSqlMigration");
     }
 }
