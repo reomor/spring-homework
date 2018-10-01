@@ -32,7 +32,7 @@ import java.util.Collections;
     Опционально: Сделать restart с помощью Spring Shell.
  */
 @SpringBootApplication
-public class Main implements CommandLineRunner {
+public class Main {
 
     @Autowired
     private AuthorRepository authorRepository;
@@ -40,13 +40,7 @@ public class Main implements CommandLineRunner {
     @Autowired
     private BookRepository bookRepository;
 
-    @Autowired
-    private AuthorDao authorDao;
-
-    @Autowired
-    private JobService jobService;
-
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
     }
 
@@ -56,20 +50,12 @@ public class Main implements CommandLineRunner {
         authorRepository.save(mongoAuthor);
         MongoBook mongoBook = new MongoBook(
                 "Title",
-                new MongoGenre("Genre", "Genre descsription"),
+                new MongoGenre("Genre", "Genre description"),
                 "978-3-16-148410-0",
                 "Book description",
                 Collections.singletonList(mongoAuthor),
                 Collections.singletonList(new MongoComment("Comment body", LocalDateTime.now()))
         );
         bookRepository.save(mongoBook);
-    }
-
-    @Override
-    public void run(String... args) throws Exception {
-//        System.out.println(authorRepository.findAll().size());
-//        System.out.println(authorDao.getAll().size());
-//        Thread.sleep(3000);
-        jobService.start("noSqlToSqlMigration");
     }
 }
