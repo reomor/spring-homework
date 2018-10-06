@@ -2,20 +2,17 @@ package task16.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.integration.annotation.BridgeFrom;
 import org.springframework.integration.annotation.Gateway;
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
-import org.springframework.integration.dsl.Pollers;
 import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.handler.LoggingHandler;
-import org.springframework.integration.scheduling.PollerMetadata;
+import org.springframework.integration.store.SimpleMessageStore;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.handler.annotation.Payload;
 import task16.domain.FibonacciPayload;
 import task16.domain.Rabbit;
-
 
 @Configuration
 public class Config {
@@ -53,7 +50,16 @@ public class Config {
     @Bean
     public IntegrationFlow rabbitsFlow() {
         return IntegrationFlows.from(RABBITS_QUEUE_CHANNEL)
-                .aggregate()
+                //.log()
+                .aggregate(aggregatorSpec -> aggregatorSpec
+                        .expireGroupsUponCompletion(true)
+                        .correlationExpression("#this.payload.correlationId")
+                        .sendPartialResultOnExpiry(true)
+                        .releaseExpression("#this.size() == 7")
+                        .messageStore(new SimpleMessageStore(100))
+                        .groupTimeoutExpression("size() ge 2 ? 1000 : -1")
+                )
+                .log(LoggingHandler.Level.WARN)
                 .channel("nullChannel")
                 .get();
     }
