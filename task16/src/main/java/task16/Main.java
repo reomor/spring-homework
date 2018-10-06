@@ -29,6 +29,8 @@ public class Main implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        inputGateway.run(new FibonacciPayload());
+        final Integer LIMIT = 10;
+        Integer fibonacci = inputGateway.run(new FibonacciPayload(LIMIT));
+        System.out.println(LIMIT + "th Fibonacci number is: " + fibonacci);
     }
 }
