@@ -10,9 +10,17 @@ import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.handler.LoggingHandler;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
+import task16.domain.FibonacciPayload;
 
 @Configuration
 public class Config {
+
+    @MessagingGateway
+    public interface InputGateway {
+        @Gateway(requestChannel = "in2")
+        void run(FibonacciPayload payload);
+    }
+
     @Bean
     public IntegrationFlow sampleFlow() {
         return IntegrationFlows.from("in1").log().get();
@@ -20,14 +28,10 @@ public class Config {
 
     @Bean
     public IntegrationFlow complexFlow() {
-        return f -> f.channel("in2").log().handle(message -> {
-            Message<String> newM = MessageBuilder.createMessage("Test", message.getHeaders());
-        }).delay("normalMessage", (DelayerEndpointSpec e) -> e.defaultDelay(2000)).channel("in1");
-    }
-
-    @MessagingGateway
-    public interface InputGateway {
-        @Gateway(requestChannel = "in2")
-        void run(String payload);
+        return f -> f.channel("in2")
+                .log()
+                .<FibonacciPayload, FibonacciPayload>transform(FibonacciPayload::new)
+                .delay("normalMessage", (DelayerEndpointSpec e) -> e.defaultDelay(2000))
+                .channel("in2");
     }
 }

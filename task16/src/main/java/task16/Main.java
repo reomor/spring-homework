@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.integration.annotation.IntegrationComponentScan;
 import org.springframework.integration.config.EnableIntegration;
 import task16.config.Config;
+import task16.domain.FibonacciPayload;
 
 import java.sql.SQLException;
 
@@ -28,6 +29,6 @@ public class Main implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        inputGateway.run("Test string");
+        inputGateway.run(new FibonacciPayload());
     }
 }
