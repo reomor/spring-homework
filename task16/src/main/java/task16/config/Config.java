@@ -19,28 +19,32 @@ import java.util.concurrent.Executor;
 @Configuration
 public class Config {
 
+    public static final String INPUT_CHANNEL = "flows.input";
+    public static final String FIBONACCI_CALCULATION_CHANNEL = "flows.fibonacci";
+    public static final String FIBONACCI_RESULT_CHANNEL = "flows.fibonacci.output";
+
     @MessagingGateway
     public interface InputGateway {
-        @Gateway(requestChannel = "in2", replyChannel = "fibonacciResultChannel")
+        @Gateway(requestChannel = FIBONACCI_CALCULATION_CHANNEL, replyChannel = FIBONACCI_RESULT_CHANNEL)
         Integer run(@Payload FibonacciPayload payload);
     }
 
     @Bean
     //@BridgeFrom("pubSubChannel")
     public MessageChannel fibonacciResultChannel() {
-        return MessageChannels.rendezvous().datatype(Integer.class).get();
+        return MessageChannels.rendezvous(FIBONACCI_RESULT_CHANNEL).datatype(Integer.class).get();
     }
 
     @Bean
     public IntegrationFlow logFlow() {
-        return IntegrationFlows.from("in1")
+        return IntegrationFlows.from(INPUT_CHANNEL)
                 .log()
                 .channel(
                         MessageChannels.publishSubscribe("pubSubChannel").minSubscribers(0)
                 ).routeToRecipients(recipientListRouterSpec -> {
                     recipientListRouterSpec
                             .recipientFlow(flow -> {
-                                flow.transform(FibonacciPayload::getFibonacciNumber).channel("fibonacciResultChannel");
+                                flow.transform(FibonacciPayload::getFibonacciNumber).channel(FIBONACCI_RESULT_CHANNEL);
                     });
                 })
                 .get();
@@ -49,7 +53,7 @@ public class Config {
     @Bean
     public IntegrationFlow complexFlow() {
         return f -> f
-                .channel("in2")
+                .channel(FIBONACCI_CALCULATION_CHANNEL)
                 .log()
                 .<FibonacciPayload, Boolean>route(
                         FibonacciPayload::isLimitIsReached,
@@ -57,10 +61,10 @@ public class Config {
                                 .subFlowMapping(
                                         false,
                                         sf -> sf.<FibonacciPayload, FibonacciPayload>transform(FibonacciPayload::new)
-                                                .channel("in2"))
+                                                .channel(FIBONACCI_CALCULATION_CHANNEL))
                                 .subFlowMapping(
                                         true,
-                                        sf -> sf.channel("in1")
+                                        sf -> sf.channel(INPUT_CHANNEL)
                                 ));
     }
 }
