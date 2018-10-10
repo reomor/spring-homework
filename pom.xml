@@ -14,7 +14,7 @@
     </properties>
 
     <modules>
-        <module>task08</module>
+        <module>task17</module>
     </modules>
 
     <build>
