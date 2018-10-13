@@ -1,16 +1,16 @@
 package task17.domain;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Data
 @ToString
+@NoArgsConstructor
 @Entity
 public class Author {
 
@@ -29,9 +29,6 @@ public class Author {
 
     @Column(name = "biography")
     private String biography;
-
-    protected Author() {
-    }
 
     public Author(String name, String sername, LocalDate dateOfBirth, String biography) {
         this(null, name, sername, dateOfBirth, biography);
