@@ -1,0 +1,25 @@
+management:
+  endpoints:
+    #enabled-by-default: false
+    jmx:
+      exposure:
+        include: "*" #logfile, health
+    web:
+      exposure:
+        include: health, info, logfile
+#        include: "*"
+#  https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints-exposing-endpoints
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    logfile:
+      enabled: true
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+logging:
+  level:
+    org.springframework.boot.autoconfigure.logging: INFO
+  file: "target/app.log"
