@@ -11,7 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
     И любую другую функциональность на выбор.
     Опционально: переписать приложение на HATEOAS принципах.
  */
-
 @SpringBootApplication
 public class Main {
     public static void main(String[] args) {

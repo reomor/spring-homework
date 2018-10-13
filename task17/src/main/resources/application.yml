@@ -1,4 +1,3 @@
-
 management:
   endpoints:
     #enabled-by-default: false
@@ -23,7 +22,7 @@ spring:
 logging:
   level:
     org.springframework.boot.autoconfigure.logging: INFO
-  file: "target/app.log"
+  file: "task17/target/app.log"
 info:
   app:
     name: "Simple actuator sample"
