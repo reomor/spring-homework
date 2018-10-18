@@ -1,0 +1,6 @@
+#create image
+docker build -f Dockerfile -t task17 .
+#start image
+docker run -p 8080:8080 task17
+#stop
+docker stop cont_id
