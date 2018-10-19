@@ -1,8 +1,8 @@
-package task17.repository;
+package task18.repository;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import task17.domain.Author;
+import task18.domain.Author;
 
 import java.util.List;
 import java.util.Optional;

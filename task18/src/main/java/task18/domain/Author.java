@@ -1,4 +1,4 @@
-package task17.domain;
+package task18.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

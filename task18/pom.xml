@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>otus.rem.spring</groupId>
-	<artifactId>task17</artifactId>
+	<artifactId>task18</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>task17</name>
+	<name>task18</name>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -21,7 +21,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<start-class>task17.Main</start-class>
+		<start-class>task18.Main</start-class>
 	</properties>
 
 	<dependencies>

@@ -1,9 +1,9 @@
-package task17.dto;
+package task18.dto;
 
 import lombok.Getter;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
-import task17.domain.Author;
+import task18.domain.Author;
 
 import java.time.LocalDate;
 

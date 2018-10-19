@@ -22,7 +22,7 @@ spring:
 logging:
   level:
     org.springframework.boot.autoconfigure.logging: INFO
-  file: "task17/target/app.log"
+  file: "target/app.log"
 info:
   app:
     name: "Simple actuator sample"

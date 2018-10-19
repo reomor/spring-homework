@@ -1,4 +1,4 @@
-package task17.rest;
+package task18.rest;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import task17.domain.Author;
-import task17.dto.AuthorHateoasDto;
-import task17.exception.ObjectNotFound;
-import task17.repository.AuthorRepository;
+import task18.domain.Author;
+import task18.dto.AuthorHateoasDto;
+import task18.exception.ObjectNotFound;
+import task18.repository.AuthorRepository;
 
 import java.util.List;
 import java.util.Optional;
