@@ -1,0 +1,16 @@
+#docker-compose-ex.yml (Base)
+version: '3'
+services:
+  postgres.data:
+    image: postgres:9.5
+    container_name: postgres-server
+    env_file:
+      - postgres.env
+
+  spring-task18:
+    build: .
+    container_name: spring-task18
+    links:
+      - postgres.data
+    ports:
+      - 8081:8080
