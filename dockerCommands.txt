@@ -4,3 +4,33 @@ docker build -f Dockerfile -t task17 .
 docker run -p 8080:8080 task17
 #stop
 docker stop cont_id
+
+docker export red_panda > latest.tar
+
+docker images
+docker container ls
+docker logs <container_name>
+docker container rm <container_name
+docker image rm <image_name>
+
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+docker pull oscarfonts/h2
+docker run -d -p 1521:1521 -p 81:81 -v /path/to/local/data_dir:/opt/h2-data --name=MyH2Instance oscarfonts/h2
+
+docker run --name mysql-standalone -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=test -e MYSQL_USER=sa -e MYSQL_PASSWORD=password -d mysql:5.6
+spring.datasource.url = jdbc:mysql://mysql-standalone:3306/test
+docker run -p 8086:8086 --name users-mysql --link mysql-standalone:mysql -d users-mysql
+
+
+docker pull postgres:9.5
+docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres:9.5
+docker run --name some-app --link some-postgres:postgres -d application-that-uses-postgres
+
+###
+docker pull postgres:9.5
+docker run --name postgres-server -e POSTGRES_PASSWORD=postgres -d postgres:9.5 // default user is postgresql
+docker build -f .\Dockerfile -t task18 .
+docker run -p 8081:8080 --name spring-task18 --link postgres-server:postgres -d --rm task18
+
+docker stop spring-task18
