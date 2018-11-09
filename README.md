@@ -8,8 +8,6 @@
 Ecosystem:
  - Spring Context
  
-[comment]: <> ([git branch task01](https://github.com/reomor/spring-homework/tree/task01)
-
 ### Task 02
 Добавить файл настроек в приложение для тестирования, Annotation- + Java-based конфигурация приложения.
 Добавьте файл настроек для приложения тестирования.
