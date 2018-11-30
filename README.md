@@ -4,14 +4,14 @@
 
 ---
 #### Task 01
-##### Программа по проведению тестирования <br>
+#### [Программа по проведению тестирования](https://github.com/reomor/spring-homework/tree/dev/task01)
 В ресурсах хранятся вопросы и различные ответы к ним в виде CSV файла (5 вопрсов). 
 Программа должна спросить у пользователя фамилию и имя, спросить 5 вопросов из CSV-файла и вывести результат тестирования. <br>
 Ecosystem:
 > Spring Context
  
 #### Task 02
-##### Annotation- + Java-based конфигурация приложения
+#### [Annotation- + Java-based конфигурация приложения](https://github.com/reomor/spring-homework/tree/dev/task02)
 Переписать конфигурацию в виде Java + Annotation-based конфигурации.
 Локализовать выводимые сообщения и вопросы теста. Обернуть вызов одной из функций аспектом. <br>
 Ecosystem:
@@ -19,11 +19,11 @@ Ecosystem:
 > - AspectJ
 
 #### Task 03
-##### YML-настройки и тестирование
+#### [YML-настройки и тестирование](https://github.com/reomor/spring-homework/tree/dev/task03)
 Добавить файл настроек *.yml. Реализовать тестирование функционала.
 Ecosystem:
-> Spring Boot
-> Spring Test
+> - Spring Boot
+> - Spring Test
 
 #### 
 ##### 
