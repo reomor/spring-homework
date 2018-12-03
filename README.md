@@ -31,19 +31,19 @@ Ecosystem:
 Реализовать banner и тесты. Перенести все свойства в application.yml. <br>
 Ecosystem:
 > - Spring Boot
+> - Spring Boot Test
 > - Spring Shell
-> - Spring Test
  
-### Task 05
-Создать приложение хранящее информацию о книгах в билиотеке
-Использовать Spring JDBC и реляционную базу.
-Опционально использовать настоящую реляционную БД, но можно использовать H2.
-Предусмотреть таблицы авторов, книг и жанров.
-Покрыть тестами, насколько это возможно.
+#### Task 05
+#### [Spring JDBC](https://github.com/reomor/spring-homework/tree/dev/task05)
+Создать приложение хранящее информацию о книгах в билиотеке. Использовать Spring JDBC и реляционную базу.
+Использовать реляционную БД и встроенную in-memory. Предусмотреть таблицы авторов, книг и жанров. <br>
 Ecosystem:
- - Spring Boot
- - Spring Boot Test
- - Spring Shell
+> - Spring Boot
+> - Spring Boot Test
+> - Spring JDBC
+> - Embedded Postgres
+> - H2
  
 ### Task 06
 Переписать приложение для хранения книг на ORM
