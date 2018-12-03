@@ -1,6 +1,6 @@
 # [Разработчик на Spring Framework](https://otus.ru/lessons/javaspring/)
 
-Домашние задание по курсу экосистемы Spring Framework
+Домашние задания по курсу экосистемы Spring Framework
 
 ---
 #### Task 01
@@ -25,22 +25,14 @@ Ecosystem:
 > - Spring Boot
 > - Spring Test
 
-#### 
-##### 
-Перевести приложение для проведения опросов на Spring Shell
-Подключить Spring Shell, используя starter.
-Тесты и использовать spring-boot-test-starter
-
-### Task 04
-Перенести приложение на Spring Boot
-Создать проект используя Spring Boot Initializr.
-Перенести приложение проведения опросов.
-Перенести все свойства в application.yml
-Сделать собственный баннер для приложения.
-Перенести тесты и использовать spring-boot-test-starter
+#### Task 04
+#### [Spring Shell поддержка](https://github.com/reomor/spring-homework/tree/dev/task04)
+Перевести приложение для проведения опросов на Spring Shell. Проект создать через spring-initializer.
+Реализовать banner и тесты. Перенести все свойства в application.yml. <br>
 Ecosystem:
- - Spring Boot
- - Spring Boot Test
+> - Spring Boot
+> - Spring Shell
+> - Spring Test
  
 ### Task 05
 Создать приложение хранящее информацию о книгах в билиотеке
