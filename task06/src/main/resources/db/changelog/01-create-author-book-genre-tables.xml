@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="01" author="reomor">
+        <createTable tableName="genre" remarks="Book genres">
+            <column name="id" type="int">
+                <constraints unique="true" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="description" type="varchar(255)"/>
+        </createTable>
+
+        <addAutoIncrement tableName="genre" columnName="id" columnDataType="int" startWith="1" incrementBy="1"/>
+
+        <createTable tableName="author" remarks="All of authors">
+            <column name="id" type="int">
+                <constraints unique="true" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="date_of_birth" type="date"/>
+            <column name="biography" type="varchar(255)"/>
+        </createTable>
+
+        <addAutoIncrement tableName="author" columnName="id" columnDataType="int" startWith="1" incrementBy="1"/>
+
+        <createTable tableName="book" remarks="All books">
+            <column name="id" type="int">
+                <constraints unique="true" primaryKey="true"/>
+            </column>
+            <column name="title" type="varchar(255)"/>
+            <column name="genre_id" type="int"/>
+            <column name="isbn" type="varchar(255)"/>
+            <column name="description" type="varchar(255)"/>
+        </createTable>
+
+        <addAutoIncrement tableName="book" columnName="id" columnDataType="int" startWith="1" incrementBy="1"/>
+
+        <createTable tableName="author_book" remarks="many-to-many books to authors">
+            <column name="book_id" type="int"/>
+            <column name="author_id" type="int"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="book" baseColumnNames="genre_id"
+                                 constraintName="genre_fk"
+                                 referencedTableName="genre" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="book" baseColumnNames="id"
+                                 constraintName="book_author_fk"
+                                 referencedTableName="author_book" referencedColumnNames="book_id"/>
+
+        <addForeignKeyConstraint baseTableName="author" baseColumnNames="id"
+                                 constraintName="author_book_fk"
+                                 referencedTableName="author_book" referencedColumnNames="author_id"/>
+    </changeSet>
+</databaseChangeLog>
