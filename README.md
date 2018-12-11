@@ -48,33 +48,27 @@ Ecosystem:
 > - H2
  
 #### Task 06
-#### []()
-Переписать приложение для хранения книг на ORM
-Использовать JPA, Hibernate только в качестве JPA-провайдера.
-Добавить комментарии к книгам, и высокоуровневые сервисы, оставляющие комментарии к книгам.
-Покрыть DAO тестами используя H2 базу данных и соответствующий H2 Hibernate-диалект.
+#### [Spring JPA](https://github.com/reomor/spring-homework/tree/dev/task06)
+Переписать приложение для хранения книг с использованием ORM. Использовать JPA, Hibernate только в качестве JPA-провайдера.
+Покрыть DAO тестами используя H2 базу данных и соответствующий H2 Hibernate-диалект. <br>
 Ecosystem:
- - Spring Boot
- - Spring Boot Jdbc
- - Embedded Postgres
- - Spring Shell
+> - Spring Boot
+> - Spring Boot Test
+> - Spring Boot JDBC
+> - Spring Data JPA
+> - Liquibase
+> - Spring Shell
+> - H2
  
-### Task 07 feat
+#### Task 07
+#### [Spring Data JPA](https://github.com/reomor/spring-homework/tree/dev/task07)
+Реализовать весь функционал работы с БД в приложении для хранения книг с использованием DATA JPA репозиториев. <br>
 Ecosystem:
- - Spring Boot
- - Spring Boot Jdbc
- - Spring Data Jpa
- - Liquibase
- - Spring Shell
- - H2
- 
-### Task 08
-Ecosystem:
- - Spring Boot
- - Spring Boot Jdbc
- - Spring Data Jpa
- - Spring Shell
- - H2
+> - Spring Boot
+> - Spring Boot Test
+> - Spring Data Jpa
+> - Spring Shell
+> - H2
  
 ### Task 09
 Ecosystem:
