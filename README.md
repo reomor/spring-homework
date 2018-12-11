@@ -82,20 +82,21 @@ Ecosystem:
 > - Embedded Mongodb
 > - Spring Shell
  
-### Task 10
-CRUD приложение с Web UI и хранением данных в БД
-Создайте приложение с хранением сущностей в БД (можно взять DAOs из прошлых занятий)
+#### Task 09
+#### [Spring Web MVC](https://github.com/reomor/spring-homework/tree/dev/task09)
+Разработать CRUD приложение с Web UI и хранением данных в БД.
 Использовать классический View, предусмотреть страницу отображения всех сущностей и создания/редактирования.
-View на Thymeleaf, classic Controllers.
- Ecosystem:
-  - Spring Boot
-  - Spring Data Mongodb
-  - Spring Web
-  - Thymeleaf
-  - Lombok
-  - Bootstrap
-  - JQuery
-  - Embedded Mongodb
+View на Thymeleaf, classic Controllers. <br>
+Ecosystem:
+> - Spring Boot
+> - Spring Boot Test
+> - Spring Data Mongodb
+> - Spring Web
+> - Thymeleaf
+> - Lombok
+> - Bootstrap
+> - JQuery
+> - Embedded Mongodb
   
 ### Task 11
 CRUD приложение с Web UI и хранением данных в БД
