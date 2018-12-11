@@ -183,14 +183,17 @@ Ecosystem:
 > - Spring Messaging
 > - Lombok
 
-### Task 17
+#### Task 16
+#### [Spring Actuator + Spring HATEOAS (HAL)](https://github.com/reomor/spring-homework/tree/dev/task16)
+Реализовать использование метрик healthchecks и logfile.
+Добавить поддержку HATEOAS. <br>
 Ecosystem:
- - Spring Boot
- - Spring Data Jpa
- - Spring Boot Actuator
- - Spring Web
- - Spring Hateoas
- - Spring Data Rest (+HAL)
+> - Spring Boot
+> - Spring Data Jpa
+> - Spring Boot Actuator
+> - Spring Web
+> - Spring Hateoas
+> - Spring Data Rest (+HAL)
 
 ### Task 18
 Ecosystem:
