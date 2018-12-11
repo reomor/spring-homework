@@ -127,20 +127,23 @@ Ecosystem:
 > - Reactor
 > - Reactor-Test
  
-### Task 13
+#### Task 12
+#### [Spring Security](https://github.com/reomor/spring-homework/tree/dev/task12)
+В CRUD Web-приложение добавить мехнизм Form-based аутентификации.
+Дополнительно реализовать UsersServices. Реализовать пример BDD-тестирования. <br>
 Ecosystem:
- - Spring Boot
- - Spring Data Mongodb
- - Spring Web
- - Thymeleaf
- - Spring Security
- - Lombok
- - Bootstrap
- - JQuery
- - Swagger 2
- - Inject
- - Embedded Mongo
- - Cucumber
+> - Spring Boot
+> - Spring Data Mongodb
+> - Spring Web
+> - Thymeleaf
+> - Spring Security
+> - Lombok
+> - Bootstrap
+> - JQuery
+> - Swagger 2
+> - Inject
+> - Embedded Mongodb
+> - Cucumber
 
 ### Task 14
 Ecosystem:
