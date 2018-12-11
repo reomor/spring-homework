@@ -30,6 +30,7 @@
         <module>task14</module>
         <module>task15</module>
         <module>task16</module>
+        <module>task17</module>
     </modules>
 
     <build>

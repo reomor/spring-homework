@@ -195,13 +195,15 @@ Ecosystem:
 > - Spring Hateoas
 > - Spring Data Rest (+HAL)
 
-### Task 18
+#### Task 17
+#### [Spring Boot + Docker](https://github.com/reomor/spring-homework/tree/dev/task17)
+Обернуть приложение и БД в docker-контейнер. <br>
 Ecosystem:
- - Spring Boot
- - Spring Data Jpa
- - Spring Actuator
- - Spring Web
- - Spring Hateoas
- - Spring Data Rest
- - Postgres
- - Docker
+> - Spring Boot
+> - Spring Data Jpa
+> - Spring Actuator
+> - Spring Web
+> - Spring Hateoas
+> - Spring Data Rest
+> - Postgres
+> - Docker
