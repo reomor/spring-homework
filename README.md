@@ -70,12 +70,17 @@ Ecosystem:
 > - Spring Shell
 > - H2
  
-### Task 09
+#### Task 08
+#### [Spring Data Mongodb](https://github.com/reomor/spring-homework/tree/dev/task08)
+Использовать MongoDB и spring-data для хранения информации о книгах.
+Тесты реализовать с помощью embedded-mongodb. <br>
 Ecosystem:
- - Spring Boot
- - Spring Data Mongodb
- - Lombok
- - Embedded Mongodb
+> - Spring Boot
+> - Spring Boot Test
+> - Spring Data Mongodb
+> - Lombok
+> - Embedded Mongodb
+> - Spring Shell
  
 ### Task 10
 CRUD приложение с Web UI и хранением данных в БД
