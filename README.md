@@ -145,17 +145,19 @@ Ecosystem:
 > - Embedded Mongodb
 > - Cucumber
 
-### Task 14
+#### Task 13
+#### [Spring Security ACL](https://github.com/reomor/spring-homework/tree/dev/task13)
+Настроить в приложении авторизацию на уровне доменных сущностей. <br>
 Ecosystem:
- - Spring Boot
- - Spring Data Jpa
- - Spring Data Mongodb
- - Spring Web
- - Thymeleaf
- - Spring Security
- - Spring Security Acl
- - Ehcache
- - H2
+> - Spring Boot
+> - Spring Data Jpa
+> - Spring Data Mongodb
+> - Spring Web
+> - Thymeleaf
+> - Spring Security
+> - Spring Security Acl
+> - Ehcache
+> - H2
  
 ### Task 15
 Ecosystem:

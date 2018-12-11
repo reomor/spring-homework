@@ -26,6 +26,7 @@
         <module>task10</module>
         <module>task11</module>
         <module>task12</module>
+        <module>task13</module>
     </modules>
 
     <build>
