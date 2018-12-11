@@ -174,12 +174,14 @@ Ecosystem:
 > - H2
 > - Embedded Mongodb
  
-### Task 16
+#### Task 15
+#### [Spring Integration](https://github.com/reomor/spring-homework/tree/dev/task15)
+Реализовать обработку доменной сущности через каналы Spring Integration. <br>
 Ecosystem:
- - Spring Boot
- - Spring Integration
- - Spring Messaging
- - Lombok
+> - Spring Boot
+> - Spring Integration
+> - Spring Messaging
+> - Lombok
 
 ### Task 17
 Ecosystem:
