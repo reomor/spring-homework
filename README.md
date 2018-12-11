@@ -159,17 +159,20 @@ Ecosystem:
 > - Ehcache
 > - H2
  
-### Task 15
+### Task 14
+#### [Spring Batch](https://github.com/reomor/spring-homework/tree/dev/task14)
+Разработать процедуру миграции данных из реляционного хранилища в NoSQL или наоборот
+Используя Spring Batch. <br>
 Ecosystem:
- - Spring Boot
- - Spring Data Mongodb
- - Spring Data Jpa
- - Spring Web
- - Spring Batch
- - Spring Shell
- - Lombok
- - H2
- - Embedded Mongodb
+> - Spring Boot
+> - Spring Data Mongodb
+> - Spring Data Jpa
+> - Spring Web
+> - Spring Batch
+> - Spring Shell
+> - Lombok
+> - H2
+> - Embedded Mongodb
  
 ### Task 16
 Ecosystem:
