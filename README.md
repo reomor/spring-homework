@@ -115,14 +115,17 @@ Ecosystem:
 > - JQuery
 > - Embedded Mongodb
  
-### Task 12
+#### Task 11
+#### [Spring WebFlux](https://github.com/reomor/spring-homework/tree/dev/task11)
+Использовать WebFlux вместо классического embedded web-server. <br>
 Ecosystem:
- - Spring Boot
- - Spring Data Mongodb Reactive
- - Spring WebFlux
- - Lombok
- - Embedded Mongodb
- - Reactor
+> - Spring Boot
+> - Spring Data Mongodb Reactive
+> - Spring WebFlux
+> - Lombok
+> - Embedded Mongodb
+> - Reactor
+> - Reactor-Test
  
 ### Task 13
 Ecosystem:
