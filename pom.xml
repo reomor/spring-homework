@@ -23,6 +23,7 @@
         <module>task07</module>
         <module>task08</module>
         <module>task09</module>
+        <module>task10</module>
     </modules>
 
     <build>

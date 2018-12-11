@@ -98,21 +98,22 @@ Ecosystem:
 > - JQuery
 > - Embedded Mongodb
   
-### Task 11
-CRUD приложение с Web UI и хранением данных в БД
-Приложение с использованием AJAX и REST-контроллеров
-Переписать приложение с классических View на AJAX архитектуру и REST-контроллеры.
-Требуется прикрутить Swagger (с помощью аннотаций) к Вашему веб-приложению.
+#### Task 10
+#### [Spring Web REST](https://github.com/reomor/spring-homework/tree/dev/task10)
+Разработать CRUD приложение с Web UI и хранением данных в БД.
+Использовать AJAX и REST-контроллеры. Переписать приложение с классических View на AJAX архитектуру и REST-контроллеры.
+Использовать Swagger (с помощью аннотаций). <br>
 Ecosystem:
- - Spring Boot
- - Swagger 2
- - Spring Data Mongodb
- - Spring Web
- - Thymeleaf
- - Lombok
- - Bootstrap
- - JQuery
- - Embedded Mongodb
+> - Spring Boot
+> - Spring Boot Test
+> - Swagger 2
+> - Spring Data Mongodb
+> - Spring Web
+> - Thymeleaf
+> - Lombok
+> - Bootstrap
+> - JQuery
+> - Embedded Mongodb
  
 ### Task 12
 Ecosystem:
